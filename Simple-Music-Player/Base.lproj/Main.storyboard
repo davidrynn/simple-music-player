@@ -21,11 +21,11 @@
                                 <rect key="frame" x="0.0" y="45" width="600" height="30"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="twy-zr-FcJ">
-                                        <rect key="frame" x="0.0" y="30" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="24" width="600" height="44"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </searchBar>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TG2-fS-VUn">
-                                        <rect key="frame" x="6" y="0.0" width="588" height="31"/>
+                                        <rect key="frame" x="6" y="0.0" width="588" height="25"/>
                                         <segments>
                                             <segment title="Songs"/>
                                             <segment title="Albums"/>
@@ -45,7 +45,7 @@
                                     <constraint firstAttribute="centerX" secondItem="twy-zr-FcJ" secondAttribute="centerX" id="4Rs-Mg-dGx"/>
                                     <constraint firstItem="TG2-fS-VUn" firstAttribute="width" secondItem="u7R-ah-6MM" secondAttribute="width" multiplier="0.98" id="6d7-pf-KZt"/>
                                     <constraint firstAttribute="width" secondItem="twy-zr-FcJ" secondAttribute="width" id="XHZ-rP-hEF"/>
-                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="height" secondItem="u7R-ah-6MM" secondAttribute="height" id="brj-SD-A4E"/>
+                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="height" secondItem="u7R-ah-6MM" secondAttribute="height" multiplier="0.8" id="brj-SD-A4E"/>
                                     <constraint firstAttribute="centerX" secondItem="TG2-fS-VUn" secondAttribute="centerX" id="eCX-PU-meb"/>
                                     <constraint firstItem="twy-zr-FcJ" firstAttribute="top" secondItem="TG2-fS-VUn" secondAttribute="bottom" id="ghJ-B6-yD2"/>
                                     <constraint firstItem="TG2-fS-VUn" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="top" id="nA4-R4-LE6"/>
@@ -107,7 +107,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
-                                <rect key="frame" x="0.0" y="119" width="600" height="391"/>
+                                <rect key="frame" x="0.0" y="113" width="600" height="397"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="4Qe-Yl-gdA" detailTextLabel="wOS-iB-75M" style="IBUITableViewCellStyleSubtitle" id="59p-QK-wJG">

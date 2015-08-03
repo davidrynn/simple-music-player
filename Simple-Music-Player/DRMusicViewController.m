@@ -38,7 +38,13 @@
 //    self.playerButtonContainer.layer.shadowColor =000;
 //    self.playerButtonContainer.layer.shadowOffset = CGSizeMake(self.playerButtonContainer.frame.size.width, self.playerButtonContainer.frame.size.height +50);
 //    self.playerButtonContainer.layer.shadowRadius = 5;
-//    
+//
+    
+    self.playerButtonContainer.layer.shadowColor     = [[UIColor blackColor] CGColor];
+    self.playerButtonContainer.layer.shadowOffset    = CGSizeMake (0, -1);
+    self.playerButtonContainer.layer.shadowOpacity   = 0.47;
+    self.playerButtonContainer.layer.shadowRadius    = 0.00;
+    self.playerButtonContainer.layer.masksToBounds   = NO;
     self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
     
     //setup five views
