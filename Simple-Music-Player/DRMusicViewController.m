@@ -35,10 +35,10 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-//    self.playerButtonContainer.layer.shadowColor =000;
-//    self.playerButtonContainer.layer.shadowOffset = CGSizeMake(self.playerButtonContainer.frame.size.width, self.playerButtonContainer.frame.size.height +50);
-//    self.playerButtonContainer.layer.shadowRadius = 5;
-//
+    //    self.playerButtonContainer.layer.shadowColor =000;
+    //    self.playerButtonContainer.layer.shadowOffset = CGSizeMake(self.playerButtonContainer.frame.size.width, self.playerButtonContainer.frame.size.height +50);
+    //    self.playerButtonContainer.layer.shadowRadius = 5;
+    //
     
     self.playerButtonContainer.layer.shadowColor     = [[UIColor blackColor] CGColor];
     self.playerButtonContainer.layer.shadowOffset    = CGSizeMake (0, -1);
@@ -72,31 +72,42 @@
                             @"array": [playlistsQuery items]};
     
     
-
-
+    
+    
 }
 - (IBAction)playButtonTapped:(id)sender {
-
+    
     UIButton *button = (UIButton *)sender;
     
-    button.selected = !button.selected;
-    
-    if(button.selected)
-    {
-        // Play
-        button.titleLabel.text = @"Pause";
-        NSLog(@"Now PLaying? - %@", self.songToPlay.title);
-        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:@[self.songToPlay]];
-        [self.musicPlayerController setQueueWithItemCollection:collection];
-        [self.musicPlayerController play];
+ 
 
-    }
-    else
-    {
-        // Pause
-        button.titleLabel.text = @"Palay";
-        [self.musicPlayerController pause];
-    }
+
+
+        
+        if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
+            button.titleLabel.text = @"Pause";
+            [self.musicPlayerController pause];
+            
+        } else if(self.songToPlay){
+            MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:@[self.songToPlay]];
+            [self.musicPlayerController setQueueWithItemCollection:collection];
+            [self.musicPlayerController play];
+            
+        }
+        else {
+        
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No music selected"
+                                                            message:@"You must be select music in order to play it."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            
+        }
+        
+
+        
+
 }
 
 
@@ -110,7 +121,7 @@
     {
         
         self.mediaItemsDictionary = self.songsDictionary;
-    
+        
     }
     else if (sender.selectedSegmentIndex == 1)
     {
@@ -144,7 +155,7 @@
 {
     NSArray *array = self.songsDictionary[@"array"];
     NSLog(@"count inside numberOfRows %ld", array.count);
-
+    
     return array.count;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -173,10 +184,10 @@
     UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:cellIdentifer forIndexPath:indexPath];
     
     NSString *mediaType = self.mediaItemsDictionary[@"category"];
-
+    
     NSLog(@"Media Type: %@", mediaType);
-
-
+    
+    
     
     if (mediaType) {
         
@@ -187,13 +198,13 @@
         UIImage *albumArtWork = [item.artwork imageWithSize:CGSizeMake(cell.frame.size.height, cell.frame.size.height)];
         cell.imageView.image =albumArtWork;
     }
-//    if (![self.mediaItemsDictionary[@"category"][indexPath.row] isEqualToString:@"Songs"]) {
-//        
-//        MPMediaItemCollection *collection =
-//        
-//        cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
-//        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", item.artist, item.albumTitle];
-//    }
+    //    if (![self.mediaItemsDictionary[@"category"][indexPath.row] isEqualToString:@"Songs"]) {
+    //
+    //        MPMediaItemCollection *collection =
+    //
+    //        cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
+    //        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", item.artist, item.albumTitle];
+    //    }
     
     
     return cell;
@@ -206,13 +217,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
