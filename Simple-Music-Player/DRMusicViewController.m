@@ -10,6 +10,7 @@
 @import MediaPlayer;
 
 @interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UIView *playerButtonContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSDictionary *songsDictionary;
 @property (nonatomic, strong) NSDictionary *albumsDictionary;
@@ -23,6 +24,7 @@
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayerController;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
 //@property (nonatomic, strong) MPMediaLibrary *musicLibrary;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
@@ -33,7 +35,10 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    
+//    self.playerButtonContainer.layer.shadowColor =000;
+//    self.playerButtonContainer.layer.shadowOffset = CGSizeMake(self.playerButtonContainer.frame.size.width, self.playerButtonContainer.frame.size.height +50);
+//    self.playerButtonContainer.layer.shadowRadius = 5;
+//    
     self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
     
     //setup five views
@@ -74,7 +79,9 @@
     {
         // Play
         button.titleLabel.text = @"Pause";
-        [self.musicPlayerController setNowPlayingItem:self.songToPlay];
+        NSLog(@"Now PLaying? - %@", self.songToPlay.title);
+        MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:@[self.songToPlay]];
+        [self.musicPlayerController setQueueWithItemCollection:collection];
         [self.musicPlayerController play];
 
     }
