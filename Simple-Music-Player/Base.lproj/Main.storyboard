@@ -87,6 +87,9 @@
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="backButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g3H-Ma-Ay1"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.95125078910000005" green="0.95125078910000005" blue="0.95125078910000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -164,6 +167,9 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="backButton" destination="oXS-dm-87y" id="9L0-UE-RD5"/>
+                        <outlet property="forwardButton" destination="zB6-NK-DY7" id="aJ2-Gv-zk5"/>
+                        <outlet property="playButton" destination="76o-MY-OBO" id="J1k-Pw-fZV"/>
                         <outlet property="playerButtonContainer" destination="ytL-xo-ctv" id="F0H-FK-PgL"/>
                         <outlet property="searchBar" destination="twy-zr-FcJ" id="zei-pX-Uhg"/>
                         <outlet property="segmentedController" destination="TG2-fS-VUn" id="5kA-2i-QhE"/>
