@@ -14,18 +14,10 @@
 		224F76BE1B6C289600BC7B73 /* Simple_Music_PlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76BD1B6C289600BC7B73 /* Simple_Music_PlayerTests.m */; };
 		224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */; };
 		224F76D11B6D6F1400BC7B73 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */; };
-		22FDEF8E1B7009DA00B5DF13 /* Note2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF8D1B7009DA00B5DF13 /* Note2.png */; };
 		22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF931B700AFC00B5DF13 /* Images.xcassets */; };
-		22FDEF9F1B700B2A00B5DF13 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF951B700B2A00B5DF13 /* Icon-40.png */; };
-		22FDEFA01B700B2A00B5DF13 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF961B700B2A00B5DF13 /* Icon-40@2x.png */; };
-		22FDEFA11B700B2A00B5DF13 /* Icon-40@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF971B700B2A00B5DF13 /* Icon-40@3x.png */; };
-		22FDEFA21B700B2A00B5DF13 /* Icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF981B700B2A00B5DF13 /* Icon-60@2x.png */; };
-		22FDEFA31B700B2A00B5DF13 /* Icon-60@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF991B700B2A00B5DF13 /* Icon-60@3x.png */; };
-		22FDEFA41B700B2A00B5DF13 /* Icon-76.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF9A1B700B2A00B5DF13 /* Icon-76.png */; };
-		22FDEFA51B700B2A00B5DF13 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF9B1B700B2A00B5DF13 /* Icon-76@2x.png */; };
-		22FDEFA61B700B2A00B5DF13 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF9C1B700B2A00B5DF13 /* Icon-Small.png */; };
-		22FDEFA71B700B2A00B5DF13 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF9D1B700B2A00B5DF13 /* Icon-Small@2x.png */; };
-		22FDEFA81B700B2A00B5DF13 /* Icon-Small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF9E1B700B2A00B5DF13 /* Icon-Small@3x.png */; };
+		22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEA1B730EE400B5DF13 /* Icon2.png */; };
+		22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEC1B730F5D00B5DF13 /* Note.png */; };
+		22FDEFEF1B7371F000B5DF13 /* noteBW.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEE1B7371F000B5DF13 /* noteBW.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,18 +44,10 @@
 		224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMusicViewController.h; sourceTree = "<group>"; };
 		224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMusicViewController.m; sourceTree = "<group>"; };
 		224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		22FDEF8D1B7009DA00B5DF13 /* Note2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note2.png; sourceTree = "<group>"; };
 		22FDEF931B700AFC00B5DF13 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		22FDEF951B700B2A00B5DF13 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
-		22FDEF961B700B2A00B5DF13 /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
-		22FDEF971B700B2A00B5DF13 /* Icon-40@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@3x.png"; sourceTree = "<group>"; };
-		22FDEF981B700B2A00B5DF13 /* Icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@2x.png"; sourceTree = "<group>"; };
-		22FDEF991B700B2A00B5DF13 /* Icon-60@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60@3x.png"; sourceTree = "<group>"; };
-		22FDEF9A1B700B2A00B5DF13 /* Icon-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76.png"; sourceTree = "<group>"; };
-		22FDEF9B1B700B2A00B5DF13 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
-		22FDEF9C1B700B2A00B5DF13 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
-		22FDEF9D1B700B2A00B5DF13 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
-		22FDEF9E1B700B2A00B5DF13 /* Icon-Small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@3x.png"; sourceTree = "<group>"; };
+		22FDEFEA1B730EE400B5DF13 /* Icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon2.png; sourceTree = "<group>"; };
+		22FDEFEC1B730F5D00B5DF13 /* Note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.png; sourceTree = "<group>"; };
+		22FDEFEE1B7371F000B5DF13 /* noteBW.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteBW.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,8 +72,8 @@
 		224F76951B6C289600BC7B73 = {
 			isa = PBXGroup;
 			children = (
-				224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */,
 				224F76A01B6C289600BC7B73 /* Simple-Music-Player */,
+				224F76CF1B6D6EE800BC7B73 /* Frameworks */,
 				224F76BA1B6C289600BC7B73 /* Simple-Music-PlayerTests */,
 				224F769F1B6C289600BC7B73 /* Products */,
 			);
@@ -112,21 +96,12 @@
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
 				224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */,
 				224F76AB1B6C289600BC7B73 /* Main.storyboard */,
-				22FDEF8D1B7009DA00B5DF13 /* Note2.png */,
+				22FDEFEA1B730EE400B5DF13 /* Icon2.png */,
+				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
+				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
-				224F76CF1B6D6EE800BC7B73 /* Frameworks */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
-				22FDEF951B700B2A00B5DF13 /* Icon-40.png */,
-				22FDEF961B700B2A00B5DF13 /* Icon-40@2x.png */,
-				22FDEF971B700B2A00B5DF13 /* Icon-40@3x.png */,
-				22FDEF981B700B2A00B5DF13 /* Icon-60@2x.png */,
-				22FDEF991B700B2A00B5DF13 /* Icon-60@3x.png */,
-				22FDEF9A1B700B2A00B5DF13 /* Icon-76.png */,
-				22FDEF9B1B700B2A00B5DF13 /* Icon-76@2x.png */,
-				22FDEF9C1B700B2A00B5DF13 /* Icon-Small.png */,
-				22FDEF9D1B700B2A00B5DF13 /* Icon-Small@2x.png */,
-				22FDEF9E1B700B2A00B5DF13 /* Icon-Small@3x.png */,
 			);
 			path = "Simple-Music-Player";
 			sourceTree = "<group>";
@@ -160,8 +135,10 @@
 		224F76CF1B6D6EE800BC7B73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */,
 			);
 			name = Frameworks;
+			path = "Simple-Music-Player";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,6 +190,7 @@
 				TargetAttributes = {
 					224F769D1B6C289600BC7B73 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 3KR65ZULS9;
 					};
 					224F76B61B6C289600BC7B73 = {
 						CreatedOnToolsVersion = 6.4;
@@ -246,18 +224,10 @@
 			files = (
 				224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */,
 				22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */,
+				22FDEFEF1B7371F000B5DF13 /* noteBW.png in Resources */,
+				22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */,
+				22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */,
 				224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */,
-				22FDEFA01B700B2A00B5DF13 /* Icon-40@2x.png in Resources */,
-				22FDEF8E1B7009DA00B5DF13 /* Note2.png in Resources */,
-				22FDEFA71B700B2A00B5DF13 /* Icon-Small@2x.png in Resources */,
-				22FDEFA51B700B2A00B5DF13 /* Icon-76@2x.png in Resources */,
-				22FDEFA11B700B2A00B5DF13 /* Icon-40@3x.png in Resources */,
-				22FDEFA31B700B2A00B5DF13 /* Icon-60@3x.png in Resources */,
-				22FDEFA61B700B2A00B5DF13 /* Icon-Small.png in Resources */,
-				22FDEFA41B700B2A00B5DF13 /* Icon-76.png in Resources */,
-				22FDEF9F1B700B2A00B5DF13 /* Icon-40.png in Resources */,
-				22FDEFA81B700B2A00B5DF13 /* Icon-Small@3x.png in Resources */,
-				22FDEFA21B700B2A00B5DF13 /* Icon-60@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Simple-Music-Player/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -415,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = "Simple-Music-Player/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

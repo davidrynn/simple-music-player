@@ -61,7 +61,7 @@
                                 <rect key="frame" x="0.0" y="510" width="600" height="90"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76o-MY-OBO">
-                                        <rect key="frame" x="201" y="0.0" width="198" height="90"/>
+                                        <rect key="frame" x="201" y="22" width="198" height="68"/>
                                         <accessibility key="accessibilityConfiguration" label="play"/>
                                         <state key="normal" title="Play">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -72,18 +72,21 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zB6-NK-DY7">
-                                        <rect key="frame" x="399" y="0.0" width="201" height="90"/>
+                                        <rect key="frame" x="399" y="23" width="201" height="67"/>
                                         <state key="normal" title="Forward">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="forwardButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GCg-Rx-y5R"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXS-dm-87y">
-                                        <rect key="frame" x="0.0" y="0.0" width="201" height="90"/>
+                                        <rect key="frame" x="3" y="22" width="198" height="68"/>
                                         <accessibility key="accessibilityConfiguration" label="rewind">
                                             <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
                                         </accessibility>
-                                        <state key="normal" title="Rewind">
+                                        <state key="normal" title="Back">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -91,23 +94,66 @@
                                             <action selector="backButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="g3H-Ma-Ay1"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PTw-FO-pm5" userLabel="NowPlayingView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="22"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rb1-hI-S0k">
+                                                <rect key="frame" x="0.0" y="0.0" width="26" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="26" id="mNv-d9-gr2"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
+                                                <rect key="frame" x="26" y="0.0" width="574" height="22"/>
+                                                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                                <accessibility key="accessibilityConfiguration" label="nowPlaying"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                                <color key="shadowColor" red="0.52608867719999997" green="0.54112167560000002" blue="0.61659564389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" label="NowPlayingView">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstItem="PFK-su-uR9" firstAttribute="height" secondItem="PTw-FO-pm5" secondAttribute="height" id="1Nc-3v-bur"/>
+                                            <constraint firstAttribute="trailing" secondItem="PFK-su-uR9" secondAttribute="trailing" id="J9G-SM-xit"/>
+                                            <constraint firstItem="PFK-su-uR9" firstAttribute="top" secondItem="PTw-FO-pm5" secondAttribute="top" id="Ruv-sH-l1l"/>
+                                            <constraint firstItem="Rb1-hI-S0k" firstAttribute="leading" secondItem="PTw-FO-pm5" secondAttribute="leading" id="bGd-FJ-mAP"/>
+                                            <constraint firstItem="Rb1-hI-S0k" firstAttribute="top" secondItem="PTw-FO-pm5" secondAttribute="top" id="gb9-jA-7yc"/>
+                                            <constraint firstItem="PFK-su-uR9" firstAttribute="leading" secondItem="Rb1-hI-S0k" secondAttribute="trailing" id="hoY-s1-H5b"/>
+                                            <constraint firstAttribute="height" secondItem="Rb1-hI-S0k" secondAttribute="height" id="jO8-4i-iZ7"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.95125078910000005" green="0.95125078910000005" blue="0.95125078910000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" label="PlayerButtonContainer"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="76o-MY-OBO" secondAttribute="centerY" id="3HA-bj-Gyx"/>
-                                    <constraint firstItem="zB6-NK-DY7" firstAttribute="top" secondItem="ytL-xo-ctv" secondAttribute="top" id="EWJ-7Y-lCX"/>
+                                    <constraint firstItem="PTw-FO-pm5" firstAttribute="leading" secondItem="ytL-xo-ctv" secondAttribute="leading" id="0ZM-pp-ff6"/>
+                                    <constraint firstItem="PTw-FO-pm5" firstAttribute="top" secondItem="ytL-xo-ctv" secondAttribute="top" id="DK2-aM-EdZ"/>
+                                    <constraint firstItem="zB6-NK-DY7" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="bottom" id="EWJ-7Y-lCX"/>
+                                    <constraint firstAttribute="width" secondItem="PTw-FO-pm5" secondAttribute="width" id="LE9-Ae-bn5"/>
                                     <constraint firstItem="oXS-dm-87y" firstAttribute="trailing" secondItem="76o-MY-OBO" secondAttribute="leading" id="P6y-hM-UxT"/>
+                                    <constraint firstItem="PTw-FO-pm5" firstAttribute="bottom" secondItem="76o-MY-OBO" secondAttribute="top" id="TGM-eD-dbc"/>
                                     <constraint firstItem="76o-MY-OBO" firstAttribute="centerX" secondItem="ytL-xo-ctv" secondAttribute="centerX" id="TfJ-mU-MqG"/>
-                                    <constraint firstItem="76o-MY-OBO" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" id="XAc-8S-Bza"/>
+                                    <constraint firstItem="76o-MY-OBO" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.75" id="XAc-8S-Bza"/>
                                     <constraint firstItem="zB6-NK-DY7" firstAttribute="leading" secondItem="76o-MY-OBO" secondAttribute="trailing" id="YUL-3h-ztN"/>
                                     <constraint firstItem="zB6-NK-DY7" firstAttribute="trailing" secondItem="ytL-xo-ctv" secondAttribute="trailing" id="Z1Z-hV-MM4"/>
                                     <constraint firstItem="76o-MY-OBO" firstAttribute="width" secondItem="ytL-xo-ctv" secondAttribute="width" multiplier="0.33" id="fYY-iH-8T7"/>
                                     <constraint firstItem="oXS-dm-87y" firstAttribute="leading" secondItem="ytL-xo-ctv" secondAttribute="leading" id="hRd-O3-5mq"/>
-                                    <constraint firstItem="oXS-dm-87y" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" id="kSY-gd-0qb"/>
-                                    <constraint firstAttribute="height" secondItem="zB6-NK-DY7" secondAttribute="height" id="l9t-iy-HiQ"/>
-                                    <constraint firstItem="oXS-dm-87y" firstAttribute="top" secondItem="ytL-xo-ctv" secondAttribute="top" id="soK-V7-nKY"/>
+                                    <constraint firstItem="oXS-dm-87y" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.75" id="kSY-gd-0qb"/>
+                                    <constraint firstItem="zB6-NK-DY7" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.75" id="l9t-iy-HiQ"/>
+                                    <constraint firstItem="oXS-dm-87y" firstAttribute="width" secondItem="ytL-xo-ctv" secondAttribute="width" multiplier="0.33" id="ocf-PM-QVy"/>
+                                    <constraint firstItem="76o-MY-OBO" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="bottom" id="qLk-H3-bcE"/>
+                                    <constraint firstItem="oXS-dm-87y" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="bottom" id="soK-V7-nKY"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="hRd-O3-5mq"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
                                 <rect key="frame" x="0.0" y="113" width="600" height="397"/>
@@ -169,6 +215,8 @@
                     <connections>
                         <outlet property="backButton" destination="oXS-dm-87y" id="9L0-UE-RD5"/>
                         <outlet property="forwardButton" destination="zB6-NK-DY7" id="aJ2-Gv-zk5"/>
+                        <outlet property="nowPlayingImage" destination="Rb1-hI-S0k" id="hqu-SR-YmH"/>
+                        <outlet property="nowPlayingLabel" destination="PFK-su-uR9" id="B4M-Wd-9dp"/>
                         <outlet property="playButton" destination="76o-MY-OBO" id="J1k-Pw-fZV"/>
                         <outlet property="playerButtonContainer" destination="ytL-xo-ctv" id="F0H-FK-PgL"/>
                         <outlet property="searchBar" destination="twy-zr-FcJ" id="zei-pX-Uhg"/>

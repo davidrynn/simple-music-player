@@ -6,184 +6,280 @@
 //  Copyright (c) 2015 David Rynn. All rights reserved.
 //
 
+#define TICK   NSDate *startTime = [NSDate date]
+#define WILLDEFINE NSString *willDefine
+#define TOCK   NSLog(@"Time for %@: %f", willDefine, -[startTime timeIntervalSinceNow])
+
 #import "DRMusicViewController.h"
 @import MediaPlayer;
 
 @interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIView *playerButtonContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
+@property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
+
 @property (nonatomic, strong) NSDictionary *songsDictionary;
 @property (nonatomic, strong) NSDictionary *albumsDictionary;
 @property (nonatomic, strong) NSDictionary*artistsArray;
 @property (nonatomic, strong) NSDictionary *genresArray;
 @property (nonatomic, strong) NSDictionary *playlistsArray;
 @property (nonatomic, strong) NSDictionary *mediaItemsDictionary;
-@property (weak, nonatomic) IBOutlet UIButton *playButton;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
-
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayerController;
+@property (nonatomic, strong) MPMediaItemCollection *musicCollection;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
-//@property (nonatomic, strong) MPMediaLibrary *musicLibrary;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-
 @property (nonatomic, strong) NSArray *searchResults;
+
 @end
+
+
 
 @implementation DRMusicViewController
 
 - (void)viewDidLoad {
+    TICK;
     [super viewDidLoad];
+    
+    //hooking up tableView
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    //    self.playerButtonContainer.layer.shadowColor =000;
-    //    self.playerButtonContainer.layer.shadowOffset = CGSizeMake(self.playerButtonContainer.frame.size.width, self.playerButtonContainer.frame.size.height +50);
-    //    self.playerButtonContainer.layer.shadowRadius = 5;
-    //
     
+    //trying to make a shadow
     self.playerButtonContainer.layer.shadowColor     = [[UIColor blackColor] CGColor];
     self.playerButtonContainer.layer.shadowOffset    = CGSizeMake (0, -1);
-    self.playerButtonContainer.layer.shadowOpacity   = 0.47;
-    self.playerButtonContainer.layer.shadowRadius    = 0.00;
-    self.playerButtonContainer.layer.masksToBounds   = NO;
+    self.playerButtonContainer.layer.shadowOpacity   = 1.0f;
+    
+    //starting music player
+    
     self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
     
+    
     //setup five views
-    MPMediaQuery *songsQuery =[MPMediaQuery songsQuery];
+    MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
+    songsQuery.groupingType = MPMediaGroupingTitle;
+    //TODO: setting up sections..
     NSArray *songSectionHeaders = @[@"A",@"B", @"C"];
+    
+    
     self.songsDictionary = @{@"category": @"Songs",
                              @"array": [songsQuery items],
                              @"sectionHeaderArray":songSectionHeaders};
     self.mediaItemsDictionary = self.songsDictionary;
+    //   [self.musicPlayerController setQueueWithItemCollection:self.mediaItemsDictionary[@"array"]] ;
     
     MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
+    albumsQuery.groupingType = MPMediaGroupingAlbum;
     self.albumsDictionary = @{@"category": @"Albums",
                               @"array":[albumsQuery items]};
     
     MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
+    artistsQuery.groupingType = MPMediaGroupingArtist;
     self.artistsArray = @{@"category":@"Artists",
                           @"array":[artistsQuery items]};
     
     MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
+    genresQuery.groupingType = MPMediaGroupingGenre;
     self.genresArray = @{@"category":@"Genres",
                          @"array":[genresQuery items]};
     
     MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
+    playlistsQuery.groupingType = MPMediaGroupingPlaylist;
     self.playlistsArray = @{@"category":@"Playlists",
                             @"array": [playlistsQuery items]};
     
+    //setup song collection
+    self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:self.mediaItemsDictionary[@"array"]];
+    [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
+    [self registerMediaPlayerNotifications];
     
+    NSString *willDefine = @"viewDidLoad";
+    TOCK;
     
     
 }
+#pragma mark - Notifications
 
-
-# pragma button actions
-- (IBAction)playButtonTapped:(id)sender {
+- (void) registerMediaPlayerNotifications
+{
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
+    [notificationCenter addObserver: self
+                           selector: @selector (handle_NowPlayingItemChanged:)
+                               name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
+                             object: self.musicPlayerController];
+    
+    [notificationCenter addObserver: self
+                           selector: @selector (handle_PlaybackStateChanged:)
+                               name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                             object: self.musicPlayerController];
+    
+    //    [notificationCenter addObserver: self
+    //                           selector: @selector (handle_VolumeChanged:)
+    //                               name: MPMusicPlayerControllerVolumeDidChangeNotification
+    //                             object: self.musicPlayerController];
+    
+    [self.musicPlayerController beginGeneratingPlaybackNotifications];
+}
+
+
+#pragma mark Music notification handlers__________________
+
+// When the now-playing item changes, update the media item artwork and the now-playing label.
+- (void) handle_NowPlayingItemChanged: (id) notification {
+    
+    MPMediaItem *currentItem = [self.musicPlayerController nowPlayingItem];
+    
+    // Assume that there is no artwork for the media item.
+    UIImage *artworkImage = nil;
+    
+    // Get the artwork from the current media item, if it has artwork.
+    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
+    
+    // Obtain a UIImage object from the MPMediaItemArtwork object
+    if (artwork) {
+        artworkImage = [artwork imageWithSize: CGSizeMake (30, 30)];
+    }
+    
+    // Obtain a UIButton object and set its background to the UIImage object
+    //    UIButton *artworkView = [[UIButton alloc] initWithFrame: CGRectMake (0, 0, 30, 30)];
+    //    [artworkView setBackgroundImage: artworkImage forState: UIControlStateNormal];
+    
+    // Obtain a UIBarButtonItem object and initialize it with the UIButton object
+    //    UIBarButtonItem *newArtworkItem = [[UIBarButtonItem alloc] initWithCustomView: artworkView];
+    //    [self setArtworkItem: newArtworkItem];
+    //    [newArtworkItem release];
+    
+    //    [artworkItem setEnabled: NO];
+    
+    // Display the new media item artwork
+    //    [navigationBar.topItem setRightBarButtonItem: artworkItem animated: YES];
+    
+    self.nowPlayingImage.image = artworkImage;
+    // Display the artist and song name for the now-playing media item
+    [self.nowPlayingLabel setText: [
+                                    NSString stringWithFormat: @"%@ %@ %@ %@",
+                                    NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
+                                    [currentItem valueForProperty: MPMediaItemPropertyTitle],
+                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
+                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
+    
+    if (self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
+        // Provide a suitable prompt to the user now that their chosen music has
+        //		finished playing.
+        [self.nowPlayingLabel setText:@""
+         //         [
+         //                                   NSString stringWithFormat: @"%@",
+         //                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")
+         //                                        ]
+         ];
+        
+    }
+}
+
+// When the playback state changes, set the play/pause button in the Navigation bar
+//		appropriately.
+- (void) handle_PlaybackStateChanged: (id) notification {
+    
+    //    MPMusicPlaybackState playbackState = [musicPlayer playbackState];
+    //
+    //    if (playbackState == MPMusicPlaybackStatePaused) {
+    //
+    //        navigationBar.topItem.leftBarButtonItem = playBarButton;
+    //
+    //    } else if (playbackState == MPMusicPlaybackStatePlaying) {
+    //
+    //        navigationBar.topItem.leftBarButtonItem = pauseBarButton;
+    //
+    //    } else if (playbackState == MPMusicPlaybackStateStopped) {
+    //
+    //        navigationBar.topItem.leftBarButtonItem = playBarButton;
+    //
+    //        // Even though stopped, invoking 'stop' ensures that the music player will play
+    //        //		its queue from the start.
+    //        [musicPlayer stop];
+    //
+    //    }
+}
+
+- (void) handle_iPodLibraryChanged: (id) notification {
+    
+    // Implement this method to update cached collections of media items when the
+    // user performs a sync while your application is running. This sample performs
+    // no explicit media queries, so there is nothing to update.
+}
+
+
+
+#pragma mark - button actions
+- (IBAction)playButtonTapped:(id)sender {
+    TICK;
     UIButton *button = (UIButton *)sender;
     
- 
-
-
-
+    
+    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
+        button.titleLabel.text = @"Pause";
+        [self.musicPlayerController pause];
         
-        if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-            button.titleLabel.text = @"Pause";
-            [self.musicPlayerController pause];
-            
-        } else if(self.songToPlay){
-            MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:@[self.songToPlay]];
-            [self.musicPlayerController setQueueWithItemCollection:collection];
-            [self.musicPlayerController play];
-            
-        }
-        else {
+    } else if(self.songToPlay){
         
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No music selected"
-                                                            message:@"You must be select music in order to play it."
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
-            
-        }
+        [self.musicPlayerController play];
         
-
+    }
+    else {
         
-
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No music selected"
+                                                        message:@"You must be select music in order to play it."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    WILLDEFINE =@"playbutton";
+    TOCK;
+    
+    
+    
 }
 
 
 
 
 - (IBAction)backButtonTapped:(id)sender {
-    UILongPressGestureRecognizer *longTap = [[UILongPressGestureRecognizer alloc] init];
-    [longTap setMinimumPressDuration:1];
-    if ([longTap state] == UIGestureRecognizerStateBegan) {
-        [self.musicPlayerController beginSeekingBackward];
-        NSLog(@"button Held");
-        }
-    if([longTap state] == UIGestureRecognizerStateEnded)
-    {
-        [self.musicPlayerController endSeeking];
-    }
-    else {
     
-        [self.musicPlayerController skipToBeginning];
-        NSLog(@"Button tapped");
-        
-        [self.musicPlayerController play];
     
-    }
+    [self.musicPlayerController skipToBeginning];
+    NSLog(@"to Beginning");
+    
+    [self.musicPlayerController play];
+    
+    
     
 }
+//- (IBAction)backButtontapRepeated:(id)sender {
+//
+//    [self.musicPlayerController skipToPreviousItem];
+//    NSLog(@"previous");
+//
+//    [self.musicPlayerController play];
+//}
 
-
-
-
-
-#pragma mark Content Filtering
-//Search Functionality
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-
-
-}
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-{
-    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
-    self.searchResults = [self.songsDictionary[@"array"] filteredArrayUsingPredicate:resultPredicate];
+- (IBAction)forwardButtonTapped:(id)sender {
+    [self.musicPlayerController skipToNextItem];
+    NSLog(@"skip");
+    
+    [self.musicPlayerController play];
 }
 
-#pragma mark - UISearchDisplayController Delegate Methods
--(BOOL)searchController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    // Tells the table data source to reload when text changes
-    [self filterContentForSearchText:searchString scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    // Tells the table data source to reload when scope bar selection changes
-    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
-     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
-
-
-//End Search Function
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (IBAction)segmentedTapped:(UISegmentedControl *)sender {
+    
+    //    TODO change if statements to switch
     
     if(sender.selectedSegmentIndex == 0)
     {
@@ -219,19 +315,62 @@
     [self.tableView reloadData];
 }
 
+
+
+//End Button actions
+
+
+#pragma mark - Content Filtering
+//Search Functionality
+//- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+//
+//
+//}
+//- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+//{
+//    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
+//    self.searchResults = [self.songsDictionary[@"array"] filteredArrayUsingPredicate:resultPredicate];
+//}
+//
+//#pragma mark - UISearchDisplayController Delegate Methods
+//-(BOOL)searchController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+//    // Tells the table data source to reload when text changes
+//    [self filterContentForSearchText:searchString scope:
+//     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+//    // Return YES to cause the search result table view to be reloaded.
+//    return YES;
+//}
+//
+//-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+//    // Tells the table data source to reload when scope bar selection changes
+//    [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
+//     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+//    // Return YES to cause the search result table view to be reloaded.
+//    return YES;
+//}
+//
+
+
+//End Search Function
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *array = self.songsDictionary[@"array"];
-    NSLog(@"count inside numberOfRows %ld", array.count);
-    
     return array.count;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]) {
-        NSArray *arrayCast = self.mediaItemsDictionary[@"sectionHeaderArray"];
-        return arrayCast.count;
-    }
+    //    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]) {
+    //        NSArray *arrayCast = self.mediaItemsDictionary[@"sectionHeaderArray"];
+    //        return arrayCast.count;
+    //    }
     
     return 1;
 }
@@ -251,13 +390,9 @@
     static NSString *cellIdentifer = @"cell";
     UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:cellIdentifer forIndexPath:indexPath];
     
-    NSString *mediaType = self.mediaItemsDictionary[@"category"];
+    NSString *mediaTypeString = self.mediaItemsDictionary[@"category"];
     
-    NSLog(@"Media Type: %@", mediaType);
-    
-    
-    
-    if (mediaType) {
+    if (mediaTypeString) {
         
         MPMediaItem *item = (MPMediaItem *) self.mediaItemsDictionary[@"array"][indexPath.row];
         
@@ -265,34 +400,82 @@
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ -- %@", item.artist, item.albumTitle];
         
         if (!item.artwork) {
-            cell.imageView.image = [UIImage imageNamed:@"Icon-Small"];
+            cell.imageView.image = [UIImage imageNamed:@"noteBW"];
         }
         else
         {
-        UIImage *albumArtWork = [item.artwork imageWithSize:CGSizeMake(cell.frame.size.height, cell.frame.size.height)];
-
-        cell.imageView.image =albumArtWork;
+            //        UIImage *albumArtWork = [item.artwork imageWithSize:CGSizeMake(cell.frame.size.height, cell.frame.size.height)];
+            
+            cell.imageView.image = [item.artwork  imageWithSize:CGSizeMake(60.0, 60.0)];
         }
-
+        
     }
-    //    if (![self.mediaItemsDictionary[@"category"][indexPath.row] isEqualToString:@"Songs"]) {
-    //
-    //        MPMediaItemCollection *collection =
-    //
-    //        cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
-    //        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, %@", item.artist, item.albumTitle];
-    //    }
     
     
     return cell;
 }
 
+
+////Trying to test tableview load
+//-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{   TICK;
+//    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+//        //end of loading
+//        //for example [activityIndicator stopAnimating];
+//    }
+//    WILLDEFINE = @"tableview load";
+//    TOCK;
+//}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.songToPlay = (MPMediaItem *) self.mediaItemsDictionary[@"array"][indexPath.row];
-    [self playButtonTapped:self.playButton];
+    
+    
+    [self.musicPlayerController stop];
+    
+    WILLDEFINE = @"stop";
+    
+    MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][indexPath.row];
+    
+    [self.musicPlayerController setNowPlayingItem:song];
+    
+    
+    NSLog(@"Mediaplayer item name: %@", song.title);
+    
+    self.songToPlay = song;
+    TICK;
+    [self.musicPlayerController play];
+    willDefine = @"to setup did selectROw";
+    TOCK;
+ 
     
 }
+
+
+
+
+
+
+
+//
+//-(void)timeMethodTesterWithBlock:(void(^)(parameterTypes))blockName
+//{
+//
+//
+//
+//NSDate *beforePlayerStop = [NSDate date];
+//
+//// code to test
+//
+//    blockName();
+//
+//NSDate *afterPlayerStop = [NSDate date];
+//NSTimeInterval timeTaken = [afterPlayerStop timeIntervalSinceDate:beforePlayerStop];
+//NSLog(@"Time for playerstop = %f", timeTaken);
+//
+//}
+
+
 
 /*
  #pragma mark - Navigation
