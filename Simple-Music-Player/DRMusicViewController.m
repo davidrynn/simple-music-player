@@ -110,20 +110,18 @@
     MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
     genresQuery.groupingType = MPMediaGroupingGenre;
     self.genresArray = @{@"category":@"Genres",
-                         @"array":[genresQuery items],
+                         @"array":[genresQuery collections],
                          @"sections": genresQuery.collectionSections
                          };
+     NSLog(@"number of genres: %ld", genresQuery.collections.count);
     
     MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
     playlistsQuery.groupingType = MPMediaGroupingPlaylist;
     self.playlistsArray = @{@"category":@"Playlists",
-                            @"array": [playlistsQuery items],
+                            @"array": [playlistsQuery collections],
                             @"sections": playlistsQuery.collectionSections
                             };
-    
-    
-    
-    
+        NSLog(@"number of playlists: %ld", playlistsQuery.collections.count);
     
     
     NSLog(@"number of songs: %ld", songsQuery.collections.count);
@@ -418,7 +416,6 @@
         NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
         MPMediaQuerySection *querySection = sectionsArray[section];
         NSUInteger number = querySection.range.length;
-        NSLog(@"number of rows in %ld section: %ld", section, number);
         return number;
         
     }
@@ -439,7 +436,7 @@
     for (MPMediaQuerySection *querySection in sectionsArray) {
         [sectionTitles addObject:querySection.title];
     }
-    NSLog(@"Section titles: %@", [sectionTitles componentsJoinedByString:@","]);
+
     return [sectionTitles copy];
 }
 
@@ -501,7 +498,7 @@
         else if ([mediaTypeString isEqualToString:@"Genres"]){
             MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][adjustIndex];
             item = collection.representativeItem;
-            cell.textLabel.text =[item valueForProperty:MPMediaItemPropertyGenre];
+            cell.textLabel.text =item.genre;
             cell.detailTextLabel.text = @"";
         }
         else if ([mediaTypeString isEqualToString:@"Playlists"]){
@@ -510,16 +507,20 @@
             cell.textLabel.text =[NSString stringWithFormat:@"%@", [playlist valueForProperty:MPMediaPlaylistPropertyName]];
             cell.detailTextLabel.text = @"";
         }
-        
-        
-        if (!item.artwork) {
-            cell.imageView.image = [UIImage imageNamed:@"noteBW"];
+        if(![mediaTypeString isEqualToString:@"Playlists"] && ![mediaTypeString isEqualToString:@"Genres"]) {
+            if (!item.artwork) {
+                cell.imageView.image = [UIImage imageNamed:@"noteBW"];
+            }
+            else
+            {
+ 
+                
+                cell.imageView.image = [item.artwork  imageWithSize:CGSizeMake(60.0, 60.0)];
+            }
         }
-        else
-        {
-            //        UIImage *albumArtWork = [item.artwork imageWithSize:CGSizeMake(cell.frame.size.height, cell.frame.size.height)];
-            
-            cell.imageView.image = [item.artwork  imageWithSize:CGSizeMake(60.0, 60.0)];
+        else {
+            cell.imageView.image = nil;
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
         
     }
@@ -528,21 +529,11 @@
     return cell;
 }
 
-
-////Trying to test tableview load
-//-(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{   TICK;
-//    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
-//        //end of loading
-//        //for example [activityIndicator stopAnimating];
-//    }
-//    WILLDEFINE = @"tableview load";
-//    TOCK;
-//}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]) {
+  
     
     [self.musicPlayerController stop];
     
@@ -562,34 +553,10 @@
     [self.musicPlayerController play];
     willDefine = @"to setup did selectROw";
     TOCK;
+    }
     
     
 }
-
-
-
-
-
-
-
-//
-//-(void)timeMethodTesterWithBlock:(void(^)(parameterTypes))blockName
-//{
-//
-//
-//
-//NSDate *beforePlayerStop = [NSDate date];
-//
-//// code to test
-//
-//    blockName();
-//
-//NSDate *afterPlayerStop = [NSDate date];
-//NSTimeInterval timeTaken = [afterPlayerStop timeIntervalSinceDate:beforePlayerStop];
-//NSLog(@"Time for playerstop = %f", timeTaken);
-//
-//}
-
 
 
 /*
