@@ -18,10 +18,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
-                                <rect key="frame" x="0.0" y="45" width="600" height="90"/>
+                                <rect key="frame" x="0.0" y="45" width="600" height="60"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TG2-fS-VUn">
-                                        <rect key="frame" x="6" y="0.0" width="588" height="46"/>
+                                        <rect key="frame" x="6" y="0.0" width="588" height="19"/>
                                         <segments>
                                             <segment title="Songs"/>
                                             <segment title="Albums"/>
@@ -34,10 +34,10 @@
                                         </connections>
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h7R-U9-L5d" userLabel="SearchView">
-                                        <rect key="frame" x="0.0" y="45" width="600" height="45"/>
+                                        <rect key="frame" x="0.0" y="18" width="600" height="42"/>
                                         <subviews>
                                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="xK2-KX-CHL">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="45"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="42"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </searchBar>
                                         </subviews>
@@ -58,7 +58,7 @@
                                     <constraint firstItem="TG2-fS-VUn" firstAttribute="width" secondItem="u7R-ah-6MM" secondAttribute="width" multiplier="0.98" id="6d7-pf-KZt"/>
                                     <constraint firstAttribute="bottom" secondItem="h7R-U9-L5d" secondAttribute="bottom" id="7JC-Ta-ZyF"/>
                                     <constraint firstItem="h7R-U9-L5d" firstAttribute="top" secondItem="TG2-fS-VUn" secondAttribute="bottom" id="Zd3-ZH-szX"/>
-                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="height" secondItem="u7R-ah-6MM" secondAttribute="height" multiplier="0.5" id="brj-SD-A4E"/>
+                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="height" secondItem="u7R-ah-6MM" secondAttribute="height" multiplier="0.3" id="brj-SD-A4E"/>
                                     <constraint firstAttribute="centerX" secondItem="TG2-fS-VUn" secondAttribute="centerX" id="eCX-PU-meb"/>
                                     <constraint firstItem="TG2-fS-VUn" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="top" id="nA4-R4-LE6"/>
                                     <constraint firstAttribute="centerX" secondItem="h7R-U9-L5d" secondAttribute="centerX" id="tbu-so-HwP"/>
@@ -73,10 +73,10 @@
                                 </variation>
                             </view>
                             <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ytL-xo-ctv" userLabel="PlayerButtonContainer">
-                                <rect key="frame" x="0.0" y="510" width="600" height="90"/>
+                                <rect key="frame" x="0.0" y="522" width="600" height="78"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="76o-MY-OBO">
-                                        <rect key="frame" x="201" y="22" width="198" height="68"/>
+                                        <rect key="frame" x="201" y="27" width="198" height="51"/>
                                         <accessibility key="accessibilityConfiguration" label="play"/>
                                         <state key="normal" title="Play">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -87,7 +87,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zB6-NK-DY7">
-                                        <rect key="frame" x="399" y="23" width="201" height="67"/>
+                                        <rect key="frame" x="399" y="27" width="201" height="51"/>
                                         <state key="normal" title="Forward">
                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -97,7 +97,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oXS-dm-87y">
-                                        <rect key="frame" x="3" y="22" width="198" height="68"/>
+                                        <rect key="frame" x="3" y="27" width="198" height="51"/>
                                         <accessibility key="accessibilityConfiguration" label="rewind">
                                             <accessibilityTraits key="traits" none="YES" button="YES" image="YES"/>
                                         </accessibility>
@@ -110,16 +110,16 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PTw-FO-pm5" userLabel="NowPlayingView">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="22"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Rb1-hI-S0k">
-                                                <rect key="frame" x="0.0" y="0.0" width="26" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="26" height="27"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="26" id="mNv-d9-gr2"/>
                                                 </constraints>
                                             </imageView>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S4v-Ia-jfx">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="22"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
                                                 <connections>
                                                     <segue destination="1zT-2F-Jti" kind="embed" id="Dde-L0-gdo"/>
                                                 </connections>
@@ -150,13 +150,13 @@
                                     <constraint firstItem="oXS-dm-87y" firstAttribute="trailing" secondItem="76o-MY-OBO" secondAttribute="leading" id="P6y-hM-UxT"/>
                                     <constraint firstItem="PTw-FO-pm5" firstAttribute="bottom" secondItem="76o-MY-OBO" secondAttribute="top" id="TGM-eD-dbc"/>
                                     <constraint firstItem="76o-MY-OBO" firstAttribute="centerX" secondItem="ytL-xo-ctv" secondAttribute="centerX" id="TfJ-mU-MqG"/>
-                                    <constraint firstItem="76o-MY-OBO" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.75" id="XAc-8S-Bza"/>
+                                    <constraint firstItem="76o-MY-OBO" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.65" id="XAc-8S-Bza"/>
                                     <constraint firstItem="zB6-NK-DY7" firstAttribute="leading" secondItem="76o-MY-OBO" secondAttribute="trailing" id="YUL-3h-ztN"/>
                                     <constraint firstItem="zB6-NK-DY7" firstAttribute="trailing" secondItem="ytL-xo-ctv" secondAttribute="trailing" id="Z1Z-hV-MM4"/>
                                     <constraint firstItem="76o-MY-OBO" firstAttribute="width" secondItem="ytL-xo-ctv" secondAttribute="width" multiplier="0.33" id="fYY-iH-8T7"/>
                                     <constraint firstItem="oXS-dm-87y" firstAttribute="leading" secondItem="ytL-xo-ctv" secondAttribute="leading" id="hRd-O3-5mq"/>
-                                    <constraint firstItem="oXS-dm-87y" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.75" id="kSY-gd-0qb"/>
-                                    <constraint firstItem="zB6-NK-DY7" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.75" id="l9t-iy-HiQ"/>
+                                    <constraint firstItem="oXS-dm-87y" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.65" id="kSY-gd-0qb"/>
+                                    <constraint firstItem="zB6-NK-DY7" firstAttribute="height" secondItem="ytL-xo-ctv" secondAttribute="height" multiplier="0.65" id="l9t-iy-HiQ"/>
                                     <constraint firstItem="oXS-dm-87y" firstAttribute="width" secondItem="ytL-xo-ctv" secondAttribute="width" multiplier="0.33" id="ocf-PM-QVy"/>
                                     <constraint firstItem="76o-MY-OBO" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="bottom" id="qLk-H3-bcE"/>
                                     <constraint firstItem="oXS-dm-87y" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="bottom" id="soK-V7-nKY"/>
@@ -168,7 +168,7 @@
                                 </variation>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
-                                <rect key="frame" x="0.0" y="135" width="600" height="375"/>
+                                <rect key="frame" x="0.0" y="105" width="600" height="417"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="4Qe-Yl-gdA" detailTextLabel="wOS-iB-75M" style="IBUITableViewCellStyleSubtitle" id="59p-QK-wJG">
@@ -202,7 +202,7 @@
                         <constraints>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="bottom" id="14B-kE-w0T"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="2gP-WS-8RP"/>
-                            <constraint firstItem="u7R-ah-6MM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.15" id="9n7-Qa-HHC"/>
+                            <constraint firstItem="u7R-ah-6MM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="9n7-Qa-HHC"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="AYs-1U-S0g"/>
                             <constraint firstAttribute="centerY" secondItem="vL8-oK-V78" secondAttribute="centerY" id="JeL-4h-PMH"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="top" id="KHZ-uQ-ebs"/>
@@ -215,7 +215,7 @@
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="o1U-8T-0Sz"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="leading" secondItem="u7R-ah-6MM" secondAttribute="trailing" constant="-600" id="rlE-2E-gT9"/>
                             <constraint firstAttribute="width" secondItem="ytL-xo-ctv" secondAttribute="width" id="twt-gx-6Kg"/>
-                            <constraint firstItem="ytL-xo-ctv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.15" id="y2g-rn-rLq"/>
+                            <constraint firstItem="ytL-xo-ctv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.13" id="y2g-rn-rLq"/>
                             <constraint firstAttribute="centerX" secondItem="vL8-oK-V78" secondAttribute="centerX" id="zuL-hV-1L5"/>
                         </constraints>
                         <variation key="default">
@@ -254,7 +254,7 @@
                         <viewControllerLayoutGuide type="bottom" id="W4Q-CP-MLK"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nZw-vu-9cd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="22"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UsC-Uv-RNE">
@@ -272,7 +272,7 @@
                                 </subviews>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v87-8m-e5A">
-                                <rect key="frame" x="0.0" y="-142" width="600" height="22"/>
+                                <rect key="frame" x="0.0" y="-142" width="600" height="27"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -287,7 +287,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz4-YZ-JIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="383" y="1039"/>
+            <point key="canvasLocation" x="700" y="835"/>
         </scene>
     </scenes>
 </document>

@@ -30,7 +30,7 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
-@property (nonatomic, strong) NSArray *searchResults;
+@property (nonatomic, strong) NSDictionary *searchResults;
 
 
 @property (nonatomic, strong) NSDictionary *songsDictionary;
@@ -297,7 +297,7 @@
 
 - (IBAction)segmentedTapped:(UISegmentedControl *)sender {
     
-    //    TODO change if statements to switch
+//TODO:  change if statements to switch
     
     if(sender.selectedSegmentIndex == 0)
     {
@@ -345,6 +345,8 @@
     [searchBar setShowsCancelButton:NO animated:YES];
     [searchBar resignFirstResponder];
     [searchBar setText:@""];
+    self.mediaItemsDictionary = self.songsDictionary;
+    [self.tableView reloadData];
     
 }
 
@@ -359,25 +361,28 @@
 {
     NSLog(@"textDidChange: '%@'", searchText);
     self.searchResults = [self performSearchWithString: searchText];
+    self.mediaItemsDictionary = self.searchResults;
     [self.tableView reloadData];
 }
 
 #pragma mark - Search Function
 
--(NSArray*) performSearchWithString: (NSString*) searchString
+-(NSDictionary*) performSearchWithString: (NSString*) searchString
 {
     
-    MPMediaPropertyPredicate *mediaPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaPropertyPredicate *songsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
     
+    MPMediaQuery *songsSearchQuery = [[MPMediaQuery alloc] init];
+    songsSearchQuery.groupingType = MPMediaGroupingTitle;
+
+    [songsSearchQuery addFilterPredicate:songsPredicate];
+     NSDictionary *searchDictionary = @{@"category":@"Search",
+                            @"array": [songsSearchQuery items],
+                            @"sections": songsSearchQuery.collectionSections
+                            };
     
-    MPMediaQuery *mySongsQuery = [[MPMediaQuery alloc] init];
-    
-    
-    
-    [mySongsQuery addFilterPredicate:mediaPredicate];
-    
-    NSArray *array = [mySongsQuery items];
-    return array;
+//TODO: add search results by artist, albums and playlists
+    return searchDictionary;
 }
 
 
@@ -406,19 +411,13 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(self.searchResults){
-        
-        return self.searchResults.count;
-        
-    }
-    else{
+  
         //get number after casting everything correctly to MPMedia -
         NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
         MPMediaQuerySection *querySection = sectionsArray[section];
         NSUInteger number = querySection.range.length;
         return number;
-        
-    }
+
 }
 
 
@@ -462,21 +461,9 @@
     MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
     NSInteger adjustIndex = querySection.range.location + indexPath.row;
     
-    
-    if (self.searchResults) {
-        item = self.searchResults[indexPath.row];
-    }
-    
-    
-    
-    if (self.searchResults || mediaTypeString) {
+    if (mediaTypeString) {
         
-        if (self.searchResults){
-            item = (MPMediaItem *) self.mediaItemsDictionary[@"array"][indexPath.row];
-            cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ -- %@", item.artist, item.albumTitle];
-        }
-        else if([mediaTypeString isEqualToString:@"Songs"]){
+        if([mediaTypeString isEqualToString:@"Songs"] || [mediaTypeString isEqualToString:@"Search"]){
             item = (MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
             cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ -- %@", item.artist, item.albumTitle];
@@ -532,7 +519,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]) {
+    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
   
     
     [self.musicPlayerController stop];
