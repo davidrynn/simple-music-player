@@ -76,6 +76,7 @@
 				224F76CF1B6D6EE800BC7B73 /* Frameworks */,
 				224F76BA1B6C289600BC7B73 /* Simple-Music-PlayerTests */,
 				224F769F1B6C289600BC7B73 /* Products */,
+				FF1A18DFB36DB9EBCEF95722 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,12 +97,12 @@
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
 				224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */,
 				224F76AB1B6C289600BC7B73 /* Main.storyboard */,
-				22FDEFEA1B730EE400B5DF13 /* Icon2.png */,
-				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
-				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
+				22FDEFEA1B730EE400B5DF13 /* Icon2.png */,
+				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
+				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 			);
 			path = "Simple-Music-Player";
 			sourceTree = "<group>";
@@ -139,6 +140,13 @@
 			);
 			name = Frameworks;
 			path = "Simple-Music-Player";
+			sourceTree = "<group>";
+		};
+		FF1A18DFB36DB9EBCEF95722 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
