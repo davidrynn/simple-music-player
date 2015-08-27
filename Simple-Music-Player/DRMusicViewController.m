@@ -30,8 +30,6 @@
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
-@property (nonatomic, strong) NSDictionary *searchResults;
-
 
 @property (nonatomic, strong) NSDictionary *songsDictionary;
 @property (nonatomic, strong) NSDictionary *albumsDictionary;
@@ -97,7 +95,7 @@
                               @"array":albumsQuery.collections,
                               @"sections": albumsQuery.collectionSections
                               };
-    NSLog(@"number of albums: %ld", albumsQuery.collections.count);
+    NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
     
     MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
     artistsQuery.groupingType = MPMediaGroupingArtist;
@@ -105,7 +103,7 @@
                           @"array":artistsQuery.collections,
                           @"sections": artistsQuery.collectionSections
                           };
-    NSLog(@"number of artists: %ld", artistsQuery.collections.count);
+    NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
     
     MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
     genresQuery.groupingType = MPMediaGroupingGenre;
@@ -113,7 +111,7 @@
                          @"array":[genresQuery collections],
                          @"sections": genresQuery.collectionSections
                          };
-     NSLog(@"number of genres: %ld", genresQuery.collections.count);
+     NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
     
     MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
     playlistsQuery.groupingType = MPMediaGroupingPlaylist;
@@ -121,10 +119,10 @@
                             @"array": [playlistsQuery collections],
                             @"sections": playlistsQuery.collectionSections
                             };
-        NSLog(@"number of playlists: %ld", playlistsQuery.collections.count);
+        NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
     
     
-    NSLog(@"number of songs: %ld", songsQuery.collections.count);
+    NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
     self.mediaItemsDictionary = self.songsDictionary;
     
     
@@ -354,14 +352,12 @@
 {
     [searchBar setShowsCancelButton:YES animated:YES];
     return YES;
-    
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSLog(@"textDidChange: '%@'", searchText);
-    self.searchResults = [self performSearchWithString: searchText];
-    self.mediaItemsDictionary = self.searchResults;
+    self.mediaItemsDictionary = [self performSearchWithString: searchText];
     [self.tableView reloadData];
 }
 
@@ -374,38 +370,29 @@
     
     MPMediaQuery *songsSearchQuery = [[MPMediaQuery alloc] init];
     songsSearchQuery.groupingType = MPMediaGroupingTitle;
-
     [songsSearchQuery addFilterPredicate:songsPredicate];
+    NSArray *searchArray = [songsSearchQuery items];
+    
+    //catch no return results
+    if (searchArray.count==0) {
+        return @{};
+    }
+    
      NSDictionary *searchDictionary = @{@"category":@"Search",
-                            @"array": [songsSearchQuery items],
-                            @"sections": songsSearchQuery.collectionSections
+                            @"array": searchArray,
+                            @"sections": songsSearchQuery.collectionSections,
                             };
     
 //TODO: add search results by artist, albums and playlists
     return searchDictionary;
 }
 
-
-//- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-//
-//
-//}
-//- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
-//{
-//    NSPredicate *resultPredicate = [NSPredicate predicateWithFormat:@"name contains[c] %@", searchText];
-//    self.searchResults = [self.songsDictionary[@"array"] filteredArrayUsingPredicate:resultPredicate];
-//}
-//
-
-
 //End Search Function
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 #pragma tableview setup
 
@@ -419,7 +406,6 @@
         return number;
 
 }
-
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -500,7 +486,6 @@
             }
             else
             {
- 
                 
                 cell.imageView.image = [item.artwork  imageWithSize:CGSizeMake(60.0, 60.0)];
             }

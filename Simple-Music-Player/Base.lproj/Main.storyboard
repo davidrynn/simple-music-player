@@ -121,7 +121,7 @@
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S4v-Ia-jfx">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
                                                 <connections>
-                                                    <segue destination="1zT-2F-Jti" kind="embed" id="Dde-L0-gdo"/>
+                                                    <segue destination="5kf-mP-nWK" kind="embed" id="Dde-L0-gdo"/>
                                                 </connections>
                                             </containerView>
                                         </subviews>
@@ -201,32 +201,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="bottom" id="14B-kE-w0T"/>
-                            <constraint firstItem="vL8-oK-V78" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="2gP-WS-8RP"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="9n7-Qa-HHC"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="AYs-1U-S0g"/>
-                            <constraint firstAttribute="centerY" secondItem="vL8-oK-V78" secondAttribute="centerY" id="JeL-4h-PMH"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="bottom" secondItem="ytL-xo-ctv" secondAttribute="top" id="KHZ-uQ-ebs"/>
                             <constraint firstAttribute="centerX" secondItem="ytL-xo-ctv" secondAttribute="centerX" id="O2v-rm-a5Y"/>
                             <constraint firstAttribute="centerX" secondItem="u7R-ah-6MM" secondAttribute="centerX" id="Qrp-ji-2xr"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="top" constant="25" id="g3b-MX-6gZ"/>
-                            <constraint firstItem="vL8-oK-V78" firstAttribute="top" secondItem="TG2-fS-VUn" secondAttribute="bottom" id="kHI-fk-4cy"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ytL-xo-ctv" secondAttribute="bottom" id="mXs-bF-bbi"/>
-                            <constraint firstItem="S4v-Ia-jfx" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="nov-g1-Zqq"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="o1U-8T-0Sz"/>
-                            <constraint firstItem="vL8-oK-V78" firstAttribute="leading" secondItem="u7R-ah-6MM" secondAttribute="trailing" constant="-600" id="rlE-2E-gT9"/>
                             <constraint firstAttribute="width" secondItem="ytL-xo-ctv" secondAttribute="width" id="twt-gx-6Kg"/>
                             <constraint firstItem="ytL-xo-ctv" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.13" id="y2g-rn-rLq"/>
                             <constraint firstAttribute="centerX" secondItem="vL8-oK-V78" secondAttribute="centerX" id="zuL-hV-1L5"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="2gP-WS-8RP"/>
-                                <exclude reference="JeL-4h-PMH"/>
-                                <exclude reference="kHI-fk-4cy"/>
-                                <exclude reference="rlE-2E-gT9"/>
-                                <exclude reference="nov-g1-Zqq"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="oXS-dm-87y" id="9L0-UE-RD5"/>
@@ -284,10 +270,48 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="632-Gx-FqL"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz4-YZ-JIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="700" y="835"/>
+            <point key="canvasLocation" x="1512" y="834.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Y2T-Pa-VER">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5kf-mP-nWK" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mIR-7A-5Cp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1zT-2F-Jti" kind="relationship" relationship="rootViewController" id="i5D-pS-5Fc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oc4-eo-zMC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="700" y="834.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Oxa-6E-O8b">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="DJ1-Tx-iuS" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="g5y-8k-HnU"/>
+                        <viewControllerLayoutGuide type="bottom" id="Yow-Qn-x5Z"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="sSP-bW-OMe">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="la7-4m-gfh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1160" y="225"/>
         </scene>
     </scenes>
 </document>
