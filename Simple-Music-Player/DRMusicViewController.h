@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef NS_OPTIONS(NSUInteger, MediaType) {
+    MediaTypeSong       = 0,
+    MediaTypeArtist     = 1 << 0,
+    MediaTypeAlbum      = 1 << 1,
+    MediaTypeGenres     = 1 << 2,
+    MediaTypePlaylists  = 1 << 3,
+    MediaTypeSearch     = 1 << 4
+};
 @interface DRMusicViewController : UIViewController
 
 @end

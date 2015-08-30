@@ -52,6 +52,12 @@
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor blackColor]];
     
+    //setup topcontainer border
+    [self.tableView.layer setBorderWidth:1.0f];
+    UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
+    [self.tableView.layer setBorderColor: [transBlack CGColor]];
+
+    
     //hooking up tableView
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -59,6 +65,7 @@
     
     //starting music player
     self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
+    [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
     
     //searchbar setup
     self.searchBar.delegate = self;
@@ -244,6 +251,22 @@
 
 
 #pragma mark - button actions
+- (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
+    
+    if( self.musicPlayerController.shuffleMode == MPMusicShuffleModeSongs){
+        [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
+                [sender setTintColor: [UIColor redColor]];
+        NSLog(@"shuffle off");
+    } else{
+        [self.musicPlayerController setShuffleMode:MPMusicShuffleModeSongs]
+;
+        [sender setTintColor: [UIColor grayColor]];
+        NSLog(@"shuffle on");
+    
+    }
+    
+}
+
 - (IBAction)playButtonTapped:(id)sender {
     TICK;
     UIButton *button = (UIButton *)sender;
@@ -330,17 +353,13 @@
     
     [self.tableView reloadData];
 }
-
-
-
 //End Button actions
-
 
 #pragma mark - Content Filtering
 //Search Functionality
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    [searchBar setShowsCancelButton:NO animated:YES];
+    self.searchBar.hidden = YES;
     [searchBar resignFirstResponder];
     [searchBar setText:@""];
     self.mediaItemsDictionary = self.songsDictionary;
@@ -362,6 +381,12 @@
 }
 
 #pragma mark - Search Function
+- (IBAction)searchButtonTapped:(id)sender {
+
+    self.searchBar.hidden = NO;
+    [self.searchBar becomeFirstResponder];
+
+}
 
 -(NSDictionary*) performSearchWithString: (NSString*) searchString
 {
