@@ -51,7 +51,8 @@
     TICK;
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor blackColor]];
-    
+    [self setToolba];
+   
     //setup topcontainer border
     [self.tableView.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
@@ -84,6 +85,19 @@
     TOCK;
     
     
+}
+
+//hide navbar
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
+
+//show navbar for other views
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+
 }
 
 - (void) setUpSegmentSortedLists {
@@ -267,14 +281,51 @@
     
 }
 
+- (void) barButtonTapped:(UIBarButtonItem *)sender {
+    TICK;
+
+
+    
+    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
+        
+        [self.musicPlayerController pause];
+
+        sender = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
+                                                                  target:self
+                                                                  action:@selector(playButtonTapped:)];
+        
+        self.navigationItem.rightBarButtonItem = sender;
+    } else if(self.songToPlay){
+        
+        [self.musicPlayerController play];
+        
+    }
+    else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No music selected"
+                                                        message:@"You must be select music in order to play it."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    WILLDEFINE =@"playbutton";
+    TOCK;
+    
+    
+    
+}
+
 - (IBAction)playButtonTapped:(id)sender {
     TICK;
     UIButton *button = (UIButton *)sender;
     
     
     if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-        button.titleLabel.text = @"Pause";
+
         [self.musicPlayerController pause];
+        button.titleLabel.text = @"Pause";
         
     } else if(self.songToPlay){
         
@@ -529,6 +580,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
     if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
   
     
@@ -552,10 +605,18 @@
     TOCK;
     }
     
+    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Artists"]) {
+        NSLog(@"I should be performing a segue");
+        [self performSegueWithIdentifier:@"artistViewSegue" sender:cell];
+    }
+    
     
 }
 
-
+//-(void)performSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
+//    NSLog(@"inside PSWI with identifier %@", identifier);
+//
+//}
 /*
  #pragma mark - Navigation
  

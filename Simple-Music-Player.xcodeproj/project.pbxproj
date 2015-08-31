@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */; };
 		224F76A41B6C289600BC7B73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A31B6C289600BC7B73 /* main.m */; };
 		224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A61B6C289600BC7B73 /* AppDelegate.m */; };
 		224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224F76AB1B6C289600BC7B73 /* Main.storyboard */; };
@@ -31,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtistTableViewController.h; sourceTree = "<group>"; };
+		224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRArtistTableViewController.m; sourceTree = "<group>"; };
 		224F769E1B6C289600BC7B73 /* Simple-Music-Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple-Music-Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224F76A21B6C289600BC7B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224F76A31B6C289600BC7B73 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,6 +100,8 @@
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
 				224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */,
 				224F76AB1B6C289600BC7B73 /* Main.storyboard */,
+				224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */,
+				224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */,
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
@@ -253,6 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */,
 				224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */,
 				224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */,
 				224F76A41B6C289600BC7B73 /* main.m in Sources */,

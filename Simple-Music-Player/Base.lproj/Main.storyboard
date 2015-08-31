@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="IV3-Qv-kOF">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
                                 <rect key="frame" x="0.0" y="45" width="600" height="60"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TG2-fS-VUn">
@@ -235,6 +235,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="IxA-ec-UzE"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="backButton" destination="oXS-dm-87y" id="9L0-UE-RD5"/>
@@ -248,15 +249,17 @@
                         <outlet property="segmentedController" destination="TG2-fS-VUn" id="5kA-2i-QhE"/>
                         <outlet property="tableView" destination="vL8-oK-V78" id="Hur-Il-IT1"/>
                         <outlet property="topContainer" destination="u7R-ah-6MM" id="k2W-I8-WNW"/>
+                        <segue destination="Lwl-8G-x9E" kind="show" identifier="artistViewSegue" id="My7-wL-rr0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1132" y="223"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Artist Table View Controller-->
         <scene sceneID="9Bt-X4-Bi6">
             <objects>
-                <tableViewController id="Lwl-8G-x9E" sceneMemberID="viewController">
+                <tableViewController id="Lwl-8G-x9E" customClass="DRArtistTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Hrn-Nf-McI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -274,10 +277,25 @@
                             <outlet property="delegate" destination="Lwl-8G-x9E" id="kvF-ZN-9mP"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="zq4-uL-duG"/>
+                        <barButtonItem systemItem="rewind" id="a5A-t7-9Ys">
+                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="XCk-K0-UzP"/>
+                        <barButtonItem systemItem="play" id="pSY-Xe-cjU">
+                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4lL-dk-ok0"/>
+                        <barButtonItem systemItem="fastForward" id="HUp-9k-gin">
+                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="mbL-fz-hVM"/>
+                    </toolbarItems>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2CA-wU-RXY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="936" y="237"/>
+            <point key="canvasLocation" x="1851" y="237"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="lnD-xs-eML">
@@ -341,6 +359,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oc4-eo-zMC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="700" y="834.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="f1b-U2-c23">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="IV3-Qv-kOF" sceneMemberID="viewController">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="9QJ-iL-Ldo"/>
+                        <barButtonItem systemItem="rewind" id="Aej-Fr-reK"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="cAe-ey-Rvr"/>
+                        <barButtonItem systemItem="play" id="7Gl-YY-p1E"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="HkN-tR-NLS"/>
+                        <barButtonItem systemItem="fastForward" id="D3y-dH-tD9"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="4PF-xT-IvP"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="72l-cA-Eya">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="e5E-kq-ujr">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Geu-db-2kA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j7U-yK-j4s" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="250" y="-456"/>
         </scene>
     </scenes>
 </document>
