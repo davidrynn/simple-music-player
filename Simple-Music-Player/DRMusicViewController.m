@@ -552,7 +552,7 @@
 
      if ([segue.identifier isEqualToString: @"artistViewSegue"]) {
          DRArtistTableViewController *destinationVC = [segue destinationViewController];
-         destinationVC.artistCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
+         destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
      }
 
 
