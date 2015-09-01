@@ -17,23 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PTw-FO-pm5" userLabel="NowPlayingView">
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rb1-hI-S0k">
-                                        <rect key="frame" x="0.0" y="0.0" width="26" height="0.0"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="26" id="mNv-d9-gr2"/>
-                                        </constraints>
-                                    </imageView>
-                                    <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S4v-Ia-jfx">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
-                                    </containerView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <accessibility key="accessibilityConfiguration" label="NowPlayingView">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
                                 <rect key="frame" x="0.0" y="89" width="600" height="60"/>
                                 <subviews>
@@ -108,11 +91,11 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
                                 <rect key="frame" x="0.0" y="149" width="600" height="407"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="4Qe-Yl-gdA" detailTextLabel="wOS-iB-75M" style="IBUITableViewCellStyleSubtitle" id="59p-QK-wJG">
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="4Qe-Yl-gdA" detailTextLabel="wOS-iB-75M" style="IBUITableViewCellStyleSubtitle" id="59p-QK-wJG" customClass="DRTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="59p-QK-wJG" id="ARH-bT-S0t">
@@ -183,12 +166,15 @@
                         <outlet property="segmentedController" destination="TG2-fS-VUn" id="5kA-2i-QhE"/>
                         <outlet property="tableView" destination="vL8-oK-V78" id="Hur-Il-IT1"/>
                         <outlet property="topContainer" destination="u7R-ah-6MM" id="k2W-I8-WNW"/>
-                        <segue destination="Lwl-8G-x9E" kind="show" identifier="artistViewSegue" id="My7-wL-rr0"/>
+                        <segue destination="Lwl-8G-x9E" kind="show" identifier="Artists" id="My7-wL-rr0"/>
+                        <segue destination="NP3-dX-lzc" kind="show" identifier="Albums" id="bn5-vU-swe"/>
+                        <segue destination="tAT-aT-3Bo" kind="show" identifier="Genres" id="L2H-Sj-3t5"/>
+                        <segue destination="SOA-I6-Jyo" kind="show" identifier="Playlists" id="sah-dd-Dvv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1132" y="223"/>
+            <point key="canvasLocation" x="1060" y="491"/>
         </scene>
         <!--Artist Table View Controller-->
         <scene sceneID="9Bt-X4-Bi6">
@@ -199,7 +185,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="7Jd-3t-TPP" style="IBUITableViewCellStyleDefault" id="pFS-vK-vV0">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="7Jd-3t-TPP" style="IBUITableViewCellStyleDefault" id="pFS-vK-vV0" customClass="DRTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pFS-vK-vV0" id="0fy-eT-5Bg">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -243,7 +229,150 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2CA-wU-RXY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2110" y="167"/>
+            <point key="canvasLocation" x="2342" y="-1038"/>
+        </scene>
+        <!--Media Table View Controller-->
+        <scene sceneID="kCw-vf-NuD">
+            <objects>
+                <tableViewController id="NP3-dX-lzc" customClass="DRMediaTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="cly-Qk-kDV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="eh7-RW-l5e" customClass="DRTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eh7-RW-l5e" id="6eT-49-t0V">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="NP3-dX-lzc" id="2gv-p3-J2V"/>
+                            <outlet property="delegate" destination="NP3-dX-lzc" id="4R4-H5-r0Y"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="s30-Wv-R89"/>
+                        <barButtonItem systemItem="rewind" id="V8c-XL-Jj0">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Lwl-8G-x9E" id="Kea-XF-Upp"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="gpO-Qz-mgK"/>
+                        <barButtonItem systemItem="play" id="0ee-ur-khp">
+                            <connections>
+                                <action selector="playButtonTapped:" destination="Lwl-8G-x9E" id="upT-P4-6c1"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="nbq-18-XNF"/>
+                        <barButtonItem systemItem="fastForward" id="qGm-Fi-1ln">
+                            <connections>
+                                <action selector="forwardButtonTapped:" destination="Lwl-8G-x9E" id="EBJ-tr-8et"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="5zd-5t-pf5"/>
+                    </toolbarItems>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MaZ-n8-TwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2344" y="-344"/>
+        </scene>
+        <!--Media Table View Controller-->
+        <scene sceneID="eNb-FS-pYC">
+            <objects>
+                <tableViewController id="tAT-aT-3Bo" customClass="DRMediaTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tsj-Aq-WTt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="zQD-f2-S7z" customClass="DRTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zQD-f2-S7z" id="aFr-fi-Tts">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="tAT-aT-3Bo" id="Z87-Iw-Qde"/>
+                            <outlet property="delegate" destination="tAT-aT-3Bo" id="hDC-Hg-uOh"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="1OY-9b-M4g"/>
+                        <barButtonItem systemItem="rewind" id="cad-2O-IrM">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Lwl-8G-x9E" id="2Jw-Bg-p5b"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Dn3-p1-ab3"/>
+                        <barButtonItem systemItem="play" id="3hm-Vw-rtz">
+                            <connections>
+                                <action selector="playButtonTapped:" destination="Lwl-8G-x9E" id="ZCa-YH-P3a"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Lt4-UJ-gUS"/>
+                        <barButtonItem systemItem="fastForward" id="ySK-aO-DRJ">
+                            <connections>
+                                <action selector="forwardButtonTapped:" destination="Lwl-8G-x9E" id="PLg-b1-dot"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="xny-KJ-Exy"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="feJ-B5-yMf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2352" y="344"/>
+        </scene>
+        <!--Media Table View Controller-->
+        <scene sceneID="u3p-9u-ZkK">
+            <objects>
+                <tableViewController id="SOA-I6-Jyo" customClass="DRMediaTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="jOq-IA-J5T">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="nzt-5v-xLk" customClass="DRTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nzt-5v-xLk" id="GGz-RV-s6i">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="SOA-I6-Jyo" id="jVx-s5-wa7"/>
+                            <outlet property="delegate" destination="SOA-I6-Jyo" id="Hdw-cQ-VCJ"/>
+                        </connections>
+                    </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="IGC-hC-9ib"/>
+                        <barButtonItem systemItem="rewind" id="Qb2-DG-MY1">
+                            <connections>
+                                <action selector="backButtonTapped:" destination="Lwl-8G-x9E" id="1Ia-hh-kBN"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="gaF-W2-2DV"/>
+                        <barButtonItem systemItem="play" id="mVN-52-JOG">
+                            <connections>
+                                <action selector="playButtonTapped:" destination="Lwl-8G-x9E" id="n8Z-dj-663"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Jyw-XU-nfc"/>
+                        <barButtonItem systemItem="fastForward" id="NiJ-9e-9wx">
+                            <connections>
+                                <action selector="forwardButtonTapped:" destination="Lwl-8G-x9E" id="62d-gj-1Fz"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="iC0-t2-nau"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BM1-LO-BNG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2340" y="1012"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="lnD-xs-eML">
@@ -287,8 +416,26 @@
                     <navigationItem key="navigationItem" id="632-Gx-FqL"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz4-YZ-JIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="PTw-FO-pm5" userLabel="NowPlayingView">
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rb1-hI-S0k">
+                            <rect key="frame" x="0.0" y="0.0" width="26" height="0.0"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="26" id="mNv-d9-gr2"/>
+                            </constraints>
+                        </imageView>
+                        <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S4v-Ia-jfx">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
+                        </containerView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <accessibility key="accessibilityConfiguration" label="NowPlayingView">
+                        <bool key="isElement" value="YES"/>
+                    </accessibility>
+                </view>
             </objects>
-            <point key="canvasLocation" x="1290" y="1080"/>
+            <point key="canvasLocation" x="1068" y="1148"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f1b-U2-c23">

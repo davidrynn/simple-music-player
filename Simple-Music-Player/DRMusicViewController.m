@@ -11,6 +11,7 @@
 
 #import "DRMusicViewController.h"
 #import "DRArtistTableViewController.h"
+#import "DRMediaTableViewController.h"
 
 @import MediaPlayer;
 
@@ -88,6 +89,7 @@
     
     
 }
+
 
 //hide navbar
 -(void)viewWillAppear:(BOOL)animated{
@@ -531,9 +533,9 @@
         TOCK;
     }
     
-    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Artists"]) {
+    else {
         NSLog(@"I should be performing a segue");
-        [self performSegueWithIdentifier:@"artistViewSegue" sender:cell];
+        [self performSegueWithIdentifier:self.mediaItemsDictionary[@"category"] sender:cell];
     }
     
     
@@ -552,6 +554,10 @@
 
      if ([segue.identifier isEqualToString: @"artistViewSegue"]) {
          DRArtistTableViewController *destinationVC = [segue destinationViewController];
+         destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
+     } else {
+     
+         DRMediaTableViewController *destinationVC = [segue destinationViewController];
          destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
      }
 
