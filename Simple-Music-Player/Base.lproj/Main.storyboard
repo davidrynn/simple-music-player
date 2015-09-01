@@ -27,9 +27,6 @@
                                     </imageView>
                                     <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S4v-Ia-jfx">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
-                                        <connections>
-                                            <segue destination="5kf-mP-nWK" kind="embed" id="Dde-L0-gdo"/>
-                                        </connections>
                                     </containerView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -202,7 +199,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="7Jd-3t-TPP" imageView="7d9-jt-82V" style="IBUITableViewCellStyleDefault" id="pFS-vK-vV0">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="7Jd-3t-TPP" style="IBUITableViewCellStyleDefault" id="pFS-vK-vV0">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pFS-vK-vV0" id="0fy-eT-5Bg">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -213,9 +210,6 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Note" id="7d9-jt-82V">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -228,21 +222,18 @@
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="zq4-uL-duG"/>
                         <barButtonItem systemItem="rewind" id="a5A-t7-9Ys">
-                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="backButtonTapped:" destination="Lwl-8G-x9E" id="LY4-03-CAG"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="XCk-K0-UzP"/>
                         <barButtonItem systemItem="play" id="pSY-Xe-cjU">
-                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="playButtonTapped:" destination="Lwl-8G-x9E" id="m6i-RF-SZ0"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="4lL-dk-ok0"/>
                         <barButtonItem systemItem="fastForward" id="HUp-9k-gin">
-                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="forwardButtonTapped:" destination="Lwl-8G-x9E" id="iWI-Oq-IOT"/>
                             </connections>
@@ -263,7 +254,7 @@
                         <viewControllerLayoutGuide type="bottom" id="W4Q-CP-MLK"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nZw-vu-9cd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UsC-Uv-RNE">
@@ -281,7 +272,7 @@
                                 </subviews>
                             </scrollView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v87-8m-e5A">
-                                <rect key="frame" x="0.0" y="-142" width="600" height="27"/>
+                                <rect key="frame" x="0.0" y="-142" width="600" height="600"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -297,25 +288,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sz4-YZ-JIn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1512" y="834.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Y2T-Pa-VER">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5kf-mP-nWK" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mIR-7A-5Cp">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="1zT-2F-Jti" kind="relationship" relationship="rootViewController" id="i5D-pS-5Fc"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oc4-eo-zMC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="700" y="834.5"/>
+            <point key="canvasLocation" x="1290" y="1080"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f1b-U2-c23">
@@ -348,8 +321,5 @@
             <point key="canvasLocation" x="250" y="-456"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Note" width="1024" height="1024"/>
-    </resources>
     <color key="tintColor" red="1" green="0.16208367600000001" blue="0.1068050987" alpha="0.67000000000000004" colorSpace="calibratedRGB"/>
 </document>

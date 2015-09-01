@@ -38,13 +38,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.songs.count;
 }
 
 
@@ -52,6 +52,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
 #warning Incomplete method implementation.
     // Configure the cell...
+    MPMediaItem *item = self.songs[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ -- %@",item.title, item.artist];
+    cell.imageView.image = [item.artwork imageWithSize:CGSizeMake(60.0f, 60.0f)];
     
     return cell;
 }
