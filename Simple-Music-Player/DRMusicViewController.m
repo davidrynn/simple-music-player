@@ -19,7 +19,8 @@
 @property (weak, nonatomic) IBOutlet UIView *playerButtonContainer;
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIButton *playButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *playButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
@@ -51,7 +52,7 @@
     TICK;
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor blackColor]];
-    [self setToolba];
+
    
     //setup topcontainer border
     [self.tableView.layer setBorderWidth:1.0f];
@@ -161,7 +162,12 @@
                              object: self.musicPlayerController];
     
     [notificationCenter addObserver: self
-                           selector: @selector (handle_PlaybackStateChanged:)
+                           selector: @selector (playMusic)
+                               name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                             object: self.musicPlayerController];
+    
+    [notificationCenter addObserver: self
+                           selector: @selector (pauseMusic)
                                name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
                              object: self.musicPlayerController];
     
@@ -228,33 +234,6 @@
     }
 }
 
-// When the playback state changes, set the play/pause button in the Navigation bar
-//		appropriately.
-- (void) handle_PlaybackStateChanged: (id) notification {
-    
-    
-    
-    //    MPMusicPlaybackState playbackState = [musicPlayer playbackState];
-    //
-    //    if (playbackState == MPMusicPlaybackStatePaused) {
-    //
-    //        navigationBar.topItem.leftBarButtonItem = playBarButton;
-    //
-    //    } else if (playbackState == MPMusicPlaybackStatePlaying) {
-    //
-    //        navigationBar.topItem.leftBarButtonItem = pauseBarButton;
-    //
-    //    } else if (playbackState == MPMusicPlaybackStateStopped) {
-    //
-    //        navigationBar.topItem.leftBarButtonItem = playBarButton;
-    //
-    //        // Even though stopped, invoking 'stop' ensures that the music player will play
-    //        //		its queue from the start.
-    //        [musicPlayer stop];
-    //
-    //    }
-}
-
 - (void) handle_iPodLibraryChanged: (id) notification {
     
     // Implement this method to update cached collections of media items when the
@@ -270,86 +249,28 @@
     if( self.musicPlayerController.shuffleMode == MPMusicShuffleModeSongs){
         [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
                 [sender setTintColor: [UIColor redColor]];
-        NSLog(@"shuffle off");
+        sender.title = @"Shuffle";
     } else{
         [self.musicPlayerController setShuffleMode:MPMusicShuffleModeSongs]
 ;
-        [sender setTintColor: [UIColor grayColor]];
-        NSLog(@"shuffle on");
+       sender.title = @"Shuffle On";
+
     
     }
     
 }
 
-- (void) barButtonTapped:(UIBarButtonItem *)sender {
-    TICK;
-
-
-    
-    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-        
-        [self.musicPlayerController pause];
-
-        sender = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
-                                                                  target:self
-                                                                  action:@selector(playButtonTapped:)];
-        
-        self.navigationItem.rightBarButtonItem = sender;
-    } else if(self.songToPlay){
-        
-        [self.musicPlayerController play];
-        
-    }
-    else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No music selected"
-                                                        message:@"You must be select music in order to play it."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        
-    }
-    WILLDEFINE =@"playbutton";
-    TOCK;
-    
-    
-    
-}
 
 - (IBAction)playButtonTapped:(id)sender {
-    TICK;
-    UIButton *button = (UIButton *)sender;
-    
-    
-    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-
-        [self.musicPlayerController pause];
-        button.titleLabel.text = @"Pause";
-        
-    } else if(self.songToPlay){
-        
-        [self.musicPlayerController play];
-        
-    }
-    else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No music selected"
-                                                        message:@"You must be select music in order to play it."
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        
-    }
-    WILLDEFINE =@"playbutton";
-    TOCK;
-    
-    
-    
+      if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
+          
+          [self pauseMusic];
+          
+      }
+      else {
+    [self playMusic];
+      }
 }
-
-
 
 
 - (IBAction)backButtonTapped:(id)sender {
@@ -465,12 +386,8 @@
 
 //End Search Function
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-#pragma tableview setup
+#pragma mark - Tableview Setup
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -579,6 +496,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    TICK
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
@@ -587,10 +505,11 @@
     
     [self.musicPlayerController stop];
     
-    WILLDEFINE = @"stop";
+
+        //figure out correct index
     MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
     NSInteger adjustIndex = querySection.range.location + indexPath.row;
-    
+    //use index to find song
     MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
     
     [self.musicPlayerController setNowPlayingItem:song];
@@ -599,9 +518,9 @@
     NSLog(@"Mediaplayer item name: %@", song.title);
     
     self.songToPlay = song;
-    TICK;
-    [self.musicPlayerController play];
-    willDefine = @"to setup did selectROw";
+
+    [self playMusic];
+    WILLDEFINE = @"selectRow";
     TOCK;
     }
     
@@ -613,10 +532,6 @@
     
 }
 
-//-(void)performSegueWithIdentifier:(NSString *)identifier sender:(id)sender{
-//    NSLog(@"inside PSWI with identifier %@", identifier);
-//
-//}
 /*
  #pragma mark - Navigation
  
@@ -626,5 +541,64 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+ #pragma mark - Miscellaneous
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+   
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                                                  object: self.musicPlayerController];
+    
+    [self.musicPlayerController endGeneratingPlaybackNotifications];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void) playMusic{
+    TICK;
+    if (!self.songToPlay) {
+        self.songToPlay = self.musicPlayerController.nowPlayingItem ;
+//        mediaItemsDictionary[@"array"][0];
+    }
+    
+
+        [self.musicPlayerController play];
+        [self changePlayOrPauseButtonToType:UIBarButtonSystemItemPause];
+   
+        
+
+
+    
+    
+    WILLDEFINE =@"playAction";
+    TOCK;
+    
+}
+
+-(void) pauseMusic {
+
+TICK
+        
+        [self.musicPlayerController pause];
+        [self changePlayOrPauseButtonToType: UIBarButtonSystemItemPlay];
+     WILLDEFINE =@"pauseMusic";
+    TOCK;
+    
+}
+
+-(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
+    
+    TICK
+    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
+
+    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
+
+    [items replaceObjectAtIndex:3 withObject:item];
+    self.navigationController.toolbar.items = items;
+    WILLDEFINE = @"changeButtonItem";
+    TOCK
+
+}
 
 @end
