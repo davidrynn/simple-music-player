@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+@import MediaPlayer;
 
 @interface DRArtistTableViewController : UITableViewController
-
+@property (nonatomic, strong) MPMediaItemCollection *artistCollection;
 @end

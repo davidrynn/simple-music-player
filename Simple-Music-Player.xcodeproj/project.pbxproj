@@ -97,9 +97,9 @@
 			children = (
 				224F76A51B6C289600BC7B73 /* AppDelegate.h */,
 				224F76A61B6C289600BC7B73 /* AppDelegate.m */,
+				224F76AB1B6C289600BC7B73 /* Main.storyboard */,
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
 				224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */,
-				224F76AB1B6C289600BC7B73 /* Main.storyboard */,
 				224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */,
 				224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */,
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
