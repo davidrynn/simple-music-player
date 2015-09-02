@@ -131,17 +131,9 @@
                                             <segue destination="qEK-FU-4AN" kind="embed" id="U5M-Ld-ub8"/>
                                         </connections>
                                     </containerView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
                                         <rect key="frame" x="0.0" y="55" width="600" height="600"/>
                                     </imageView>
-                                    <visualEffectView hidden="YES" opaque="NO" alpha="0.5499999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Kd-eW-Oog">
-                                        <rect key="frame" x="0.0" y="55" width="600" height="600"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="i4w-Uu-e9x">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </view>
-                                        <blurEffect style="extraLight"/>
-                                    </visualEffectView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
                                         <rect key="frame" x="265" y="17" width="70" height="15"/>
                                         <color key="backgroundColor" white="1" alpha="0.27000000000000002" colorSpace="calibratedWhite"/>
@@ -153,56 +145,28 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="17" id="1gh-zU-qLS"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="top" secondItem="ASU-mF-vUo" secondAttribute="top" id="DOg-Lc-UHM"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" id="DcK-eR-8ov"/>
-                                    <constraint firstAttribute="bottom" secondItem="6Kd-eW-Oog" secondAttribute="bottom" id="FSB-Mu-zhx"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="H4m-QK-7vm"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="height" secondItem="ASU-mF-vUo" secondAttribute="height" id="Hpf-XY-M4y"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="leading" secondItem="ASU-mF-vUo" secondAttribute="leading" id="Hr5-8P-9k8"/>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="centerX" secondItem="Fhm-62-fQ7" secondAttribute="centerX" id="Jx3-V8-rty"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="width" secondItem="ASU-mF-vUo" secondAttribute="width" id="OzV-lo-R4b"/>
+                                    <constraint firstItem="Fhm-62-fQ7" firstAttribute="width" secondItem="ASU-mF-vUo" secondAttribute="width" multiplier="0.5" id="Kez-BW-hcQ"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="PF1-ic-OSL"/>
                                     <constraint firstAttribute="height" secondItem="Fhm-62-fQ7" secondAttribute="height" id="Rtb-VJ-QgI"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="leading" secondItem="ASU-mF-vUo" secondAttribute="leading" id="WB6-de-XJD"/>
+                                    <constraint firstItem="Fhm-62-fQ7" firstAttribute="centerX" secondItem="ASU-mF-vUo" secondAttribute="centerX" id="Ufk-zK-pQ7"/>
                                     <constraint firstAttribute="width" secondItem="Fhm-62-fQ7" secondAttribute="width" id="Yw7-Hg-Uhn"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="bottom" secondItem="ASU-mF-vUo" secondAttribute="bottom" id="dMe-Zj-gI0"/>
-                                    <constraint firstAttribute="trailing" secondItem="6Kd-eW-Oog" secondAttribute="trailing" id="eDM-Ib-TNJ"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="trailing" secondItem="ASU-mF-vUo" secondAttribute="trailing" id="gGo-nU-bma"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="width" secondItem="ASU-mF-vUo" secondAttribute="width" id="h49-bR-Hc0"/>
                                     <constraint firstAttribute="trailing" secondItem="Fhm-62-fQ7" secondAttribute="trailing" id="h7Y-OW-u8I"/>
-                                    <constraint firstItem="PFK-su-uR9" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" constant="10" id="hTv-Iw-SWa"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" id="hVl-ZE-HS3"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="top" secondItem="ASU-mF-vUo" secondAttribute="top" id="l7n-bp-7CY"/>
                                     <constraint firstAttribute="trailing" secondItem="Fhm-62-fQ7" secondAttribute="trailing" id="ls4-X1-D1x"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="55" id="uW3-Nq-Tx9"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="vS7-wB-pyd"/>
+                                    <constraint firstItem="Fhm-62-fQ7" firstAttribute="height" secondItem="ASU-mF-vUo" secondAttribute="height" multiplier="0.5" id="pVI-DM-c22"/>
+                                    <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="ASU-mF-vUo" secondAttribute="top" id="phy-JE-FsC"/>
                                     <constraint firstAttribute="bottom" secondItem="Fhm-62-fQ7" secondAttribute="bottom" id="wUl-OH-WPD"/>
-                                    <constraint firstItem="6Kd-eW-Oog" firstAttribute="height" secondItem="ASU-mF-vUo" secondAttribute="height" id="weX-sg-E4Z"/>
-                                    <constraint firstAttribute="bottom" secondItem="Fhm-62-fQ7" secondAttribute="bottom" constant="-108" id="zU7-Y3-5DP"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="FSB-Mu-zhx"/>
-                                        <exclude reference="Hr5-8P-9k8"/>
-                                        <exclude reference="dMe-Zj-gI0"/>
-                                        <exclude reference="eDM-Ib-TNJ"/>
-                                        <exclude reference="gGo-nU-bma"/>
-                                        <exclude reference="h49-bR-Hc0"/>
-                                        <exclude reference="l7n-bp-7CY"/>
-                                        <exclude reference="weX-sg-E4Z"/>
-                                        <exclude reference="zU7-Y3-5DP"/>
-                                        <exclude reference="hTv-Iw-SWa"/>
-                                    </mask>
-                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="bottom" id="14B-kE-w0T"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="9n7-Qa-HHC"/>
-                            <constraint firstAttribute="width" secondItem="6Kd-eW-Oog" secondAttribute="width" id="A9c-oj-xa8"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="AYs-1U-S0g"/>
-                            <constraint firstAttribute="height" secondItem="6Kd-eW-Oog" secondAttribute="height" id="IU4-rF-tsj"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailing" id="MFI-ig-9Qg"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Qrp-ji-2xr"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="top" constant="25" id="VMf-Ye-OnJ"/>

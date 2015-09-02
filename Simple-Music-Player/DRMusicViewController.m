@@ -143,7 +143,6 @@
     self.navigationController.navigationBarHidden = NO;
     
 }
-
 - (void) setUpSegmentSortedLists {
     
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
@@ -190,8 +189,7 @@
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
     self.mediaItemsDictionary = self.songsDictionary;
     
-    
-}
+    }
 
 #pragma mark - Notifications
 
@@ -232,20 +230,32 @@
 - (void) handle_NowPlayingItemChanged: (id) notification {
     
     TICK
-    
-    MPMediaItem *currentItem = [self.musicPlayerController nowPlayingItem];
-    
-    // Assume that there is no artwork for the media item.
-    UIImage *artworkImage = nil;
+        MPMediaItem *currentItem = [self.musicPlayerController nowPlayingItem];
+ 
+       // Assume that there is no artwork for the media item.
+    __block UIImage *artworkImage = nil;
     
     // Get the artwork from the current media item, if it has artwork.
     MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
     
     // Obtain a UIImage object from the MPMediaItemArtwork object
-    if (artwork) {
-        artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2)];
-    }
-    
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
+    NSOperationQueue *processingQueue = [[NSOperationQueue alloc] init];
+
+        if (artwork) {
+            
+            [photoQueue addOperationWithBlock:^{
+                
+                artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
+                
+                [mainQueue addOperationWithBlock:^{
+                    self.nowPlayingImage.image = artworkImage;
+                }];
+            }];
+            
+        }
+  
     // Obtain a UIButton object and set its background to the UIImage object
     //    UIButton *artworkView = [[UIButton alloc] initWithFrame: CGRectMake (0, 0, 30, 30)];
     //    [artworkView setBackgroundImage: artworkImage forState: UIControlStateNormal];
@@ -260,14 +270,16 @@
     // Display the new media item artwork
     //    [navigationBar.topItem setRightBarButtonItem: artworkItem animated: YES];
     
-    self.nowPlayingImage.image = artworkImage;
-    // Display the artist and song name for the now-playing media item
-    [self.nowPlayingLabel setText: [
-                                    NSString stringWithFormat: @"%@ %@ %@ %@",
-                                    NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyTitle],
-                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
+    [processingQueue addOperationWithBlock:^{
+        self.nowPlayingImage.image = artworkImage;    // Display the artist and song name for the now-playing media item
+        [self.nowPlayingLabel setText: [
+                                        NSString stringWithFormat: @"%@ %@ %@ %@",
+                                        NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
+                                        [currentItem valueForProperty: MPMediaItemPropertyTitle],
+                                        NSLocalizedString (@"by", @"Article between song name and artist name"),
+                                        [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
+    }];
+    
     
     if (self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
         // Provide a suitable prompt to the user now that their chosen music has
@@ -281,8 +293,7 @@
         
     }
 
-    TOCK
-}
+    TOCK}
 
 - (void) handle_iPodLibraryChanged: (id) notification {
     
@@ -442,18 +453,16 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    //get number after casting everything correctly to MPMedia -
+   //get number after casting everything correctly to MPMedia -
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     MPMediaQuerySection *querySection = sectionsArray[section];
     NSUInteger number = querySection.range.length;
     return number;
-    
-}
+    }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
-    NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
+       NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     return sectionsArray.count;
 }
 
@@ -537,8 +546,7 @@
             cell.imageView.image = nil;
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
-        
-    }
+            }
     
     
     return cell;
