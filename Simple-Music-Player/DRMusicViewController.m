@@ -15,7 +15,7 @@
 
 @import MediaPlayer;
 
-@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *playerButtonContainer;
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
 
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 
@@ -54,7 +55,8 @@
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor blackColor]];
     
-    
+    //setup scrollview
+    [self setUpScrollView];
     
     //setup topcontainer border
     [self.tableView.layer setBorderWidth:1.0f];
@@ -90,11 +92,49 @@
     
 }
 
+-(void)setUpScrollView{
+    // In the next section we will implement a delegate method to show and hide the contained view controller in the scrollview.
+    self.scrollView.delegate = self;
+    // We disable paging to allow the scrollview to move freely and not "stick" to the next page.
+        self.scrollView.pagingEnabled = NO;
+    // We hide the vertical scroll indicator because we do not want our end user to realize we are using a scroll view.
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    // This property allows the scroll view to "spring" up and down when we reach the end of the content.
+    self.scrollView.alwaysBounceVertical = NO;
+    // This prevents the scroll view from moving horizontally
+    self.scrollView.alwaysBounceHorizontal = NO;
+    // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
+    self.scrollView.contentInset = UIEdgeInsetsMake(450,0,0,0);
 
+
+}
+-(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+    if (scrollView == self.scrollView) {
+
+    if (velocity.y >= 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.1 animations:^{
+                
+                [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+            }];
+        });
+        
+    } else {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.1 animations:^{
+                
+                [scrollView setContentOffset:CGPointMake(0, -450) animated:NO];
+            }];
+        });
+    }
+    }
+}
 //hide navbar
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
 }
 
 //show navbar for other views
@@ -203,7 +243,7 @@
     
     // Obtain a UIImage object from the MPMediaItemArtwork object
     if (artwork) {
-        artworkImage = [artwork imageWithSize: CGSizeMake (30, 30)];
+        artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/2, self.scrollView.frame.size.height/2)];
     }
     
     // Obtain a UIButton object and set its background to the UIImage object
@@ -555,7 +595,7 @@
      if ([segue.identifier isEqualToString: @"artistViewSegue"]) {
          DRArtistTableViewController *destinationVC = [segue destinationViewController];
          destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
-     } else {
+     } else if (segue.identifier){
      
          DRMediaTableViewController *destinationVC = [segue destinationViewController];
          destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
