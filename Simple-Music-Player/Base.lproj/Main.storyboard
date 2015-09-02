@@ -131,8 +131,8 @@
                                             <segue destination="qEK-FU-4AN" kind="embed" id="U5M-Ld-ub8"/>
                                         </connections>
                                     </containerView>
-                                    <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
-                                        <rect key="frame" x="0.0" y="55" width="600" height="600"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
+                                        <rect key="frame" x="-300" y="50" width="1200" height="984"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
                                         <rect key="frame" x="265" y="17" width="70" height="15"/>

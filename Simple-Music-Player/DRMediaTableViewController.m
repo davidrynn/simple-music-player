@@ -50,7 +50,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-#warning Incomplete method implementation.
+
     // Configure the cell...
     MPMediaItem *item = self.songs[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ -- %@",item.title, item.artist];
