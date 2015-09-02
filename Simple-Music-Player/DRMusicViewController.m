@@ -104,7 +104,7 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
-    self.scrollView.contentInset = UIEdgeInsetsMake(450,0,0,0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(460,0,0,0);
 
 
 }
@@ -124,7 +124,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.1 animations:^{
                 
-                [scrollView setContentOffset:CGPointMake(0, -450) animated:NO];
+                [scrollView setContentOffset:CGPointMake(0, -460) animated:NO];
             }];
         });
     }
