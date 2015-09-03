@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		220A8D6E1B980C5400423677 /* DRPausePlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 220A8D6D1B980C5400423677 /* DRPausePlayButton.m */; };
 		224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */; };
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		220A8D6C1B980C5400423677 /* DRPausePlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPausePlayButton.h; sourceTree = "<group>"; };
+		220A8D6D1B980C5400423677 /* DRPausePlayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPausePlayButton.m; sourceTree = "<group>"; };
 		224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtistTableViewController.h; sourceTree = "<group>"; };
 		224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRArtistTableViewController.m; sourceTree = "<group>"; };
 		224967261B95FAB10080CDE4 /* DRMediaTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMediaTableViewController.h; sourceTree = "<group>"; };
@@ -99,6 +102,8 @@
 			children = (
 				224967481B96B7F40080CDE4 /* DRScrollViewPassThrough.h */,
 				224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */,
+				220A8D6C1B980C5400423677 /* DRPausePlayButton.h */,
+				220A8D6D1B980C5400423677 /* DRPausePlayButton.m */,
 				2249672F1B9611100080CDE4 /* DRTableViewCell.h */,
 				224967301B9611100080CDE4 /* DRTableViewCell.m */,
 			);
@@ -293,6 +298,7 @@
 				224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */,
 				224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */,
 				224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */,
+				220A8D6E1B980C5400423677 /* DRPausePlayButton.m in Sources */,
 				224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */,
 				2249674A1B96B7F40080CDE4 /* DRScrollViewPassThrough.m in Sources */,
 				224F76A41B6C289600BC7B73 /* main.m in Sources */,
