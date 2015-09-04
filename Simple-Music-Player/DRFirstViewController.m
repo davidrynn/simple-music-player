@@ -10,18 +10,22 @@
 #define TOCK   NSLog(@"Time for %@: %f", NSStringFromSelector(_cmd), (CACurrentMediaTime()-startTime));
 
 #import "DRFirstViewController.h"
+#import "DRPauseButton.h"
+#import "DRPlayButton.h"
+#import "DRMusicViewController.h"
 @import MediaPlayer;
 
-@interface DRFirstViewController () <UIScrollViewDelegate>
+@interface DRFirstViewController () <UIScrollViewDelegate, DRMusicViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
 @property (weak, nonatomic) IBOutlet UIView *buttonContainer;
-@property (weak, nonatomic) IBOutlet UIButton *playerButton;
+@property (strong, nonatomic) IBOutlet UIButton *playerButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
+@property (weak, nonatomic) IBOutlet DRPauseButton *pauseButton;
 
-@property (nonatomic, strong) id<RootViewDelegate> delegate;
+
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
 
 
@@ -31,29 +35,33 @@
 
 
 -(void)viewDidLoad{
+    TICK
     [super viewDidLoad];
     //setup scrollview
     [self setUpScrollView];
     
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
+
+
+    
+    [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
+    [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
     [self.musicPlayer prepareToPlay];
-    [self.playerButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    self.playerButton.layer.shadowOpacity = 0.8
-    ;
-    self.playerButton.layer.shadowRadius = 1;
-    self.playerButton.layer.shadowOffset = CGSizeMake(2.0f, 2.0f);
+
+[self registerForMediaPlayerNotifications];
+    TOCK
     
 }
 
+#pragma mark Music notification handlers__________________
 
--(void)nowPlayingStateChange{
+// When the now-playing item changes, update the media item artwork and the now-playing label.
+- (void) handle_NowPlayingItemChanged: (id) notification {
     
-    
-    TICK
     MPMediaItem *currentItem = [self.musicPlayer nowPlayingItem];
     
     // Assume that there is no artwork for the media item.
-    __block UIImage *artworkImage = nil;
+    __block UIImage *artworkImage = [UIImage imageNamed:@"noteBW"];
     
     // Get the artwork from the current media item, if it has artwork.
     MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
@@ -61,7 +69,7 @@
     // Obtain a UIImage object from the MPMediaItemArtwork object
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
-    NSOperationQueue *processingQueue = [[NSOperationQueue alloc] init];
+
     
     if (artwork) {
         
@@ -75,47 +83,84 @@
         }];
         
     }
-    
-    // Obtain a UIButton object and set its background to the UIImage object
-    //    UIButton *artworkView = [[UIButton alloc] initWithFrame: CGRectMake (0, 0, 30, 30)];
-    //    [artworkView setBackgroundImage: artworkImage forState: UIControlStateNormal];
-    
-    // Obtain a UIBarButtonItem object and initialize it with the UIButton object
-    //    UIBarButtonItem *newArtworkItem = [[UIBarButtonItem alloc] initWithCustomView: artworkView];
-    //    [self setArtworkItem: newArtworkItem];
-    //    [newArtworkItem release];
-    
-    //    [artworkItem setEnabled: NO];
-    
-    // Display the new media item artwork
-    //    [navigationBar.topItem setRightBarButtonItem: artworkItem animated: YES];
-    
-    [processingQueue addOperationWithBlock:^{
-        self.nowPlayingImage.image = artworkImage;    // Display the artist and song name for the now-playing media item
-        [self.nowPlayingLabel setText: [
-                                        NSString stringWithFormat: @"%@ %@ %@ %@",
-                                        NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
-                                        [currentItem valueForProperty: MPMediaItemPropertyTitle],
-                                        NSLocalizedString (@"by", @"Article between song name and artist name"),
-                                        [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
-    }];
-    
+
+    // Display the artist and song name for the now-playing media item
+    [self.nowPlayingLabel setText: [
+                               NSString stringWithFormat: @"%@ %@ %@ %@",
+                               NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
+                               [currentItem valueForProperty: MPMediaItemPropertyTitle],
+                               NSLocalizedString (@"by", @"Article between song name and artist name"),
+                               [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
     
     if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
         // Provide a suitable prompt to the user now that their chosen music has
         //		finished playing.
-        [self.nowPlayingLabel setText:@""
-         //         [
-         //                                   NSString stringWithFormat: @"%@",
-         //                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")
-         //                                        ]
-         ];
+        [self.nowPlayingLabel setText: [
+                                   NSString stringWithFormat: @"%@",
+                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")]];
         
     }
-    
-    TOCK
-    
+ 
 }
+
+// When the playback state changes, set the play/pause button in the Navigation bar
+//		appropriately.
+- (void) handle_PlaybackStateChanged: (id) notification {
+    
+    MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
+    
+    if (playbackState == MPMusicPlaybackStatePaused) {
+        
+        self.playerButton.enabled = YES;
+        self.playerButton.hidden = NO;
+        self.pauseButton.enabled = NO;
+        self.pauseButton.hidden = YES;
+        
+    } else if (playbackState == MPMusicPlaybackStatePlaying) {
+        
+        self.playerButton.enabled = NO;
+        self.playerButton.hidden = YES;
+        self.pauseButton.enabled = YES;
+        self.pauseButton.hidden = NO;
+        
+    } else if (playbackState == MPMusicPlaybackStateStopped) {
+        
+                self.playerButton = [[DRPlayButton alloc] init];
+        
+        // Even though stopped, invoking 'stop' ensures that the music player will play  
+        //		its queue from the start.
+        [self.musicPlayer stop];
+        
+    }
+}
+- (void) registerForMediaPlayerNotifications {
+    
+    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+    
+    [notificationCenter addObserver: self
+                           selector: @selector (handle_NowPlayingItemChanged:)
+                               name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
+                             object: self.musicPlayer];
+    
+    [notificationCenter addObserver: self
+                           selector: @selector (handle_PlaybackStateChanged:)
+                               name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                             object: self.musicPlayer];
+    
+    /*
+     // This sample doesn't use libray change notifications; this code is here to show how
+     //		it's done if you need it.
+     [notificationCenter addObserver: self
+     selector: @selector (handle_iPodLibraryChanged:)
+     name: MPMediaLibraryDidChangeNotification
+     object: musicPlayer];
+     
+     [[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
+     */
+    
+    [self.musicPlayer beginGeneratingPlaybackNotifications];
+}
+
 
 #pragma mark Scroll View
 
@@ -157,6 +202,13 @@
         }
     }
 }
+#pragma mark - Navigation
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    DRMusicViewController *destinationVC = [[DRMusicViewController alloc] init];
+    destinationVC.delegate = self;
+
+}
+
 
 #pragma mark - Miscellaneous
 
@@ -170,9 +222,14 @@
     [self.musicPlayer endGeneratingPlaybackNotifications];
     // Dispose of any resources that can be recreated.
 }
+-(void)playOrPauseMusicFromPickerViews{
+    NSLog(@"hey look I'm being delegated!");
+    [self playOrPauseMusicForAll];
+}
 
-- (IBAction) playOrPauseMusic: (id)sender {
+-(void) playOrPauseMusicForAll{
     
+    TICK
     MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
     
     if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
@@ -180,6 +237,10 @@
     } else if (playbackState == MPMusicPlaybackStatePlaying) {
         [self.musicPlayer pause];
     }
+    TOCK
+}
+- (IBAction) playOrPauseMusic: (id)sender {
+    [self playOrPauseMusicForAll];
 }
 
 //-(void) playMusic{
@@ -226,5 +287,31 @@
     
     TOCK
     
+}
+
+- (void)dealloc {
+    
+    /*
+     // This sample doesn't use libray change notifications; this code is here to show how
+     //		it's done if you need it.
+     [[NSNotificationCenter defaultCenter] removeObserver: self
+     name: MPMediaLibraryDidChangeNotification
+     object: musicPlayer];
+     
+     [[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
+     
+     */
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
+                                                  object: self.musicPlayer];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                                                  object: self.musicPlayer];
+    
+    [self.musicPlayer endGeneratingPlaybackNotifications];
+
+    
+
 }
 @end

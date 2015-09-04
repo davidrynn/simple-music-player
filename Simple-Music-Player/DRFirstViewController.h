@@ -9,11 +9,7 @@
 #import <UIKit/UIKit.h>
 @import MediaPlayer;
 
-@protocol RootViewDelegate <NSObject>
 
--(MPMediaItem *)sendRVCNowPlayingSong: (MPMediaItem *)song;
-
-@end
 @interface DRFirstViewController : UIViewController
 
 @end

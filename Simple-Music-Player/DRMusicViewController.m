@@ -12,24 +12,16 @@
 #import "DRMusicViewController.h"
 #import "DRArtistTableViewController.h"
 #import "DRMediaTableViewController.h"
+#import "DRFirstViewController.h"
 
 
 
 @interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *playerButtonContainer;
+
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *playButton;
-
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
-
-
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
-@property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
@@ -54,6 +46,8 @@
     TICK;
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor blackColor]];
+    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
+
 
     
     //setup topcontainer border
@@ -73,7 +67,7 @@
 
     TOCK;
     
-    [self registerMediaPlayerNotifications];
+
     
 }
 
@@ -84,23 +78,24 @@
     self.navigationController.navigationBarHidden = YES;
     
     //starting music player
-    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
-    [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
-    [self.musicPlayerController prepareToPlay];
-    
+
+    if (!self.musicCollection) {
+
     //setup song collection as initial controller
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
+
     [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
+    }
     
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden= NO;
+
 }
 
-//show navbar for other views
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    
-}
 - (void) setUpSegmentSortedLists {
     
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
@@ -187,81 +182,8 @@
 
 // When the now-playing item changes, update the media item artwork and the now-playing label.
 - (void) handle_NowPlayingItemChanged: (id) notification {
-    
-    TICK
-        MPMediaItem *currentItem = [self.musicPlayerController nowPlayingItem];
- 
-       // Assume that there is no artwork for the media item.
-    __block UIImage *artworkImage = nil;
-    
-    // Get the artwork from the current media item, if it has artwork.
-    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
-    
-    // Obtain a UIImage object from the MPMediaItemArtwork object
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-    NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
-    NSOperationQueue *processingQueue = [[NSOperationQueue alloc] init];
-
-        if (artwork) {
-            
-            [photoQueue addOperationWithBlock:^{
-                
-                artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
-                
-                [mainQueue addOperationWithBlock:^{
-                    self.nowPlayingImage.image = artworkImage;
-                }];
-            }];
-            
-        }
-  
-    // Obtain a UIButton object and set its background to the UIImage object
-    //    UIButton *artworkView = [[UIButton alloc] initWithFrame: CGRectMake (0, 0, 30, 30)];
-    //    [artworkView setBackgroundImage: artworkImage forState: UIControlStateNormal];
-    
-    // Obtain a UIBarButtonItem object and initialize it with the UIButton object
-    //    UIBarButtonItem *newArtworkItem = [[UIBarButtonItem alloc] initWithCustomView: artworkView];
-    //    [self setArtworkItem: newArtworkItem];
-    //    [newArtworkItem release];
-    
-    //    [artworkItem setEnabled: NO];
-    
-    // Display the new media item artwork
-    //    [navigationBar.topItem setRightBarButtonItem: artworkItem animated: YES];
-    
-    [processingQueue addOperationWithBlock:^{
-        self.nowPlayingImage.image = artworkImage;    // Display the artist and song name for the now-playing media item
-        [self.nowPlayingLabel setText: [
-                                        NSString stringWithFormat: @"%@ %@ %@ %@",
-                                        NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
-                                        [currentItem valueForProperty: MPMediaItemPropertyTitle],
-                                        NSLocalizedString (@"by", @"Article between song name and artist name"),
-                                        [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
-    }];
-    
-    
-    if (self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
-        // Provide a suitable prompt to the user now that their chosen music has
-        //		finished playing.
-        [self.nowPlayingLabel setText:@""
-         //         [
-         //                                   NSString stringWithFormat: @"%@",
-         //                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")
-         //                                        ]
-         ];
-        
-    }
-
-    TOCK}
-
-- (void) handle_iPodLibraryChanged: (id) notification {
-    
-    // Implement this method to update cached collections of media items when the
-    // user performs a sync while your application is running. This sample performs
-    // no explicit media queries, so there is nothing to update.
+//TODO: - send something to rootvc thru delegation?
 }
-
-
 
 #pragma mark - button actions
 - (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
@@ -278,34 +200,6 @@
         
     }
     
-}
-
-
-- (IBAction)playButtonTapped:(id)sender {
-    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-        
-        [self pauseMusic];
-        
-    }
-    else {
-        [self playMusic];
-    }
-}
-
-
-- (IBAction)backButtonTapped:(id)sender {
-    
-    [self.musicPlayerController skipToBeginning];
-    NSLog(@"to Beginning");
-    
-    [self.musicPlayerController play];
-}
-
-- (IBAction)forwardButtonTapped:(id)sender {
-    [self.musicPlayerController skipToNextItem];
-    NSLog(@"skip");
-    
-    [self.musicPlayerController play];
 }
 
 - (IBAction)segmentedTapped:(UISegmentedControl *)sender {
@@ -535,7 +429,7 @@
         
         self.songToPlay = song;
         
-        [self playMusic];
+        [self.delegate playOrPauseMusicFromPickerViews];
 
         TOCK;
     }
@@ -619,15 +513,7 @@
 
 -(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
     
-    TICK
-    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
-    
-    [items replaceObjectAtIndex:3 withObject:item];
-    self.navigationController.toolbar.items = items;
 
-    TOCK
     
 }
 

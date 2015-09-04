@@ -355,7 +355,7 @@
     
     
     [self.musicPlayerController play];
-    [self changePlayOrPauseButtonToType:UIBarButtonSystemItemPause];
+
     
     
     
@@ -372,25 +372,12 @@
     TICK
     
     [self.musicPlayerController pause];
-    [self changePlayOrPauseButtonToType: UIBarButtonSystemItemPlay];
+
     
     TOCK;
     
 }
 
--(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
-    
-    TICK
-    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
-    
-    [items replaceObjectAtIndex:3 withObject:item];
-    self.navigationController.toolbar.items = items;
-    
-    TOCK
-    
-}
 
 
 @end
