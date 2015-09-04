@@ -1,13 +1,15 @@
 //
-//  DRPausePlayButton.m
+//  DRPausePlayButton.h
 //  Simple-Music-Player
 //
 //  Created by David Rynn on 9/3/15.
 //  Copyright (c) 2015 David Rynn. All rights reserved.
 //
 
-#import "DRPausePlayButton.h"
+#import <UIKit/UIKit.h>
 
-@implementation DRPausePlayButton
+IB_DESIGNABLE
+
+@interface DRPlayButton : UIButton
 
 @end

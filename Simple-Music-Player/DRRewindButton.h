@@ -1,5 +1,5 @@
 //
-//  DRPausePlayButton.h
+//  DRRewindButton.h
 //  Simple-Music-Player
 //
 //  Created by David Rynn on 9/3/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DRPausePlayButton : UIButton
+@interface DRRewindButton : UIButton
 
 @end
