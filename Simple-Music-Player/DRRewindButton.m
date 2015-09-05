@@ -18,22 +18,22 @@
     CGRect small = CGRectMake(x, y, width, height);
     
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-    [bezierPath moveToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMaxY(small))];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMinY(small))];
+    [bezierPath moveToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(small))];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, y)];
     
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(rect)/2)];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMaxY(small))];
+    [bezierPath addLineToPoint: CGPointMake(x, CGRectGetMaxY(rect)/2)];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(small))];
     [bezierPath closePath];
     [self.tintColor setFill];
     bezierPath.lineWidth = 1;
     [bezierPath fill];
     
     UIBezierPath* bezierPath2 = [UIBezierPath bezierPath];
-    [bezierPath2 moveToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(small))];
-    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMinY(small))];
+    [bezierPath2 moveToPoint: CGPointMake(width, height)];
+    [bezierPath2 addLineToPoint: CGPointMake(width, y)];
     
-    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMaxY(rect)/2)];
-    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(small))];
+    [bezierPath2 addLineToPoint: CGPointMake(width/2, height/2)];
+    [bezierPath2 addLineToPoint:CGPointMake(width, height)];
     [bezierPath2 closePath];
     [self.tintColor setFill];
     bezierPath2.lineWidth = 1;

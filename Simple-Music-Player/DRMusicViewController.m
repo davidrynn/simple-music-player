@@ -82,9 +82,9 @@
     
     //starting music player
 
-    if (!self.musicCollection) {
+    if (self.musicPlayerController.nowPlayingItem) {
 
-    //setup song collection as initial controller
+    //setup song collection as initial collection
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
 
