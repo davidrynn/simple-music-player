@@ -36,13 +36,13 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
+
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
+
     // Return the number of rows in the section.
     return self.songs.count;
 }
@@ -50,7 +50,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-#warning Incomplete method implementation.
+
     // Configure the cell...
     MPMediaItem *item = self.songs[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ -- %@",item.title, item.artist];
@@ -311,15 +311,7 @@
 
 -(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
     
-    TICK
-    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
-    
-    [items replaceObjectAtIndex:3 withObject:item];
-    self.navigationController.toolbar.items = items;
-    
-    TOCK
+
     
 }
 

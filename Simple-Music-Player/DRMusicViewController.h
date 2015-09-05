@@ -6,7 +6,17 @@
 //  Copyright (c) 2015 David Rynn. All rights reserved.
 //
 
+
+
 #import <UIKit/UIKit.h>
+@import MediaPlayer;
+
+@protocol DRMusicViewDelegate <NSObject>
+
+-(void)playOrPauseMusicFromPickerViews;
+
+@end
+
 typedef NS_OPTIONS(NSUInteger, MediaType) {
     MediaTypeSong       = 0,
     MediaTypeArtist     = 1 << 0,
@@ -16,5 +26,8 @@ typedef NS_OPTIONS(NSUInteger, MediaType) {
     MediaTypeSearch     = 1 << 4
 };
 @interface DRMusicViewController : UIViewController
+@property (nonatomic, strong) id<DRMusicViewDelegate> delegate;
+
 
 @end
+

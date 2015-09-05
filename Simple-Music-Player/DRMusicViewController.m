@@ -12,23 +12,16 @@
 #import "DRMusicViewController.h"
 #import "DRArtistTableViewController.h"
 #import "DRMediaTableViewController.h"
+#import "DRFirstViewController.h"
 
-@import MediaPlayer;
 
-@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UIView *playerButtonContainer;
+@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate>
+
+
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *playButton;
-
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
-
-
-@property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
-@property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
@@ -53,8 +46,9 @@
     TICK;
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor blackColor]];
-    
-    
+    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
+
+
     
     //setup topcontainer border
     [self.tableView.layer setBorderWidth:1.0f];
@@ -66,42 +60,40 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    
-    //starting music player
-    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
-    [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
-    
     //searchbar setup
     self.searchBar.delegate = self;
     
     [self setUpSegmentSortedLists];
-    
-    
-    
-    //setup song collection as initial controller
-    self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
-                           self.mediaItemsDictionary[@"array"]];
-    [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
-    [self registerMediaPlayerNotifications];
-    
 
     TOCK;
     
+
     
 }
 
-
-//hide navbar
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-}
-
-//show navbar for other views
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.navigationController.navigationBarHidden = NO;
     
+    //hide navbar
+    self.navigationController.navigationBarHidden = YES;
+    
+    //starting music player
+
+    if (!self.musicCollection) {
+
+    //setup song collection as initial controller
+    self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
+                           self.mediaItemsDictionary[@"array"]];
+
+    [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
+    }
+    
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden= NO;
+
 }
 
 - (void) setUpSegmentSortedLists {
@@ -150,8 +142,8 @@
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
     self.mediaItemsDictionary = self.songsDictionary;
     
-    
-}
+    }
+
 
 #pragma mark - Notifications
 
@@ -190,68 +182,8 @@
 
 // When the now-playing item changes, update the media item artwork and the now-playing label.
 - (void) handle_NowPlayingItemChanged: (id) notification {
-    
-    TICK
-    
-    MPMediaItem *currentItem = [self.musicPlayerController nowPlayingItem];
-    
-    // Assume that there is no artwork for the media item.
-    UIImage *artworkImage = nil;
-    
-    // Get the artwork from the current media item, if it has artwork.
-    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
-    
-    // Obtain a UIImage object from the MPMediaItemArtwork object
-    if (artwork) {
-        artworkImage = [artwork imageWithSize: CGSizeMake (30, 30)];
-    }
-    
-    // Obtain a UIButton object and set its background to the UIImage object
-    //    UIButton *artworkView = [[UIButton alloc] initWithFrame: CGRectMake (0, 0, 30, 30)];
-    //    [artworkView setBackgroundImage: artworkImage forState: UIControlStateNormal];
-    
-    // Obtain a UIBarButtonItem object and initialize it with the UIButton object
-    //    UIBarButtonItem *newArtworkItem = [[UIBarButtonItem alloc] initWithCustomView: artworkView];
-    //    [self setArtworkItem: newArtworkItem];
-    //    [newArtworkItem release];
-    
-    //    [artworkItem setEnabled: NO];
-    
-    // Display the new media item artwork
-    //    [navigationBar.topItem setRightBarButtonItem: artworkItem animated: YES];
-    
-    self.nowPlayingImage.image = artworkImage;
-    // Display the artist and song name for the now-playing media item
-    [self.nowPlayingLabel setText: [
-                                    NSString stringWithFormat: @"%@ %@ %@ %@",
-                                    NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyTitle],
-                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
-    
-    if (self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
-        // Provide a suitable prompt to the user now that their chosen music has
-        //		finished playing.
-        [self.nowPlayingLabel setText:@""
-         //         [
-         //                                   NSString stringWithFormat: @"%@",
-         //                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")
-         //                                        ]
-         ];
-        
-    }
-
-    TOCK
+//TODO: - send something to rootvc thru delegation?
 }
-
-- (void) handle_iPodLibraryChanged: (id) notification {
-    
-    // Implement this method to update cached collections of media items when the
-    // user performs a sync while your application is running. This sample performs
-    // no explicit media queries, so there is nothing to update.
-}
-
-
 
 #pragma mark - button actions
 - (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
@@ -268,34 +200,6 @@
         
     }
     
-}
-
-
-- (IBAction)playButtonTapped:(id)sender {
-    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-        
-        [self pauseMusic];
-        
-    }
-    else {
-        [self playMusic];
-    }
-}
-
-
-- (IBAction)backButtonTapped:(id)sender {
-    
-    [self.musicPlayerController skipToBeginning];
-    NSLog(@"to Beginning");
-    
-    [self.musicPlayerController play];
-}
-
-- (IBAction)forwardButtonTapped:(id)sender {
-    [self.musicPlayerController skipToNextItem];
-    NSLog(@"skip");
-    
-    [self.musicPlayerController play];
 }
 
 - (IBAction)segmentedTapped:(UISegmentedControl *)sender {
@@ -402,18 +306,16 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    //get number after casting everything correctly to MPMedia -
+   //get number after casting everything correctly to MPMedia -
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     MPMediaQuerySection *querySection = sectionsArray[section];
     NSUInteger number = querySection.range.length;
     return number;
-    
-}
+    }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
-    NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
+       NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     return sectionsArray.count;
 }
 
@@ -497,8 +399,7 @@
             cell.imageView.image = nil;
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
-        
-    }
+            }
     
     
     return cell;
@@ -528,7 +429,7 @@
         
         self.songToPlay = song;
         
-        [self playMusic];
+        [self.delegate playOrPauseMusicFromPickerViews];
 
         TOCK;
     }
@@ -555,7 +456,7 @@
      if ([segue.identifier isEqualToString: @"artistViewSegue"]) {
          DRArtistTableViewController *destinationVC = [segue destinationViewController];
          destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
-     } else {
+     } else if (segue.identifier){
      
          DRMediaTableViewController *destinationVC = [segue destinationViewController];
          destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
@@ -612,15 +513,7 @@
 
 -(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
     
-    TICK
-    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
-    
-    [items replaceObjectAtIndex:3 withObject:item];
-    self.navigationController.toolbar.items = items;
 
-    TOCK
     
 }
 
