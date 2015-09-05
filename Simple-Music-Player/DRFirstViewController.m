@@ -15,7 +15,7 @@
 #import "DRMusicViewController.h"
 @import MediaPlayer;
 
-@interface DRFirstViewController () <UIScrollViewDelegate, DRMusicViewDelegate>
+@interface DRFirstViewController () <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
@@ -44,9 +44,7 @@
 
 
     
-    [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
-    [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
-    [self.musicPlayer prepareToPlay];
+
 
 [self registerForMediaPlayerNotifications];
     TOCK
@@ -103,7 +101,7 @@
  
 }
 
-// When the playback state changes, set the play/pause button in the Navigation bar
+// When the playback state changes, set the play/pause button in the button container
 //		appropriately.
 - (void) handle_PlaybackStateChanged: (id) notification {
     
@@ -123,14 +121,6 @@
         self.pauseButton.enabled = YES;
         self.pauseButton.hidden = NO;
         
-    } else if (playbackState == MPMusicPlaybackStateStopped) {
-        
-                self.playerButton = [[DRPlayButton alloc] init];
-        
-        // Even though stopped, invoking 'stop' ensures that the music player will play  
-        //		its queue from the start.
-        [self.musicPlayer stop];
-        
     }
 }
 - (void) registerForMediaPlayerNotifications {
@@ -147,18 +137,9 @@
                                name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
                              object: self.musicPlayer];
     
-    /*
-     // This sample doesn't use libray change notifications; this code is here to show how
-     //		it's done if you need it.
-     [notificationCenter addObserver: self
-     selector: @selector (handle_iPodLibraryChanged:)
-     name: MPMediaLibraryDidChangeNotification
-     object: musicPlayer];
-     
-     [[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
-     */
+
     
-    [self.musicPlayer beginGeneratingPlaybackNotifications];
+
 }
 
 
@@ -203,11 +184,12 @@
     }
 }
 #pragma mark - Navigation
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    DRMusicViewController *destinationVC = [[DRMusicViewController alloc] init];
-    destinationVC.delegate = self;
-
-}
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    
+//    DRNavigationController *destinationVC= [segue destinationViewController];
+//    self.delegate = destinationVC;
+//
+//}
 
 
 #pragma mark - Miscellaneous
@@ -222,25 +204,11 @@
     [self.musicPlayer endGeneratingPlaybackNotifications];
     // Dispose of any resources that can be recreated.
 }
--(void)playOrPauseMusicFromPickerViews{
-    NSLog(@"hey look I'm being delegated!");
-    [self playOrPauseMusicForAll];
-}
 
--(void) playOrPauseMusicForAll{
-    
-    TICK
-    MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
-    
-    if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
-        [self.musicPlayer play];
-    } else if (playbackState == MPMusicPlaybackStatePlaying) {
-        [self.musicPlayer pause];
-    }
-    TOCK
-}
 - (IBAction) playOrPauseMusic: (id)sender {
-    [self playOrPauseMusicForAll];
+    
+    [self.delegate playOrPauseMusic];
+    NSLog(@"Tapping button in RVC");
 }
 
 //-(void) playMusic{
@@ -278,12 +246,7 @@
 -(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
     
     TICK
-    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
-    
-    [items replaceObjectAtIndex:3 withObject:item];
-    self.navigationController.toolbar.items = items;
+
     
     TOCK
     
@@ -291,16 +254,7 @@
 
 - (void)dealloc {
     
-    /*
-     // This sample doesn't use libray change notifications; this code is here to show how
-     //		it's done if you need it.
-     [[NSNotificationCenter defaultCenter] removeObserver: self
-     name: MPMediaLibraryDidChangeNotification
-     object: musicPlayer];
-     
-     [[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
-     
-     */
+
     [[NSNotificationCenter defaultCenter] removeObserver: self
                                                     name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
                                                   object: self.musicPlayer];

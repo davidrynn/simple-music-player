@@ -13,15 +13,21 @@
 
 -(void)drawRect:(CGRect)rect{
     
+    CGFloat width = rect.size.width/4;
+    CGFloat height = rect.size.height/4;
+    CGFloat x = rect.size.width/2 - width/2;
+    CGFloat y = rect.size.height/2 - height/2;
+    CGRect small = CGRectMake(x, y, width, height);
+    
     //// Rectangle Drawing
-    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMaxX(rect)/3 -rect.size.width/5, CGRectGetMinY(rect), rect.size.width/5, rect.size.height)];
-        [[UIColor colorWithRed:0.988 green:0.373 blue:0.361 alpha:1.0] setFill];
+    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMaxX(small)/3 -small.size.width/5, CGRectGetMinY(small), small.size.width/5, small.size.height)];
+        [self.tintColor setFill];
     [rectanglePath fill];
     
     
     //// Rectangle 2 Drawing
-    UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMaxX(rect)/3 + rect.size.width/5, CGRectGetMinY(rect), rect.size.width/5, rect.size.height)];
-        [[UIColor colorWithRed:0.988 green:0.373 blue:0.361 alpha:1.0] setFill];
+    UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMaxX(small)/3 + small.size.width/5, CGRectGetMinY(small), small.size.width/5, small.size.height)];
+        [self.tintColor setFill];
     [rectangle2Path fill];
     
     [self.layer setShadowColor:[[UIColor blackColor] CGColor]];

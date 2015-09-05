@@ -7,29 +7,35 @@
 //
 
 #import "DRRewindButton.h"
-IB_DESIGNABLE
+
 @implementation DRRewindButton
 -(void)drawRect:(CGRect)rect{
     
-    UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-    [bezierPath moveToPoint: CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect))];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(rect), CGRectGetMinY(rect))];
+    CGFloat width = rect.size.width/4;
+    CGFloat height = rect.size.height/4;
+    CGFloat x = rect.size.width/2 - width/2;
+    CGFloat y = rect.size.height/2 - height/2;
+    CGRect small = CGRectMake(x, y, width, height);
     
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(rect)/2, CGRectGetMaxY(rect)/2)];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect))];
+    UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+    [bezierPath moveToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMaxY(small))];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMinY(small))];
+    
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(rect)/2)];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMaxY(small))];
     [bezierPath closePath];
-    [[UIColor colorWithRed:0.988 green:0.373 blue:0.361 alpha:1.0] setFill];
+    [self.tintColor setFill];
     bezierPath.lineWidth = 1;
     [bezierPath fill];
     
     UIBezierPath* bezierPath2 = [UIBezierPath bezierPath];
-    [bezierPath2 moveToPoint: CGPointMake(CGRectGetMaxX(rect)/2, CGRectGetMaxY(rect))];
-    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMaxX(rect)/2, CGRectGetMinY(rect))];
+    [bezierPath2 moveToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(small))];
+    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMinY(small))];
     
-    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMinX(rect), CGRectGetMaxY(rect)/2)];
-    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMaxX(rect)/2, CGRectGetMaxY(rect))];
+    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMaxY(rect)/2)];
+    [bezierPath2 addLineToPoint: CGPointMake(CGRectGetMaxX(small)/2, CGRectGetMaxY(small))];
     [bezierPath2 closePath];
-    [[UIColor colorWithRed:0.988 green:0.373 blue:0.361 alpha:1.0] setFill];
+    [self.tintColor setFill];
     bezierPath2.lineWidth = 1;
     [bezierPath2 fill];
     

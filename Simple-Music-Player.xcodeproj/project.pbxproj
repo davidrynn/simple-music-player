@@ -7,11 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		220A8D6E1B980C5400423677 /* DRPlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 220A8D6D1B980C5400423677 /* DRPlayButton.m */; };
-		220A8D741B98EA0A00423677 /* DRFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 220A8D731B98EA0A00423677 /* DRFirstViewController.m */; };
-		220A8D771B99160000423677 /* DRPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 220A8D761B99160000423677 /* DRPauseButton.m */; };
-		220A8D7A1B991F6A00423677 /* DRRewindButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 220A8D791B991F6A00423677 /* DRRewindButton.m */; };
-		220A8D7D1B9920F000423677 /* DRForwardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 220A8D7C1B9920F000423677 /* DRForwardButton.m */; };
 		224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */; };
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
@@ -23,6 +18,11 @@
 		224F76BE1B6C289600BC7B73 /* Simple_Music_PlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76BD1B6C289600BC7B73 /* Simple_Music_PlayerTests.m */; };
 		224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */; };
 		224F76D11B6D6F1400BC7B73 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */; };
+		226C739C1B9B279300851E12 /* DRFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C739B1B9B279300851E12 /* DRFirstViewController.m */; };
+		226C73A51B9B27B600851E12 /* DRRewindButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C739E1B9B27B600851E12 /* DRRewindButton.m */; };
+		226C73A61B9B27B600851E12 /* DRForwardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A01B9B27B600851E12 /* DRForwardButton.m */; };
+		226C73A71B9B27B600851E12 /* DRPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A21B9B27B600851E12 /* DRPauseButton.m */; };
+		226C73A81B9B27B600851E12 /* DRPlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A41B9B27B600851E12 /* DRPlayButton.m */; };
 		22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF931B700AFC00B5DF13 /* Images.xcassets */; };
 		22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEA1B730EE400B5DF13 /* Icon2.png */; };
 		22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEC1B730F5D00B5DF13 /* Note.png */; };
@@ -40,16 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		220A8D6C1B980C5400423677 /* DRPlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPlayButton.h; sourceTree = "<group>"; };
-		220A8D6D1B980C5400423677 /* DRPlayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPlayButton.m; sourceTree = "<group>"; };
-		220A8D721B98EA0A00423677 /* DRFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFirstViewController.h; sourceTree = "<group>"; };
-		220A8D731B98EA0A00423677 /* DRFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFirstViewController.m; sourceTree = "<group>"; };
-		220A8D751B99160000423677 /* DRPauseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPauseButton.h; sourceTree = "<group>"; };
-		220A8D761B99160000423677 /* DRPauseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPauseButton.m; sourceTree = "<group>"; };
-		220A8D781B991F6A00423677 /* DRRewindButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRewindButton.h; sourceTree = "<group>"; };
-		220A8D791B991F6A00423677 /* DRRewindButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRewindButton.m; sourceTree = "<group>"; };
-		220A8D7B1B9920F000423677 /* DRForwardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRForwardButton.h; sourceTree = "<group>"; };
-		220A8D7C1B9920F000423677 /* DRForwardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRForwardButton.m; sourceTree = "<group>"; };
 		224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtistTableViewController.h; sourceTree = "<group>"; };
 		224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRArtistTableViewController.m; sourceTree = "<group>"; };
 		224967261B95FAB10080CDE4 /* DRMediaTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMediaTableViewController.h; sourceTree = "<group>"; };
@@ -71,6 +61,16 @@
 		224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMusicViewController.h; sourceTree = "<group>"; };
 		224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMusicViewController.m; sourceTree = "<group>"; };
 		224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		226C739A1B9B279300851E12 /* DRFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFirstViewController.h; sourceTree = "<group>"; };
+		226C739B1B9B279300851E12 /* DRFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFirstViewController.m; sourceTree = "<group>"; };
+		226C739D1B9B27B600851E12 /* DRRewindButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRewindButton.h; sourceTree = "<group>"; };
+		226C739E1B9B27B600851E12 /* DRRewindButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRRewindButton.m; sourceTree = "<group>"; };
+		226C739F1B9B27B600851E12 /* DRForwardButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRForwardButton.h; sourceTree = "<group>"; };
+		226C73A01B9B27B600851E12 /* DRForwardButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRForwardButton.m; sourceTree = "<group>"; };
+		226C73A11B9B27B600851E12 /* DRPauseButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPauseButton.h; sourceTree = "<group>"; };
+		226C73A21B9B27B600851E12 /* DRPauseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPauseButton.m; sourceTree = "<group>"; };
+		226C73A31B9B27B600851E12 /* DRPlayButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPlayButton.h; sourceTree = "<group>"; };
+		226C73A41B9B27B600851E12 /* DRPlayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPlayButton.m; sourceTree = "<group>"; };
 		22FDEF931B700AFC00B5DF13 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22FDEFEA1B730EE400B5DF13 /* Icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon2.png; sourceTree = "<group>"; };
 		22FDEFEC1B730F5D00B5DF13 /* Note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.png; sourceTree = "<group>"; };
@@ -99,8 +99,8 @@
 		2249674B1B96B8080080CDE4 /* Vew Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				220A8D721B98EA0A00423677 /* DRFirstViewController.h */,
-				220A8D731B98EA0A00423677 /* DRFirstViewController.m */,
+				226C739A1B9B279300851E12 /* DRFirstViewController.h */,
+				226C739B1B9B279300851E12 /* DRFirstViewController.m */,
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
 				224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */,
 				224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */,
@@ -116,16 +116,16 @@
 			children = (
 				224967481B96B7F40080CDE4 /* DRScrollViewPassThrough.h */,
 				224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */,
-				220A8D781B991F6A00423677 /* DRRewindButton.h */,
-				220A8D791B991F6A00423677 /* DRRewindButton.m */,
-				220A8D7B1B9920F000423677 /* DRForwardButton.h */,
-				220A8D7C1B9920F000423677 /* DRForwardButton.m */,
-				220A8D751B99160000423677 /* DRPauseButton.h */,
-				220A8D761B99160000423677 /* DRPauseButton.m */,
-				220A8D6C1B980C5400423677 /* DRPlayButton.h */,
-				220A8D6D1B980C5400423677 /* DRPlayButton.m */,
 				2249672F1B9611100080CDE4 /* DRTableViewCell.h */,
 				224967301B9611100080CDE4 /* DRTableViewCell.m */,
+				226C739D1B9B27B600851E12 /* DRRewindButton.h */,
+				226C739E1B9B27B600851E12 /* DRRewindButton.m */,
+				226C739F1B9B27B600851E12 /* DRForwardButton.h */,
+				226C73A01B9B27B600851E12 /* DRForwardButton.m */,
+				226C73A11B9B27B600851E12 /* DRPauseButton.h */,
+				226C73A21B9B27B600851E12 /* DRPauseButton.m */,
+				226C73A31B9B27B600851E12 /* DRPlayButton.h */,
+				226C73A41B9B27B600851E12 /* DRPlayButton.m */,
 			);
 			name = "Categories and Overrides";
 			sourceTree = "<group>";
@@ -314,17 +314,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				220A8D7A1B991F6A00423677 /* DRRewindButton.m in Sources */,
+				226C73A51B9B27B600851E12 /* DRRewindButton.m in Sources */,
 				224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */,
 				224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */,
-				220A8D7D1B9920F000423677 /* DRForwardButton.m in Sources */,
+				226C73A61B9B27B600851E12 /* DRForwardButton.m in Sources */,
 				224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */,
 				224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */,
-				220A8D741B98EA0A00423677 /* DRFirstViewController.m in Sources */,
-				220A8D6E1B980C5400423677 /* DRPlayButton.m in Sources */,
+				226C739C1B9B279300851E12 /* DRFirstViewController.m in Sources */,
 				224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */,
 				2249674A1B96B7F40080CDE4 /* DRScrollViewPassThrough.m in Sources */,
-				220A8D771B99160000423677 /* DRPauseButton.m in Sources */,
+				226C73A81B9B27B600851E12 /* DRPlayButton.m in Sources */,
+				226C73A71B9B27B600851E12 /* DRPauseButton.m in Sources */,
 				224F76A41B6C289600BC7B73 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

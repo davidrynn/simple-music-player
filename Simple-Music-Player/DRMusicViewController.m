@@ -16,7 +16,7 @@
 
 
 
-@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate>
+@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, DRPopSaysPlayMusicDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
@@ -59,6 +59,9 @@
     //hooking up tableView
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    DRFirstViewController *popController = (DRFirstViewController *)[self.navigationController parentViewController];
+    popController.delegate = self;
     
     //searchbar setup
     self.searchBar.delegate = self;
@@ -411,16 +414,18 @@
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
-    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
+    //figure out correct index
+    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
+    NSInteger adjustIndex = querySection.range.location + indexPath.row;
+    //use index to find song
+    MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
+    
+    if (([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"] ) && song != self.musicPlayerController.nowPlayingItem) {
         
         [self.musicPlayerController stop];
         
         
-        //figure out correct index
-        MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
-        NSInteger adjustIndex = querySection.range.location + indexPath.row;
-        //use index to find song
-        MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
+
         
         [self.musicPlayerController setNowPlayingItem:song];
         
@@ -428,8 +433,6 @@
         NSLog(@"Mediaplayer item name: %@", song.title);
         
         self.songToPlay = song;
-        
-        [self.delegate playOrPauseMusicFromPickerViews];
 
         TOCK;
     }
@@ -479,6 +482,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) playOrPauseMusic{
+    if ((self.musicPlayerController.playbackState == MPMusicPlaybackStatePaused)||self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
+        [self playMusic];
+    }
+    else if(self.musicPlayerController.playbackState == MPMusicPlaybackStatePlaying){
+        [self pauseMusic];
+    
+    }
+}
+
 -(void) playMusic{
     TICK;
     if (!self.songToPlay) {
@@ -488,13 +501,6 @@
     
     
     [self.musicPlayerController play];
-    [self changePlayOrPauseButtonToType:UIBarButtonSystemItemPause];
-    
-    
-    
-    
-    
-    
 
     TOCK;
     

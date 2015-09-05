@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-IB_DESIGNABLE
+
 
 @interface DRPauseButton : UIButton
 @end
