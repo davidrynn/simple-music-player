@@ -20,13 +20,13 @@
     CGRect small = CGRectMake(x, y, width, height);
     
     //// Rectangle Drawing
-    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMaxX(small)/3 -small.size.width/5, CGRectGetMinY(small), small.size.width/5, small.size.height)];
+    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMidX(small) - (small.size.width*2/5), CGRectGetMinY(small), small.size.width/5, small.size.height)];
         [self.tintColor setFill];
     [rectanglePath fill];
     
     
     //// Rectangle 2 Drawing
-    UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMaxX(small)/3 + small.size.width/5, CGRectGetMinY(small), small.size.width/5, small.size.height)];
+    UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMidX(small) + (small.size.width*2/5), CGRectGetMinY(small), small.size.width/5, small.size.height)];
         [self.tintColor setFill];
     [rectangle2Path fill];
     

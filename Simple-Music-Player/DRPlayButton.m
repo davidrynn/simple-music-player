@@ -16,16 +16,24 @@
     CGFloat x = rect.size.width/2 - width/2;
     CGFloat y = rect.size.height/2 - height/2;
     CGRect small = CGRectMake(x, y, width, height);
+    
+    CGRect circleRect = CGRectMake(rect.size.width*0.05, rect.size.height*0.05, rect.size.width*0.9, rect.size.height*0.9);
+    
     //// Bezier Drawing
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
     [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMinY(small))];
     [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMaxY(small))];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMaxY(rect)/2)];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMinY(small))];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMidY(rect))];
     [bezierPath closePath];
     [self.tintColor setFill];
     bezierPath.lineWidth = 1;
     [bezierPath fill];
+    
+    //circle
+    UIBezierPath* circle = [UIBezierPath bezierPathWithOvalInRect:circleRect];
+    [self.tintColor setStroke];
+    circle.lineWidth = 1;
+    [circle stroke];
     
     [self.layer setShadowColor:[[UIColor blackColor] CGColor]];
     self.layer.shadowOpacity = 0.8;
