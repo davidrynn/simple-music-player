@@ -21,8 +21,8 @@
     
     //// Bezier Drawing
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
-    [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMinY(small))];
-    [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMaxY(small))];
+    [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(small) + small.size.width/4, CGRectGetMinY(small))];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMinX(small) + small.size.width/4, CGRectGetMaxY(small))];
     [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMidY(rect))];
     [bezierPath closePath];
     [self.tintColor setFill];

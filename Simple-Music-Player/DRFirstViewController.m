@@ -39,7 +39,11 @@
     [super viewDidLoad];
     //setup scrollview
 
+    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
 
 
 [self registerForMediaPlayerNotifications];
@@ -51,14 +55,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [self setUpScrollView];
-    
-    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
-    
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
-    
-
 }
 
 #pragma mark Music notification handlers__________________
@@ -94,7 +90,7 @@
     // Display the artist and song name for the now-playing media item
     [self.nowPlayingLabel setText: [
                                NSString stringWithFormat: @"%@ %@ %@ %@",
-                               NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
+                               NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
                                [currentItem valueForProperty: MPMediaItemPropertyTitle],
                                NSLocalizedString (@"by", @"Article between song name and artist name"),
                                [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
@@ -166,7 +162,7 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
-    self.scrollView.contentInset = UIEdgeInsetsMake(460,0,0,0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(430,0,0,0);
     
     
 }
@@ -186,7 +182,7 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
                 [UIView animateWithDuration:.1 animations:^{
                     
-                    [scrollView setContentOffset:CGPointMake(0, -460) animated:NO];
+                    [scrollView setContentOffset:CGPointMake(0, -430) animated:NO];
                 }];
             });
         }
@@ -218,47 +214,6 @@
     
     [self.delegate playOrPauseMusic];
     NSLog(@"Tapping button in RVC");
-}
-
-//-(void) playMusic{
-//    TICK;
-//    if (!self.songToPlay) {
-//        self.songToPlay = self.musicPlayerController.nowPlayingItem ;
-//        //        mediaItemsDictionary[@"array"][0];
-//    }
-//    
-//    
-//    [self.musicPlayerController play];
-//    [self changePlayOrPauseButtonToType:UIBarButtonSystemItemPause];
-//    
-//    
-//
-//    
-//    
-//    
-//    
-//    TOCK;
-//    
-//}
-
-//-(void) pauseMusic {
-//    
-//    TICK
-//    
-//    [self.musicPlayerController pause];
-//    [self changePlayOrPauseButtonToType: UIBarButtonSystemItemPlay];
-//    
-//    TOCK;
-//    
-//}
-
--(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
-    
-    TICK
-
-    
-    TOCK
-    
 }
 
 - (void)dealloc {

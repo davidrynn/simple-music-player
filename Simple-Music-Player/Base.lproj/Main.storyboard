@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="i8A-pQ-cBC">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -18,8 +19,8 @@
                         <rect key="frame" x="0.0" y="44" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
-                                <rect key="frame" x="0.0" y="25" width="600" height="60"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
+                                <rect key="frame" x="0.0" y="69" width="600" height="60"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TG2-fS-VUn">
                                         <rect key="frame" x="6" y="0.0" width="588" height="19"/>
@@ -92,8 +93,8 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
-                                <rect key="frame" x="0.0" y="81" width="600" height="431"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
+                                <rect key="frame" x="0.0" y="129" width="600" height="427"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="4Qe-Yl-gdA" detailTextLabel="wOS-iB-75M" style="IBUITableViewCellStyleSubtitle" id="59p-QK-wJG" customClass="DRTableViewCell">
@@ -321,7 +322,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
                                         <rect key="frame" x="-300" y="50" width="1200" height="1160"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
                                         <rect key="frame" x="265" y="17" width="70" height="15"/>
                                         <color key="backgroundColor" white="1" alpha="0.27000000000000002" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="nowPlaying"/>
@@ -349,66 +350,73 @@
                                 </constraints>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-Tq-D8u" userLabel="PlayerButton View">
-                                <rect key="frame" x="0.0" y="540" width="600" height="60"/>
+                                <rect key="frame" x="0.0" y="510" width="600" height="90"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCb-Ic-dQN" userLabel="Play" customClass="DRPlayButton">
+                                        <rect key="frame" x="255" y="0.0" width="90" height="90"/>
+                                        <accessibility key="accessibilityConfiguration" label="playButton"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playOrPauseMusic:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="oaa-sn-vEt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P1I-iG-z5K" userLabel="Pause" customClass="DRPauseButton">
+                                        <rect key="frame" x="255" y="0.0" width="90" height="90"/>
+                                        <accessibility key="accessibilityConfiguration" label="pauseButton"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playOrPauseMusic:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="h9e-we-JTF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brY-c8-0DX" userLabel="Rewind" customClass="DRRewindButton">
+                                        <rect key="frame" x="105" y="0.0" width="90" height="90"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqi-IU-hM5" userLabel="Forward" customClass="DRForwardButton">
+                                        <rect key="frame" x="405" y="0.0" width="90" height="90"/>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="centerY" secondItem="MN7-Tq-D8u" secondAttribute="centerY" id="9yH-ia-RcS"/>
+                                    <constraint firstItem="brY-c8-0DX" firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" multiplier="0.5" id="AlM-9P-Qbk"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="width" secondItem="MN7-Tq-D8u" secondAttribute="height" multiplier="1:1" id="F2w-Mn-3SA"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" id="ILJ-Ff-RnK"/>
+                                    <constraint firstItem="brY-c8-0DX" firstAttribute="width" secondItem="wCb-Ic-dQN" secondAttribute="width" id="Iu3-sr-XYA"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="centerY" secondItem="P1I-iG-z5K" secondAttribute="centerY" id="KzA-kK-32w"/>
+                                    <constraint firstItem="brY-c8-0DX" firstAttribute="height" secondItem="wCb-Ic-dQN" secondAttribute="height" id="M2a-6b-XV2"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="height" secondItem="MN7-Tq-D8u" secondAttribute="height" id="Sed-ti-cyb"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="width" secondItem="P1I-iG-z5K" secondAttribute="width" id="Y6X-1R-fLY"/>
+                                    <constraint firstItem="pqi-IU-hM5" firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" multiplier="1.5" id="YmZ-wO-o6l"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="height" secondItem="P1I-iG-z5K" secondAttribute="height" id="bnf-bQ-Xkf"/>
+                                    <constraint firstAttribute="centerY" secondItem="brY-c8-0DX" secondAttribute="centerY" id="doY-JA-dTI"/>
+                                    <constraint firstAttribute="centerY" secondItem="pqi-IU-hM5" secondAttribute="centerY" id="fYy-gw-RI1"/>
+                                    <constraint firstItem="pqi-IU-hM5" firstAttribute="height" secondItem="wCb-Ic-dQN" secondAttribute="height" id="fgE-nd-YDt"/>
+                                    <constraint firstItem="pqi-IU-hM5" firstAttribute="width" secondItem="wCb-Ic-dQN" secondAttribute="width" id="ha1-YW-Ogl"/>
+                                    <constraint firstItem="wCb-Ic-dQN" firstAttribute="centerX" secondItem="P1I-iG-z5K" secondAttribute="centerX" id="tXa-DB-Fc9"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wCb-Ic-dQN" userLabel="Play" customClass="DRPlayButton">
-                                <rect key="frame" x="255" y="555" width="90" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="playButton"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="playOrPauseMusic:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="oaa-sn-vEt"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P1I-iG-z5K" userLabel="Pause" customClass="DRPauseButton">
-                                <rect key="frame" x="255" y="555" width="90" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="pauseButton"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="playOrPauseMusic:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="h9e-we-JTF"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brY-c8-0DX" userLabel="Rewind" customClass="DRRewindButton">
-                                <rect key="frame" x="75" y="555" width="90" height="30"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqi-IU-hM5" customClass="DRForwardButton">
-                                <rect key="frame" x="435" y="555" width="90" height="30"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="width" secondItem="MN7-Tq-D8u" secondAttribute="width" id="2j1-Rw-l3X"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="leading" secondItem="uiZ-Fj-gN7" secondAttribute="leading" id="8tl-F9-mRF"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="bottom" secondItem="vJE-Cr-Tgw" secondAttribute="top" id="8z1-0z-mX4"/>
-                            <constraint firstItem="MN7-Tq-D8u" firstAttribute="centerY" secondItem="wCb-Ic-dQN" secondAttribute="centerY" id="Feu-3o-UEI"/>
-                            <constraint firstItem="brY-c8-0DX" firstAttribute="centerY" secondItem="MN7-Tq-D8u" secondAttribute="centerY" id="Hhy-6F-4AG"/>
-                            <constraint firstItem="MN7-Tq-D8u" firstAttribute="height" secondItem="MLx-er-WWl" secondAttribute="height" multiplier="0.1" id="IMr-AG-FKV"/>
-                            <constraint firstItem="brY-c8-0DX" firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" multiplier="0.4" id="IfN-p2-Xri"/>
+                            <constraint firstItem="MN7-Tq-D8u" firstAttribute="height" secondItem="MLx-er-WWl" secondAttribute="height" multiplier="0.15" id="IMr-AG-FKV"/>
                             <constraint firstAttribute="centerX" secondItem="MLx-er-WWl" secondAttribute="centerX" id="LHQ-lY-GAL"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" id="Ne4-BD-KEE"/>
-                            <constraint firstItem="P1I-iG-z5K" firstAttribute="centerY" secondItem="wCb-Ic-dQN" secondAttribute="centerY" id="PHD-6y-EoB"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" id="QQO-2h-Qqa"/>
-                            <constraint firstItem="wCb-Ic-dQN" firstAttribute="width" secondItem="MN7-Tq-D8u" secondAttribute="width" multiplier="0.15" id="QxQ-uz-eUA"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="bottom" secondItem="MN7-Tq-D8u" secondAttribute="bottom" id="TsS-CK-iHt"/>
-                            <constraint firstItem="MN7-Tq-D8u" firstAttribute="centerX" secondItem="wCb-Ic-dQN" secondAttribute="centerX" id="WwF-T5-cec"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" id="XvW-8L-hah"/>
-                            <constraint firstItem="pqi-IU-hM5" firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" multiplier="1.6" id="a3d-KZ-PZY"/>
                             <constraint firstAttribute="centerY" secondItem="MLx-er-WWl" secondAttribute="centerY" id="gdZ-jN-geG"/>
-                            <constraint firstItem="pqi-IU-hM5" firstAttribute="width" secondItem="MN7-Tq-D8u" secondAttribute="width" multiplier="0.15" id="iuP-AG-QsE"/>
-                            <constraint firstItem="MN7-Tq-D8u" firstAttribute="centerY" secondItem="pqi-IU-hM5" secondAttribute="centerY" id="kNV-om-TUg"/>
-                            <constraint firstItem="P1I-iG-z5K" firstAttribute="width" secondItem="wCb-Ic-dQN" secondAttribute="width" id="kd1-84-ivr"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" id="kwd-bb-euM"/>
-                            <constraint firstItem="P1I-iG-z5K" firstAttribute="height" secondItem="wCb-Ic-dQN" secondAttribute="height" id="nQP-Vf-ccc"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="trailing" secondItem="uiZ-Fj-gN7" secondAttribute="trailing" id="sma-NR-Ptr"/>
-                            <constraint firstItem="P1I-iG-z5K" firstAttribute="centerX" secondItem="wCb-Ic-dQN" secondAttribute="centerX" id="xuN-Ff-iS1"/>
-                            <constraint firstItem="brY-c8-0DX" firstAttribute="width" secondItem="MN7-Tq-D8u" secondAttribute="width" multiplier="0.15" id="yvq-Sr-XsS"/>
                         </constraints>
                     </view>
                     <connections>
