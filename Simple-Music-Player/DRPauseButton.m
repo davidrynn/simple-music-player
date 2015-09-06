@@ -30,6 +30,15 @@
         [self.tintColor setFill];
     [rectangle2Path fill];
     
+    CGRect circleRect = CGRectMake(rect.size.width*0.05, rect.size.height*0.05, rect.size.width*0.9, rect.size.height*0.9);
+
+    
+    // draw circle
+    UIBezierPath* circle = [UIBezierPath bezierPathWithOvalInRect:circleRect];
+    [self.tintColor setStroke];
+    circle.lineWidth = 1;
+    [circle stroke];
+    
     [self.layer setShadowColor:[[UIColor blackColor] CGColor]];
     self.layer.shadowOpacity = 0.8;
     self.layer.shadowRadius = 1;

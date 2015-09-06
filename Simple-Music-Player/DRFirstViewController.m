@@ -38,17 +38,27 @@
     TICK
     [super viewDidLoad];
     //setup scrollview
-    [self setUpScrollView];
-    
-    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
-
 
     
 
 
 [self registerForMediaPlayerNotifications];
+    
     TOCK
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self setUpScrollView];
+    
+    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
+    
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
+    
+
 }
 
 #pragma mark Music notification handlers__________________
@@ -68,7 +78,6 @@
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
 
-    
     if (artwork) {
         
         [photoQueue addOperationWithBlock:^{
