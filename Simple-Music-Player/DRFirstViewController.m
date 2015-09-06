@@ -15,7 +15,7 @@
 #import "DRMusicViewController.h"
 @import MediaPlayer;
 
-@interface DRFirstViewController () <UIScrollViewDelegate, DRMusicViewDelegate>
+@interface DRFirstViewController () <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
@@ -38,19 +38,23 @@
     TICK
     [super viewDidLoad];
     //setup scrollview
-    [self setUpScrollView];
-    
+
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
-
-
     
-    [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
-    [self.musicPlayer setRepeatMode: MPMusicRepeatModeNone];
-    [self.musicPlayer prepareToPlay];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
+
 
 [self registerForMediaPlayerNotifications];
+    
     TOCK
     
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [self setUpScrollView];
 }
 
 #pragma mark Music notification handlers__________________
@@ -70,7 +74,6 @@
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
 
-    
     if (artwork) {
         
         [photoQueue addOperationWithBlock:^{
@@ -87,7 +90,7 @@
     // Display the artist and song name for the now-playing media item
     [self.nowPlayingLabel setText: [
                                NSString stringWithFormat: @"%@ %@ %@ %@",
-                               NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
+                               NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
                                [currentItem valueForProperty: MPMediaItemPropertyTitle],
                                NSLocalizedString (@"by", @"Article between song name and artist name"),
                                [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
@@ -103,7 +106,7 @@
  
 }
 
-// When the playback state changes, set the play/pause button in the Navigation bar
+// When the playback state changes, set the play/pause button in the button container
 //		appropriately.
 - (void) handle_PlaybackStateChanged: (id) notification {
     
@@ -123,14 +126,6 @@
         self.pauseButton.enabled = YES;
         self.pauseButton.hidden = NO;
         
-    } else if (playbackState == MPMusicPlaybackStateStopped) {
-        
-                self.playerButton = [[DRPlayButton alloc] init];
-        
-        // Even though stopped, invoking 'stop' ensures that the music player will play  
-        //		its queue from the start.
-        [self.musicPlayer stop];
-        
     }
 }
 - (void) registerForMediaPlayerNotifications {
@@ -147,18 +142,9 @@
                                name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
                              object: self.musicPlayer];
     
-    /*
-     // This sample doesn't use libray change notifications; this code is here to show how
-     //		it's done if you need it.
-     [notificationCenter addObserver: self
-     selector: @selector (handle_iPodLibraryChanged:)
-     name: MPMediaLibraryDidChangeNotification
-     object: musicPlayer];
-     
-     [[MPMediaLibrary defaultMediaLibrary] beginGeneratingLibraryChangeNotifications];
-     */
+
     
-    [self.musicPlayer beginGeneratingPlaybackNotifications];
+
 }
 
 
@@ -176,7 +162,7 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
-    self.scrollView.contentInset = UIEdgeInsetsMake(460,0,0,0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(430,0,0,0);
     
     
 }
@@ -196,18 +182,19 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
                 [UIView animateWithDuration:.1 animations:^{
                     
-                    [scrollView setContentOffset:CGPointMake(0, -460) animated:NO];
+                    [scrollView setContentOffset:CGPointMake(0, -430) animated:NO];
                 }];
             });
         }
     }
 }
 #pragma mark - Navigation
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    DRMusicViewController *destinationVC = [[DRMusicViewController alloc] init];
-    destinationVC.delegate = self;
-
-}
+//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    
+//    DRNavigationController *destinationVC= [segue destinationViewController];
+//    self.delegate = destinationVC;
+//
+//}
 
 
 #pragma mark - Miscellaneous
@@ -222,85 +209,16 @@
     [self.musicPlayer endGeneratingPlaybackNotifications];
     // Dispose of any resources that can be recreated.
 }
--(void)playOrPauseMusicFromPickerViews{
-    NSLog(@"hey look I'm being delegated!");
-    [self playOrPauseMusicForAll];
-}
 
--(void) playOrPauseMusicForAll{
-    
-    TICK
-    MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
-    
-    if (playbackState == MPMusicPlaybackStateStopped || playbackState == MPMusicPlaybackStatePaused) {
-        [self.musicPlayer play];
-    } else if (playbackState == MPMusicPlaybackStatePlaying) {
-        [self.musicPlayer pause];
-    }
-    TOCK
-}
 - (IBAction) playOrPauseMusic: (id)sender {
-    [self playOrPauseMusicForAll];
-}
-
-//-(void) playMusic{
-//    TICK;
-//    if (!self.songToPlay) {
-//        self.songToPlay = self.musicPlayerController.nowPlayingItem ;
-//        //        mediaItemsDictionary[@"array"][0];
-//    }
-//    
-//    
-//    [self.musicPlayerController play];
-//    [self changePlayOrPauseButtonToType:UIBarButtonSystemItemPause];
-//    
-//    
-//
-//    
-//    
-//    
-//    
-//    TOCK;
-//    
-//}
-
-//-(void) pauseMusic {
-//    
-//    TICK
-//    
-//    [self.musicPlayerController pause];
-//    [self changePlayOrPauseButtonToType: UIBarButtonSystemItemPlay];
-//    
-//    TOCK;
-//    
-//}
-
--(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
     
-    TICK
-    NSMutableArray *items = [self.navigationController.toolbar.items mutableCopy];
-    
-    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:buttonType target:self action:@selector(playButtonTapped:)];
-    
-    [items replaceObjectAtIndex:3 withObject:item];
-    self.navigationController.toolbar.items = items;
-    
-    TOCK
-    
+    [self.delegate playOrPauseMusic];
+    NSLog(@"Tapping button in RVC");
 }
 
 - (void)dealloc {
     
-    /*
-     // This sample doesn't use libray change notifications; this code is here to show how
-     //		it's done if you need it.
-     [[NSNotificationCenter defaultCenter] removeObserver: self
-     name: MPMediaLibraryDidChangeNotification
-     object: musicPlayer];
-     
-     [[MPMediaLibrary defaultMediaLibrary] endGeneratingLibraryChangeNotifications];
-     
-     */
+
     [[NSNotificationCenter defaultCenter] removeObserver: self
                                                     name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
                                                   object: self.musicPlayer];

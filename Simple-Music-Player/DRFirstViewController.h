@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 @import MediaPlayer;
+@protocol DRPopSaysPlayMusicDelegate;//forward declaration
 
 
 @interface DRFirstViewController : UIViewController
+@property (nonatomic, weak) id<DRPopSaysPlayMusicDelegate> delegate;
+
+@end
+@protocol DRPopSaysPlayMusicDelegate <NSObject>
+
+-(void)playOrPauseMusic;
 
 @end
