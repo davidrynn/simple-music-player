@@ -25,12 +25,11 @@
     [super viewDidLoad];
     //starting music player
     self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
-    [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
     
     //setup song collection as initial controller
     [self.musicPlayerController setQueueWithItemCollection:self.mediaCollection];
     self.songs = [self.mediaCollection items];
-    [self registerMediaPlayerNotifications];
+
 }
 
 #pragma mark - Table view data source
@@ -111,104 +110,6 @@
 }
 */
 
-
-#pragma mark - Notifications
-
-- (void) registerMediaPlayerNotifications
-{
-    TICK
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
-    [notificationCenter addObserver: self
-                           selector: @selector (handle_NowPlayingItemChanged:)
-                               name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
-                             object: self.musicPlayerController];
-    
-    //    [notificationCenter addObserver: self
-    //                           selector: @selector (playMusic)
-    //                               name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-    //                             object: self.musicPlayerController];
-    
-    //    [notificationCenter addObserver: self
-    //                           selector: @selector (pauseMusic)
-    //                               name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-    //                             object: self.musicPlayerController];
-    
-    //    [notificationCenter addObserver: self
-    //                           selector: @selector (handle_VolumeChanged:)
-    //                               name: MPMusicPlayerControllerVolumeDidChangeNotification
-    //                             object: self.musicPlayerController];
-    
-    [self.musicPlayerController beginGeneratingPlaybackNotifications];
-    
-    TOCK
-}
-
-
-#pragma mark Music notification handlers__________________
-
-// When the now-playing item changes, update the media item artwork and the now-playing label.
-- (void) handle_NowPlayingItemChanged: (id) notification {
-    
-    TICK
-    
-    MPMediaItem *currentItem = [self.musicPlayerController nowPlayingItem];
-    
-    // Assume that there is no artwork for the media item.
-    UIImage *artworkImage = nil;
-    
-    // Get the artwork from the current media item, if it has artwork.
-    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
-    
-    // Obtain a UIImage object from the MPMediaItemArtwork object
-    if (artwork) {
-        artworkImage = [artwork imageWithSize: CGSizeMake (30, 30)];
-    }
-    
-    // Obtain a UIButton object and set its background to the UIImage object
-    //    UIButton *artworkView = [[UIButton alloc] initWithFrame: CGRectMake (0, 0, 30, 30)];
-    //    [artworkView setBackgroundImage: artworkImage forState: UIControlStateNormal];
-    
-    // Obtain a UIBarButtonItem object and initialize it with the UIButton object
-    //    UIBarButtonItem *newArtworkItem = [[UIBarButtonItem alloc] initWithCustomView: artworkView];
-    //    [self setArtworkItem: newArtworkItem];
-    //    [newArtworkItem release];
-    
-    //    [artworkItem setEnabled: NO];
-    
-    // Display the new media item artwork
-    //    [navigationBar.topItem setRightBarButtonItem: artworkItem animated: YES];
-    
-    self.nowPlayingImage.image = artworkImage;
-    // Display the artist and song name for the now-playing media item
-    [self.nowPlayingLabel setText: [
-                                    NSString stringWithFormat: @"%@ %@ %@ %@",
-                                    NSLocalizedString (@"Now Playing:", @"Label for introducing the now-playing song title and artist"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyTitle],
-                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
-    
-    if (self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
-        // Provide a suitable prompt to the user now that their chosen music has
-        //		finished playing.
-        [self.nowPlayingLabel setText:@""
-         //         [
-         //                                   NSString stringWithFormat: @"%@",
-         //                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")
-         //                                        ]
-         ];
-        
-    }
-    
-    TOCK
-}
-
-- (void) handle_iPodLibraryChanged: (id) notification {
-    
-    // Implement this method to update cached collections of media items when the
-    // user performs a sync while your application is running. This sample performs
-    // no explicit media queries, so there is nothing to update.
-}
 
 
 

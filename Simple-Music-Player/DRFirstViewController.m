@@ -37,7 +37,11 @@
 -(void)viewDidLoad{
     TICK
     [super viewDidLoad];
-    //setup scrollview
+
+    //setup topcontainer border
+    [self.buttonContainer.layer setBorderWidth:1.0f];
+    UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
+    [self.buttonContainer.layer setBorderColor: [transBlack CGColor]];
 
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
@@ -55,6 +59,21 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [self setUpScrollView];
+    //if music is playing
+    if (self.musicPlayer.nowPlayingItem) {
+        self.playerButton.enabled = NO;
+        self.playerButton.hidden = YES;
+        self.pauseButton.enabled = YES;
+        self.pauseButton.hidden = NO;
+    }
+    else {
+        self.playerButton.enabled = YES;
+        self.playerButton.hidden = NO;
+        self.pauseButton.enabled = NO;
+        self.pauseButton.hidden = YES;
+    
+    
+    }
 }
 
 #pragma mark Music notification handlers__________________
@@ -112,7 +131,7 @@
     
     MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
     
-    if (playbackState == MPMusicPlaybackStatePaused) {
+    if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
         
         self.playerButton.enabled = YES;
         self.playerButton.hidden = NO;
@@ -214,6 +233,20 @@
     
     [self.delegate playOrPauseMusic];
     NSLog(@"Tapping button in RVC");
+}
+- (IBAction)backButtonTapped:(id)sender {
+    
+    [self.musicPlayer skipToBeginning];
+    NSLog(@"to Beginning");
+    
+    [self.musicPlayer play];
+}
+
+- (IBAction)forwardButtonTapped:(id)sender {
+    [self.musicPlayer skipToNextItem];
+    NSLog(@"skip");
+    
+    [self.musicPlayer play];
 }
 
 - (void)dealloc {

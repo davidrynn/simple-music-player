@@ -362,7 +362,7 @@
                                             <action selector="playOrPauseMusic:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="oaa-sn-vEt"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P1I-iG-z5K" userLabel="Pause" customClass="DRPauseButton">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P1I-iG-z5K" userLabel="Pause" customClass="DRPauseButton">
                                         <rect key="frame" x="257" y="0.0" width="87" height="87"/>
                                         <accessibility key="accessibilityConfiguration" label="pauseButton"/>
                                         <state key="normal">
@@ -377,9 +377,15 @@
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="backButtonTapped:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="41H-Fv-CVF"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqi-IU-hM5" userLabel="Forward" customClass="DRForwardButton">
                                         <rect key="frame" x="407" y="0.0" width="87" height="87"/>
+                                        <connections>
+                                            <action selector="forwardButtonTapped:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="2HT-Gg-XUD"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
