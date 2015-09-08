@@ -46,7 +46,6 @@
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor redColor]];
     
-    
     //setup topcontainer border
     [self.tableView.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
@@ -74,7 +73,7 @@
         
         [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
     }
-
+    [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
 
     TOCK;
 
@@ -157,8 +156,7 @@
     
     if( self.musicPlayerController.shuffleMode == MPMusicShuffleModeSongs){
         [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
-        [sender setTintColor: [UIColor redColor]];
-        sender.title = @"Shuffle";
+        sender.title = @"Shuffle Off";
     } else{
         [self.musicPlayerController setShuffleMode:MPMusicShuffleModeSongs]
         ;
