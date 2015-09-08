@@ -20,26 +20,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
-                                <rect key="frame" x="0.0" y="69" width="600" height="58"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="46"/>
                                 <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="TG2-fS-VUn">
-                                        <rect key="frame" x="6" y="0.0" width="588" height="18"/>
-                                        <segments>
-                                            <segment title="Songs"/>
-                                            <segment title="Albums"/>
-                                            <segment title="Artists"/>
-                                            <segment title="Genres"/>
-                                            <segment title="Playlists"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="segmentedTapped:" destination="BYZ-38-t0r" eventType="valueChanged" id="8XO-Xs-o6C"/>
-                                        </connections>
-                                    </segmentedControl>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h7R-U9-L5d" userLabel="SearchView">
-                                        <rect key="frame" x="0.0" y="17" width="600" height="41"/>
+                                        <rect key="frame" x="0.0" y="9" width="600" height="46"/>
                                         <subviews>
                                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBe-3g-LRf">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="41"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="46"/>
                                                 <items>
                                                     <barButtonItem title="Shuffle" id="ibW-cj-Ffb">
                                                         <connections>
@@ -47,6 +34,12 @@
                                                         </connections>
                                                     </barButtonItem>
                                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="GwO-4e-ytT"/>
+                                                    <barButtonItem title="Songs" id="j43-Vq-QlB" userLabel="SortedBy">
+                                                        <connections>
+                                                            <action selector="sortTapped:" destination="BYZ-38-t0r" id="xL8-CV-kXR"/>
+                                                        </connections>
+                                                    </barButtonItem>
+                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cTL-sA-loH"/>
                                                     <barButtonItem systemItem="search" id="upf-bX-277">
                                                         <connections>
                                                             <action selector="searchButtonTapped:" destination="BYZ-38-t0r" id="ypY-8G-onP"/>
@@ -55,7 +48,7 @@
                                                 </items>
                                             </toolbar>
                                             <searchBar hidden="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="xK2-KX-CHL">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="41"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="600" height="46"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </searchBar>
                                         </subviews>
@@ -76,25 +69,21 @@
                                 <accessibility key="accessibilityConfiguration" label="SortButtonContainer"/>
                                 <constraints>
                                     <constraint firstItem="h7R-U9-L5d" firstAttribute="width" secondItem="u7R-ah-6MM" secondAttribute="width" id="2pA-Eu-V4V"/>
-                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="width" secondItem="u7R-ah-6MM" secondAttribute="width" multiplier="0.98" id="6d7-pf-KZt"/>
                                     <constraint firstAttribute="bottom" secondItem="h7R-U9-L5d" secondAttribute="bottom" id="7JC-Ta-ZyF"/>
-                                    <constraint firstItem="h7R-U9-L5d" firstAttribute="top" secondItem="TG2-fS-VUn" secondAttribute="bottom" id="Zd3-ZH-szX"/>
-                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="height" secondItem="u7R-ah-6MM" secondAttribute="height" multiplier="0.3" id="brj-SD-A4E"/>
-                                    <constraint firstAttribute="centerX" secondItem="TG2-fS-VUn" secondAttribute="centerX" id="eCX-PU-meb"/>
-                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="top" id="nA4-R4-LE6"/>
+                                    <constraint firstAttribute="centerY" secondItem="h7R-U9-L5d" secondAttribute="centerY" constant="-8.5" id="Jg3-kw-mOm"/>
+                                    <constraint firstAttribute="height" secondItem="h7R-U9-L5d" secondAttribute="height" id="huI-w9-NJn"/>
                                     <constraint firstAttribute="centerX" secondItem="h7R-U9-L5d" secondAttribute="centerX" id="tbu-so-HwP"/>
                                     <constraint firstItem="h7R-U9-L5d" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="top" constant="9" id="wVm-Z8-WCO"/>
-                                    <constraint firstItem="TG2-fS-VUn" firstAttribute="leading" secondItem="u7R-ah-6MM" secondAttribute="leading" id="xJy-U2-xEk"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="xJy-U2-xEk"/>
+                                        <exclude reference="7JC-Ta-ZyF"/>
                                         <exclude reference="wVm-Z8-WCO"/>
                                     </mask>
                                 </variation>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
-                                <rect key="frame" x="0.0" y="127" width="600" height="409"/>
+                                <rect key="frame" x="0.0" y="90" width="600" height="446"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="cell" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="4Qe-Yl-gdA" detailTextLabel="wOS-iB-75M" style="IBUITableViewCellStyleSubtitle" id="59p-QK-wJG" customClass="DRTableViewCell">
@@ -127,10 +116,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="bottom" id="14B-kE-w0T"/>
-                            <constraint firstItem="u7R-ah-6MM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="9n7-Qa-HHC"/>
+                            <constraint firstItem="u7R-ah-6MM" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.08" id="9n7-Qa-HHC"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="AYs-1U-S0g"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Qrp-ji-2xr"/>
-                            <constraint firstItem="u7R-ah-6MM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="top" constant="25" id="VMf-Ye-OnJ"/>
+                            <constraint firstItem="u7R-ah-6MM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="top" id="VMf-Ye-OnJ"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="dtT-KO-3Ls"/>
                             <constraint firstItem="u7R-ah-6MM" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="o1U-8T-0Sz"/>
                             <constraint firstItem="vL8-oK-V78" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zuL-hV-1L5"/>
@@ -145,7 +134,7 @@
                         <outlet property="scrollView" destination="qjE-Sx-b3t" id="Wp1-6N-tlc"/>
                         <outlet property="searchBar" destination="xK2-KX-CHL" id="gXh-ys-zMN"/>
                         <outlet property="searchBarView" destination="h7R-U9-L5d" id="FgS-fB-V8h"/>
-                        <outlet property="segmentedController" destination="TG2-fS-VUn" id="5kA-2i-QhE"/>
+                        <outlet property="sortButton" destination="j43-Vq-QlB" id="2sd-Wu-nAX"/>
                         <outlet property="tableView" destination="vL8-oK-V78" id="Hur-Il-IT1"/>
                         <outlet property="topContainer" destination="u7R-ah-6MM" id="k2W-I8-WNW"/>
                         <segue destination="NP3-dX-lzc" kind="show" identifier="Albums" id="bn5-vU-swe"/>

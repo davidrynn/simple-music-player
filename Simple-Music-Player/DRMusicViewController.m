@@ -21,10 +21,9 @@
 
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
-
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 
 @property (nonatomic, strong) NSDictionary *songsDictionary;
 @property (nonatomic, strong) NSDictionary *albumsDictionary;
@@ -63,15 +62,19 @@
     
     [self setUpSegmentSortedLists];
     
-    if (!self.musicPlayerController.nowPlayingItem) {
+
         
         //setup song collection as initial collection
         self.mediaItemsDictionary = self.songsDictionary;
         self.musicCollection =
         self.mediaItemsDictionary[@"array"];
+    
+    if (!self.musicPlayerController.nowPlayingItem) {
+
         
         [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
     }
+
 
     TOCK;
 
@@ -164,44 +167,44 @@
     }
     
 }
+- (IBAction)sortTapped:(UIBarButtonItem *)sender {
 
-- (IBAction)segmentedTapped:(UISegmentedControl *)sender {
     
-    //TODO:  change if statements to switch
-    
-    if(sender.selectedSegmentIndex == 0)
+    if([sender.title isEqualToString:@"Playlists"])
     {
-        
+        sender.title = @"Songs";
         self.mediaItemsDictionary = self.songsDictionary;
         
     }
-    else if (sender.selectedSegmentIndex == 1)
+    else if ([sender.title isEqualToString:@"Songs"])
     {
-        
+        sender.title = @"Albums";
         self.mediaItemsDictionary = self.albumsDictionary;
         
     }
-    else if (sender.selectedSegmentIndex == 2)
+    else if ([sender.title isEqualToString:@"Albums"])
     {
-        
+        sender.title = @"Artists";
         self.mediaItemsDictionary = self.artistsArray;
         
     }
-    else if (sender.selectedSegmentIndex == 3)
+    else if ([sender.title isEqualToString:@"Artists"])
     {
-        
+        sender.title = @"Genres";
         self.mediaItemsDictionary = self.genresArray;
         
     }
-    else if (sender.selectedSegmentIndex == 4)
+    else if ([sender.title isEqualToString:@"Genres"])
     {
-        
+        sender.title = @"Playlists";
         self.mediaItemsDictionary = self.playlistsArray;
         
     }
     
     [self.tableView reloadData];
+    
 }
+
 //End Button actions
 
 #pragma mark - Content Filtering
