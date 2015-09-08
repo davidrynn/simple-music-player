@@ -320,16 +320,28 @@
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                     </label>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="7TW-QS-bws" customClass="DRSlider">
+                                        <rect key="frame" x="-2" y="375" width="604" height="31"/>
+                                        <connections>
+                                            <action selector="finishedSliding" destination="i8A-pQ-cBC" eventType="touchUpInside" id="D9V-hJ-xTc"/>
+                                            <action selector="finishedSliding" destination="i8A-pQ-cBC" eventType="touchUpOutside" id="nUV-nR-HYJ"/>
+                                            <action selector="sliderChanged:" destination="i8A-pQ-cBC" eventType="valueChanged" id="FUi-RY-VF1"/>
+                                        </connections>
+                                    </slider>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="17" id="1gh-zU-qLS"/>
+                                    <constraint firstAttribute="bottom" secondItem="7TW-QS-bws" secondAttribute="bottom" constant="275" id="3Ng-iq-MBJ"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" id="DcK-eR-8ov"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="H4m-QK-7vm"/>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="centerX" secondItem="Fhm-62-fQ7" secondAttribute="centerX" id="Jx3-V8-rty"/>
+                                    <constraint firstItem="7TW-QS-bws" firstAttribute="height" secondItem="qjE-Sx-b3t" secondAttribute="height" id="KFT-5P-yGV"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="width" secondItem="ASU-mF-vUo" secondAttribute="width" multiplier="0.5" id="Kez-BW-hcQ"/>
+                                    <constraint firstItem="7TW-QS-bws" firstAttribute="width" secondItem="qjE-Sx-b3t" secondAttribute="width" id="LK6-Nm-Sac"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="PF1-ic-OSL"/>
                                     <constraint firstAttribute="height" secondItem="Fhm-62-fQ7" secondAttribute="height" id="Rtb-VJ-QgI"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="centerX" secondItem="ASU-mF-vUo" secondAttribute="centerX" id="Ufk-zK-pQ7"/>
+                                    <constraint firstAttribute="centerX" secondItem="7TW-QS-bws" secondAttribute="centerX" id="YPo-T1-cH3"/>
                                     <constraint firstAttribute="width" secondItem="Fhm-62-fQ7" secondAttribute="width" id="Yw7-Hg-Uhn"/>
                                     <constraint firstAttribute="trailing" secondItem="Fhm-62-fQ7" secondAttribute="trailing" id="h7Y-OW-u8I"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" id="hVl-ZE-HS3"/>
@@ -337,7 +349,14 @@
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="height" secondItem="ASU-mF-vUo" secondAttribute="height" multiplier="0.5" id="pVI-DM-c22"/>
                                     <constraint firstItem="ASU-mF-vUo" firstAttribute="top" secondItem="Fhm-62-fQ7" secondAttribute="top" constant="50" id="phy-JE-FsC"/>
                                     <constraint firstAttribute="bottom" secondItem="Fhm-62-fQ7" secondAttribute="bottom" id="wUl-OH-WPD"/>
+                                    <constraint firstAttribute="centerY" secondItem="7TW-QS-bws" secondAttribute="centerY" constant="-100" id="zcL-Dj-8kK"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="3Ng-iq-MBJ"/>
+                                        <exclude reference="KFT-5P-yGV"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-Tq-D8u" userLabel="PlayerButton View">
                                 <rect key="frame" x="0.0" y="510" width="600" height="90"/>
@@ -406,6 +425,7 @@
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="bottom" secondItem="vJE-Cr-Tgw" secondAttribute="top" id="8z1-0z-mX4"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="bottom" secondItem="MN7-Tq-D8u" secondAttribute="bottom" constant="-20" id="GA0-U1-UbL"/>
                             <constraint firstAttribute="centerX" secondItem="MLx-er-WWl" secondAttribute="centerX" id="LHQ-lY-GAL"/>
+                            <constraint firstItem="7TW-QS-bws" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" id="QGy-qi-yVu"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" multiplier="0.94" id="T7m-Ew-GXX"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" id="XvW-8L-hah"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="top" id="jEo-yM-Yzc"/>
@@ -418,6 +438,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="GA0-U1-UbL"/>
+                                <exclude reference="QGy-qi-yVu"/>
                             </mask>
                         </variation>
                     </view>
@@ -430,6 +451,7 @@
                         <outlet property="playerButton" destination="wCb-Ic-dQN" id="cZf-Ef-NWV"/>
                         <outlet property="previousButton" destination="brY-c8-0DX" id="eao-C2-hi8"/>
                         <outlet property="scrollView" destination="qjE-Sx-b3t" id="cLi-SJ-I8f"/>
+                        <outlet property="slider" destination="7TW-QS-bws" id="lju-Kk-QFk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wY9-9T-Jjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -456,20 +478,27 @@
                                 </view>
                                 <blurEffect style="light"/>
                             </visualEffectView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nto-hN-E1m">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pmA-Bb-b2M">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="87"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="pmA-Bb-b2M" firstAttribute="top" secondItem="h3z-h4-fVm" secondAttribute="bottom" id="5Lu-xi-Gzq"/>
+                            <constraint firstAttribute="centerY" secondItem="pmA-Bb-b2M" secondAttribute="centerY" id="LGE-3x-Kc9"/>
+                            <constraint firstItem="pmA-Bb-b2M" firstAttribute="width" secondItem="gV7-wY-bVk" secondAttribute="width" id="UbS-8E-olX"/>
                             <constraint firstItem="sTn-Ar-uG8" firstAttribute="top" secondItem="gV7-wY-bVk" secondAttribute="topMargin" id="VHF-y6-ofZ"/>
                             <constraint firstItem="sTn-Ar-uG8" firstAttribute="height" secondItem="gV7-wY-bVk" secondAttribute="height" id="aW9-6f-iQL"/>
                             <constraint firstAttribute="centerX" secondItem="sTn-Ar-uG8" secondAttribute="centerX" id="cNm-gs-DuJ"/>
+                            <constraint firstAttribute="centerX" secondItem="pmA-Bb-b2M" secondAttribute="centerX" id="cic-KU-1lo"/>
+                            <constraint firstItem="pmA-Bb-b2M" firstAttribute="height" secondItem="gV7-wY-bVk" secondAttribute="height" multiplier="0.15" id="gsN-cN-cJ7"/>
                             <constraint firstItem="sTn-Ar-uG8" firstAttribute="width" secondItem="gV7-wY-bVk" secondAttribute="width" id="i7y-up-hxC"/>
                             <constraint firstAttribute="centerY" secondItem="sTn-Ar-uG8" secondAttribute="centerY" constant="202" id="umk-eL-vk0"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="LGE-3x-Kc9"/>
                                 <exclude reference="umk-eL-vk0"/>
                             </mask>
                         </variation>

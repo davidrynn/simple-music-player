@@ -13,6 +13,7 @@
 #import "DRPauseButton.h"
 #import "DRPlayButton.h"
 #import "DRMusicViewController.h"
+
 @import MediaPlayer;
 
 @interface DRFirstViewController () <UIScrollViewDelegate>
@@ -25,8 +26,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
 @property (weak, nonatomic) IBOutlet DRPauseButton *pauseButton;
 
+@property (weak, nonatomic) IBOutlet UISlider *slider;
 
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
+@property BOOL panningProgress;
+@property (nonatomic, strong) NSTimer *timer;
 
 
 @end
@@ -42,6 +46,17 @@
     [self.buttonContainer.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     [self.buttonContainer.layer setBorderColor: [transBlack CGColor]];
+    
+    [self.scrollView.layer setBorderWidth:1.0f];
+    [self.scrollView.layer setBorderColor: [transBlack CGColor]];
+    
+    
+    
+    UIImage *image = [self drawThumbRect];
+    [self.slider setThumbImage:image forState:UIControlStateNormal];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
+    [self.timer fire];
+    
 
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
@@ -76,6 +91,13 @@
     }
 }
 
+
+-(void)timedJob {
+    if (!self.panningProgress){
+        self.slider.value = self.musicPlayer.currentPlaybackTime;
+    }
+
+}
 #pragma mark Music notification handlers__________________
 
 // When the now-playing item changes, update the media item artwork and the now-playing label.
@@ -120,8 +142,12 @@
         [self.nowPlayingLabel setText: [
                                    NSString stringWithFormat: @"%@",
                                    NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")]];
+ 
+
         
     }
+    [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
+    self.slider.value = 0;
  
 }
 
@@ -177,7 +203,7 @@
     // We hide the vertical scroll indicator because we do not want our end user to realize we are using a scroll view.
     self.scrollView.showsVerticalScrollIndicator = NO;
     // This property allows the scroll view to "spring" up and down when we reach the end of the content.
-    self.scrollView.alwaysBounceVertical = NO;
+    self.scrollView.alwaysBounceVertical = YES;
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
@@ -215,19 +241,7 @@
 //
 //}
 
-
-#pragma mark - Miscellaneous
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayer];
-    
-    [self.musicPlayer endGeneratingPlaybackNotifications];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - Button Actions
 
 - (IBAction) playOrPauseMusic: (id)sender {
     
@@ -248,6 +262,30 @@
     
     [self.musicPlayer play];
 }
+- (IBAction)sliderChanged:(id)sender {
+
+    self.panningProgress = YES;
+}
+- (IBAction)finishedSliding {
+    
+    self.musicPlayer.currentPlaybackTime = self.slider.value;
+    self.panningProgress = NO;
+}
+
+
+
+#pragma mark - Miscellaneous
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                                                  object: self.musicPlayer];
+    
+    [self.musicPlayer endGeneratingPlaybackNotifications];
+    // Dispose of any resources that can be recreated.
+}
 
 - (void)dealloc {
     NSLog(@"Deallocating");
@@ -264,5 +302,29 @@
 
     
 
+}
+
+-(UIImage*) drawThumbRect {
+    
+    CGRect sliderRect = self.slider.bounds;
+    CGRect rect = CGRectMake(sliderRect.origin.x, sliderRect.origin.y, sliderRect.size.height/2, sliderRect.size.height);
+    
+    
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    [[UIColor whiteColor] setFill];
+    [self.view.tintColor setStroke];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
+    [path fill];
+    [path stroke];
+    
+    
+    CGContextAddPath(context, path.CGPath);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 @end

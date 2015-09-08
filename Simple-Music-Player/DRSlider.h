@@ -1,5 +1,5 @@
 //
-//  TestMusicViewController.h
+//  DRSlider.h
 //  Simple-Music-Player
 //
 //  Created by David Rynn on 9/8/15.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestMusicViewController : UIViewController
+@interface DRSlider : UISlider
 
 @end

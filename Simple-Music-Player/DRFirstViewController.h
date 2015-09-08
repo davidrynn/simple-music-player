@@ -18,5 +18,6 @@
 @protocol DRPopSaysPlayMusicDelegate <NSObject>
 
 -(void)playOrPauseMusic;
+-(void)setTimeOfTrackBySlider;
 
 @end

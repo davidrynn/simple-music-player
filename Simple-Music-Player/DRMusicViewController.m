@@ -13,6 +13,7 @@
 #import "DRArtistTableViewController.h"
 #import "DRMediaTableViewController.h"
 #import "DRFirstViewController.h"
+#import "DRScrollingContainerController.h"
 
 
 
