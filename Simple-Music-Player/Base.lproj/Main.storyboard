@@ -83,7 +83,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="5" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="10" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
                                 <rect key="frame" x="0.0" y="117" width="600" height="403"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -135,8 +135,8 @@
                         <outlet property="scrollView" destination="qjE-Sx-b3t" id="Wp1-6N-tlc"/>
                         <outlet property="searchBar" destination="xK2-KX-CHL" id="gXh-ys-zMN"/>
                         <outlet property="searchBarView" destination="h7R-U9-L5d" id="FgS-fB-V8h"/>
-                        <outlet property="sortButton" destination="j43-Vq-QlB" id="2sd-Wu-nAX"/>
-                        <outlet property="tableView" destination="vL8-oK-V78" id="Hur-Il-IT1"/>
+                        <outlet property="sortButton" destination="j43-Vq-QlB" id="pPW-PG-z1h"/>
+                        <outlet property="tableView" destination="vL8-oK-V78" id="bPm-CY-DWK"/>
                         <outlet property="topContainer" destination="u7R-ah-6MM" id="k2W-I8-WNW"/>
                         <segue destination="NP3-dX-lzc" kind="show" identifier="Albums" id="bn5-vU-swe"/>
                         <segue destination="tAT-aT-3Bo" kind="show" identifier="Genres" id="L2H-Sj-3t5"/>

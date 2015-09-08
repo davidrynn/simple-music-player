@@ -250,7 +250,7 @@
 }
 
 - (void)dealloc {
-    
+    NSLog(@"Deallocating");
 
     [[NSNotificationCenter defaultCenter] removeObserver: self
                                                     name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification

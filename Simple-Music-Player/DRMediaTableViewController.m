@@ -131,36 +131,6 @@
 }
 
 
-- (IBAction)playButtonTapped:(id)sender {
-    TICK
-    if ([self.musicPlayerController playbackState] == MPMusicPlaybackStatePlaying) {
-        
-        [self pauseMusic];
-        
-    }
-    else {
-        [self playMusic];
-    }
-    TOCK
-}
-
-
-- (IBAction)backButtonTapped:(id)sender {
-    
-    [self.musicPlayerController skipToBeginning];
-    NSLog(@"to Beginning");
-    
-    [self.musicPlayerController play];
-}
-
-- (IBAction)forwardButtonTapped:(id)sender {
-    [self.musicPlayerController skipToNextItem];
-    NSLog(@"skip");
-    
-    [self.musicPlayerController play];
-}
-
-
 /*
 #pragma mark - Navigation
 
@@ -192,7 +162,7 @@
     
     
     [self.musicPlayerController play];
-    [self changePlayOrPauseButtonToType:UIBarButtonSystemItemPause];
+
 
     
     TOCK;
@@ -204,17 +174,12 @@
     TICK
     
     [self.musicPlayerController pause];
-    [self changePlayOrPauseButtonToType: UIBarButtonSystemItemPlay];
+
     
     TOCK;
     
 }
 
--(void) changePlayOrPauseButtonToType: (UIBarButtonSystemItem) buttonType {
-    
-
-    
-}
 
 
 @end

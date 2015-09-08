@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2240D21C1B9E8E9700B84FD4 /* DRPlayerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D21B1B9E8E9700B84FD4 /* DRPlayerUtility.m */; };
+		2240D2251B9F25D900B84FD4 /* TestMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D2241B9F25D900B84FD4 /* TestMusicViewController.m */; };
 		224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */; };
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
@@ -43,6 +44,8 @@
 /* Begin PBXFileReference section */
 		2240D21A1B9E8E9700B84FD4 /* DRPlayerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPlayerUtility.h; sourceTree = "<group>"; };
 		2240D21B1B9E8E9700B84FD4 /* DRPlayerUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPlayerUtility.m; sourceTree = "<group>"; };
+		2240D2231B9F25D900B84FD4 /* TestMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMusicViewController.h; sourceTree = "<group>"; };
+		2240D2241B9F25D900B84FD4 /* TestMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMusicViewController.m; sourceTree = "<group>"; };
 		224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtistTableViewController.h; sourceTree = "<group>"; };
 		224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRArtistTableViewController.m; sourceTree = "<group>"; };
 		224967261B95FAB10080CDE4 /* DRMediaTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMediaTableViewController.h; sourceTree = "<group>"; };
@@ -102,6 +105,8 @@
 		2249674B1B96B8080080CDE4 /* Vew Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2240D2231B9F25D900B84FD4 /* TestMusicViewController.h */,
+				2240D2241B9F25D900B84FD4 /* TestMusicViewController.m */,
 				226C739A1B9B279300851E12 /* DRFirstViewController.h */,
 				226C739B1B9B279300851E12 /* DRFirstViewController.m */,
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
@@ -323,6 +328,7 @@
 				224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */,
 				224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */,
 				226C73A61B9B27B600851E12 /* DRForwardButton.m in Sources */,
+				2240D2251B9F25D900B84FD4 /* TestMusicViewController.m in Sources */,
 				224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */,
 				2240D21C1B9E8E9700B84FD4 /* DRPlayerUtility.m in Sources */,
 				224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */,
