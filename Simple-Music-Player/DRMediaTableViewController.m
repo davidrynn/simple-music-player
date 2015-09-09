@@ -29,6 +29,7 @@
     //setup song collection as initial controller
     [self.musicPlayerController setQueueWithItemCollection:self.mediaCollection];
     self.songs = [self.mediaCollection items];
+    [self.musicPlayerController beginGeneratingPlaybackNotifications];
 
 }
 

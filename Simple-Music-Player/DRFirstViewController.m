@@ -13,6 +13,8 @@
 #import "DRPauseButton.h"
 #import "DRPlayButton.h"
 #import "DRMusicViewController.h"
+#import "DRArtistTableViewController.h"
+#import "DRMediaTableViewController.h"
 
 @import MediaPlayer;
 
@@ -27,6 +29,10 @@
 @property (weak, nonatomic) IBOutlet DRPauseButton *pauseButton;
 
 @property (weak, nonatomic) IBOutlet UISlider *slider;
+@property (weak, nonatomic) IBOutlet UILabel *currentTrackTime;
+@property (weak, nonatomic) IBOutlet UILabel *currentTrackLength;
+@property (weak, nonatomic) IBOutlet UIButton *artistButton;
+@property (weak, nonatomic) IBOutlet UIButton *albumButton;
 
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
 @property BOOL panningProgress;
@@ -59,7 +65,7 @@
     
 
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
-    
+
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
     [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
@@ -95,6 +101,7 @@
 -(void)timedJob {
     if (!self.panningProgress){
         self.slider.value = self.musicPlayer.currentPlaybackTime;
+                self.currentTrackTime.text = [self stringFromTime:self.musicPlayer.currentPlaybackTime];
     }
 
 }
@@ -148,6 +155,7 @@
     }
     [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
     self.slider.value = 0;
+    self.currentTrackLength.text = [self stringFromTime:self.musicPlayer.nowPlayingItem.playbackDuration];
  
 }
 
@@ -233,15 +241,51 @@
         }
     }
 }
-#pragma mark - Navigation
+//#pragma mark - Navigation
 //-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
 //    
-//    DRNavigationController *destinationVC= [segue destinationViewController];
-//    self.delegate = destinationVC;
+//
 //
 //}
 
 #pragma mark - Button Actions
+- (IBAction)artistButtonTapped:(id)sender {
+    //search library and send to controller --feels wrong from here.
+    MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:self.musicPlayer.nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
+    artistQuery.groupingType = MPMediaGroupingAlbum;
+    [artistQuery addFilterPredicate:artistPredicate];
+    NSArray *mediaArray = [artistQuery items];
+    MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
+
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:.1 animations:^{
+            
+            [self.scrollView setContentOffset:CGPointMake(0, -430) animated:YES];
+        }];
+    });
+        [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
+}
+- (IBAction)albumButtonTapped:(id)sender {
+    
+    //search library and send to controller --feels wrong from here.
+    MPMediaPropertyPredicate *albumPredicate = [MPMediaPropertyPredicate predicateWithValue:self.musicPlayer.nowPlayingItem.albumTitle forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaQuery *albumQuery = [MPMediaQuery albumsQuery];
+    albumQuery.groupingType = MPMediaGroupingAlbum;
+    [albumQuery addFilterPredicate:albumPredicate];
+    NSArray *mediaArray = [albumQuery items];
+    MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
+
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:.1 animations:^{
+            
+            [self.scrollView setContentOffset:CGPointMake(0, -430) animated:YES];
+        }];
+    });
+        [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Albums"];
+}
 
 - (IBAction) playOrPauseMusic: (id)sender {
     
@@ -326,5 +370,30 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
+-(NSString *)stringFromTime:(NSTimeInterval)seconds {
+    NSString *timeString = nil;
+    const int secsPerMin = 60;
+    const int minsPerHour = 60;
+    const char *timeSep = ":";
+    seconds = floor(seconds);
+    
+    if (seconds < 60.0) {
+        timeString = [NSString stringWithFormat:@"0:%02.0f", seconds];
+    } else {
+        int mins = seconds/secsPerMin;
+        int secs = seconds - mins*secsPerMin;
+        
+        if (mins < 60.0) {
+            timeString = [NSString stringWithFormat:@"%d%s%02d", mins, timeSep, secs];
+        } else {
+            int hours = mins/minsPerHour;
+            mins -= hours * minsPerHour;
+            timeString = [NSString stringWithFormat:@"%d%s%02d%s%02d", hours, timeSep, mins, timeSep, secs];
+        }
+    }
+    
+    return timeString;
 }
 @end

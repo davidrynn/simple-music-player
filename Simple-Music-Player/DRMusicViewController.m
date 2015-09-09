@@ -34,6 +34,7 @@
 @property (nonatomic, strong) NSDictionary *mediaItemsDictionary;
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
 @property (nonatomic, strong) MPMediaItemCollection *musicCollection;
+@property (nonatomic, strong) MPMediaItemCollection *dadCollection;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
 
 
@@ -426,22 +427,34 @@
 
 
 #pragma mark - Navigation
+-(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
 
+    self.dadCollection = collection;
+    [self performSegueWithIdentifier:identifier sender:self];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+   
     UITableViewCell *cell = (UITableViewCell *)sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
     NSInteger adjustIndex = querySection.range.location + indexPath.row;
     
-    if ([segue.identifier isEqualToString: @"artistViewSegue"]) {
+    if ([segue.identifier isEqualToString: @"Artists"]) {
         DRArtistTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
     } else if (segue.identifier){
         
         DRMediaTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
+    }
+    }
+    else if([sender isKindOfClass:[self class]]&&self.dadCollection){
+        
+        DRMediaTableViewController *destinationVC = [segue destinationViewController];
+        destinationVC.mediaCollection = self.dadCollection;
+    
     }
     
     
