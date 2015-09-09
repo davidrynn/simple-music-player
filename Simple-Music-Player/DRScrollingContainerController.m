@@ -19,13 +19,11 @@
 @implementation DRScrollingContainerController
 
 -(void)viewDidLoad{
+    [super viewDidLoad];
     UIImage *image = [self drawThumbRect];
     [self.slider setThumbImage:image forState:UIControlStateNormal];
 }
--(void)viewWillAppear:(BOOL)animated{
 
-
-}
 
 -(UIImage*) drawThumbRect {
     

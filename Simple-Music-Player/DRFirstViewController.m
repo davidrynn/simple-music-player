@@ -67,8 +67,7 @@
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
 
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayer];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayer];
+
 
 
 [self registerForMediaPlayerNotifications];
@@ -78,6 +77,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
     [self setUpScrollView];
     //if music is playing
@@ -250,7 +250,7 @@
 
 #pragma mark - Button Actions
 - (IBAction)artistButtonTapped:(id)sender {
-    //search library and send to controller --feels wrong from here.
+    //search library and send to controller --feels wrong from here. 
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:self.musicPlayer.nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
     artistQuery.groupingType = MPMediaGroupingAlbum;
@@ -293,10 +293,14 @@
     NSLog(@"Tapping button in RVC");
 }
 - (IBAction)backButtonTapped:(id)sender {
-    
+    //basically go to previous item if already at beginning
+    if (self.musicPlayer.currentPlaybackTime<1.0) {
+        [self.musicPlayer skipToPreviousItem];
+    }
+    else {
     [self.musicPlayer skipToBeginning];
     NSLog(@"to Beginning");
-    
+    }
     [self.musicPlayer play];
 }
 

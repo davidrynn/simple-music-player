@@ -428,9 +428,11 @@
 
 #pragma mark - Navigation
 -(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
+    if (self.dadCollection != collection) {
 
     self.dadCollection = collection;
     [self performSegueWithIdentifier:identifier sender:self];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -454,6 +456,7 @@
         
         DRMediaTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.mediaCollection = self.dadCollection;
+        self.dadCollection = nil;
     
     }
     
