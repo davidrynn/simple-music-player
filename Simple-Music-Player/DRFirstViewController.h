@@ -18,5 +18,7 @@
 @protocol DRPopSaysPlayMusicDelegate <NSObject>
 
 -(void)playOrPauseMusic;
+-(void)performSegueForDadWithCollection:(MPMediaItemCollection *) collection andIdentifier:(NSString *) identifier;
+
 
 @end

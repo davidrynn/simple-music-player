@@ -35,10 +35,6 @@
     bezierPath2.lineWidth = 1;
     [bezierPath2 fill];
     
-    [self.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    self.layer.shadowOpacity = 0.8;
-    self.layer.shadowRadius = 1;
-    self.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
 
 }
 @end

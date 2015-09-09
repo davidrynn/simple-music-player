@@ -19,14 +19,19 @@
     CGFloat y = rect.size.height/2 - height/2;
     CGRect small = CGRectMake(x, y, width, height);
     
+//    ///test rectangle
+//    UIBezierPath* rectanglePath1 = [UIBezierPath bezierPathWithRect:small]; 
+//    [self.tintColor setStroke];
+//    [rectanglePath1 stroke];
+    
     //// Rectangle Drawing
-    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMidX(small) - (small.size.width/4), CGRectGetMinY(small), small.size.width/4, small.size.height)];
+    UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(small), CGRectGetMinY(small), small.size.width/3, small.size.height)];
         [self.tintColor setFill];
     [rectanglePath fill];
     
     
     //// Rectangle 2 Drawing
-    UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMidX(small) + (small.size.width/4), CGRectGetMinY(small), small.size.width/4, small.size.height)];
+    UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMidX(small) + (small.size.width/4), CGRectGetMinY(small), small.size.width/3, small.size.height)];
         [self.tintColor setFill];
     [rectangle2Path fill];
     
@@ -38,11 +43,7 @@
     [self.tintColor setStroke];
     circle.lineWidth = 1;
     [circle stroke];
-    
-    [self.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    self.layer.shadowOpacity = 0.8;
-    self.layer.shadowRadius = 1;
-    self.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
+
     
 }
 @end

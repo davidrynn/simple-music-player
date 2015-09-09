@@ -13,18 +13,18 @@
 #import "DRArtistTableViewController.h"
 #import "DRMediaTableViewController.h"
 #import "DRFirstViewController.h"
+#import "DRScrollingContainerController.h"
 
 
 
-@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, DRPopSaysPlayMusicDelegate>
+@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,  DRPopSaysPlayMusicDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedController;
-
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 
 @property (nonatomic, strong) NSDictionary *songsDictionary;
 @property (nonatomic, strong) NSDictionary *albumsDictionary;
@@ -32,10 +32,11 @@
 @property (nonatomic, strong) NSDictionary *genresArray;
 @property (nonatomic, strong) NSDictionary *playlistsArray;
 @property (nonatomic, strong) NSDictionary *mediaItemsDictionary;
-@property (nonatomic, strong) MPMusicPlayerController *musicPlayerController;
+@property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
 @property (nonatomic, strong) MPMediaItemCollection *musicCollection;
+@property (nonatomic, strong) MPMediaItemCollection *dadCollection;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
-@property (nonatomic, strong) NSArray *sections;
+
 
 @end
 @implementation DRMusicViewController
@@ -47,28 +48,50 @@
     [super viewDidLoad];
     [self.tableView setSectionIndexColor:[UIColor redColor]];
     
-    
     //setup topcontainer border
     [self.tableView.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     [self.tableView.layer setBorderColor: [transBlack CGColor]];
     
+    //starting music player
+    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
+    [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
     
-    //hooking up tableView
+    
+    //setting up delegates
+    [self setDelegates];
+    
+    [self setUpSortedLists];
+    
+    //setup song collection as initial collection
+    self.mediaItemsDictionary = self.songsDictionary;
+    self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
+                           self.mediaItemsDictionary[@"array"]];
+
+    
+
+    [self.musicPlayer prepareToPlay];
+
+[self.musicPlayer beginGeneratingPlaybackNotifications];
+
+
+
+
+
+
+    TOCK;
+
+}
+
+-(void)setDelegates{
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    DRFirstViewController *popController = (DRFirstViewController *)[self.navigationController parentViewController];
-    popController.delegate = self;
+    DRFirstViewController *dadController = (DRFirstViewController *)[self.navigationController parentViewController];
+    dadController.delegate = self;
     
-    //searchbar setup
     self.searchBar.delegate = self;
-    
-    [self setUpSegmentSortedLists];
-    
-    TOCK;
-    
-    
     
 }
 
@@ -77,31 +100,17 @@
     
     //hide navbar
     self.navigationController.navigationBarHidden = YES;
-    
-    //starting music player
-    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
-    if (self.musicPlayerController.nowPlayingItem) {
-        
-        //setup song collection as initial collection
-        self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
-                               self.mediaItemsDictionary[@"array"]];
-        
-        [self.musicPlayerController setQueueWithItemCollection:self.musicCollection];
-    }
-    [self.musicPlayerController prepareToPlay];
-    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden= NO;
-    
 }
 
-- (void) setUpSegmentSortedLists {
+- (void) setUpSortedLists {
     
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-    self.sections = songsQuery.collectionSections;
+
     self.songsDictionary = @{@"category": @"Songs",
                              @"array": [songsQuery items],
                              @"sections": songsQuery.collectionSections
@@ -142,7 +151,6 @@
     
     
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
-    self.mediaItemsDictionary = self.songsDictionary;
     
 }
 
@@ -150,57 +158,55 @@
 #pragma mark - button actions
 - (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
     
-    if( self.musicPlayerController.shuffleMode == MPMusicShuffleModeSongs){
-        [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
-        [sender setTintColor: [UIColor redColor]];
-        sender.title = @"Shuffle";
+    if( self.musicPlayer.shuffleMode == MPMusicShuffleModeSongs){
+        [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
+        sender.title = @"Shuffle Off";
     } else{
-        [self.musicPlayerController setShuffleMode:MPMusicShuffleModeSongs]
+        [self.musicPlayer setShuffleMode:MPMusicShuffleModeSongs]
         ;
         sender.title = @"Shuffle On";
-        
         
     }
     
 }
+- (IBAction)sortTapped:(UIBarButtonItem *)sender {
 
-- (IBAction)segmentedTapped:(UISegmentedControl *)sender {
     
-    //TODO:  change if statements to switch
-    
-    if(sender.selectedSegmentIndex == 0)
+    if([sender.title isEqualToString:@"Playlists"])
     {
-        
+        sender.title = @"Songs";
         self.mediaItemsDictionary = self.songsDictionary;
         
     }
-    else if (sender.selectedSegmentIndex == 1)
+    else if ([sender.title isEqualToString:@"Songs"])
     {
-        
+        sender.title = @"Albums";
         self.mediaItemsDictionary = self.albumsDictionary;
         
     }
-    else if (sender.selectedSegmentIndex == 2)
+    else if ([sender.title isEqualToString:@"Albums"])
     {
-        
+        sender.title = @"Artists";
         self.mediaItemsDictionary = self.artistsArray;
         
     }
-    else if (sender.selectedSegmentIndex == 3)
+    else if ([sender.title isEqualToString:@"Artists"])
     {
-        
+        sender.title = @"Genres";
         self.mediaItemsDictionary = self.genresArray;
         
     }
-    else if (sender.selectedSegmentIndex == 4)
+    else if ([sender.title isEqualToString:@"Genres"])
     {
-        
+        sender.title = @"Playlists";
         self.mediaItemsDictionary = self.playlistsArray;
         
     }
     
     [self.tableView reloadData];
+    
 }
+
 //End Button actions
 
 #pragma mark - Content Filtering
@@ -278,18 +284,26 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
-    return sectionsArray.count;
+    if (sectionsArray.count > 4) {
+        return sectionsArray.count;
+    }
+    return 1;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
+    if (sectionsArray.count > 4) {
+
     NSMutableArray *sectionTitles= [[NSMutableArray alloc] init];
     for (MPMediaQuerySection *querySection in sectionsArray) {
         [sectionTitles addObject:querySection.title];
     }
+            return [sectionTitles copy];
+    }
     
-    return [sectionTitles copy];
+    return nil;
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString*)title atIndex:(NSInteger)index
@@ -298,9 +312,14 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][section];
+    NSArray *sections = self.mediaItemsDictionary[@"sections"];
     
+    if (sections.count > 4) {
+    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][section];
     return querySection.title;
+    }
+    
+    return nil;
 }
 
 
@@ -370,6 +389,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TICK
+    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
@@ -379,14 +399,12 @@
     //use index to find song
     MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
     
-    if (([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"] ) && (song != self.musicPlayerController.nowPlayingItem)) {
+    if (([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"] ) && (song != self.musicPlayer.nowPlayingItem)) {
         
-        [self.musicPlayerController stop];
+        [self.musicPlayer stop];
+       
         
-        
-        
-        
-        [self.musicPlayerController setNowPlayingItem:song];
+        self.musicPlayer.nowPlayingItem = song;
         
         
         NSLog(@"Mediaplayer item name: %@", song.title);
@@ -394,14 +412,12 @@
         self.songToPlay = song;
         
         [self playMusic];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:self.musicPlayerController];
-        [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayerController];
         
         
         TOCK;
     }
     
-    else if (song != self.musicPlayerController.nowPlayingItem) {
+    else if (song != self.musicPlayer.nowPlayingItem) {
         NSLog(@"I should be performing a segue");
         [self performSegueWithIdentifier:self.mediaItemsDictionary[@"category"] sender:cell];
     }
@@ -411,22 +427,34 @@
 
 
 #pragma mark - Navigation
+-(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
 
+    self.dadCollection = collection;
+    [self performSegueWithIdentifier:identifier sender:self];
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
+    if ([sender isKindOfClass:[UITableViewCell class]]) {
+   
     UITableViewCell *cell = (UITableViewCell *)sender;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
     NSInteger adjustIndex = querySection.range.location + indexPath.row;
     
-    if ([segue.identifier isEqualToString: @"artistViewSegue"]) {
+    if ([segue.identifier isEqualToString: @"Artists"]) {
         DRArtistTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
     } else if (segue.identifier){
         
         DRMediaTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
+    }
+    }
+    else if([sender isKindOfClass:[self class]]&&self.dadCollection){
+        
+        DRMediaTableViewController *destinationVC = [segue destinationViewController];
+        destinationVC.mediaCollection = self.dadCollection;
+    
     }
     
     
@@ -440,17 +468,17 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver: self
                                                     name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayerController];
+                                                  object: self.musicPlayer];
     
-    [self.musicPlayerController endGeneratingPlaybackNotifications];
+    [self.musicPlayer endGeneratingPlaybackNotifications];
     // Dispose of any resources that can be recreated.
 }
 
 -(void) playOrPauseMusic{
-    if ((self.musicPlayerController.playbackState == MPMusicPlaybackStatePaused)||self.musicPlayerController.playbackState == MPMusicPlaybackStateStopped) {
+    if ((self.musicPlayer.playbackState == MPMusicPlaybackStatePaused)||self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
         [self playMusic];
     }
-    else if(self.musicPlayerController.playbackState == MPMusicPlaybackStatePlaying){
+    else if(self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying){
         [self pauseMusic];
         
     }
@@ -459,13 +487,13 @@
 -(void) playMusic{
     TICK;
     if (!self.songToPlay) {
-        self.songToPlay = self.musicPlayerController.nowPlayingItem ;
-        //        mediaItemsDictionary[@"array"][0];
+        self.songToPlay = self.musicPlayer.nowPlayingItem ;
+
     }
     
     
-    [self.musicPlayerController play];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayerController];
+    [self.musicPlayer play];
+
     
     TOCK;
     
@@ -475,13 +503,23 @@
     
     TICK
     
-    [self.musicPlayerController pause];
-    [[NSNotificationCenter defaultCenter] postNotificationName:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:self.musicPlayerController];
+    [self.musicPlayer pause];
+
     
     TOCK;
     
 }
-
-
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
+                                                  object: self.musicPlayer];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver: self
+                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
+                                                  object: self.musicPlayer];
+    
+    [self.musicPlayer endGeneratingPlaybackNotifications];
+}
 
 @end

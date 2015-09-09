@@ -18,6 +18,12 @@
     CGRect small = CGRectMake(x, y, width, height);
     
     CGRect circleRect = CGRectMake(rect.size.width*0.05, rect.size.height*0.05, rect.size.width*0.9, rect.size.height*0.9);
+    //circle
+    UIBezierPath* circle = [UIBezierPath bezierPathWithOvalInRect:circleRect];
+    [self.tintColor setStroke];
+    circle.lineWidth = 1;
+    [circle stroke];
+
     
     //// Bezier Drawing
     UIBezierPath* bezierPath = [UIBezierPath bezierPath];
@@ -28,17 +34,6 @@
     [self.tintColor setFill];
     bezierPath.lineWidth = 1;
     [bezierPath fill];
-    
-    //circle
-    UIBezierPath* circle = [UIBezierPath bezierPathWithOvalInRect:circleRect];
-    [self.tintColor setStroke];
-    circle.lineWidth = 1;
-    [circle stroke];
-    
-    [self.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    self.layer.shadowOpacity = 0.8;
-    self.layer.shadowRadius = 1;
-    self.layer.shadowOffset = CGSizeMake(1.0f, 1.0f);
     
 }
 @end
