@@ -43,6 +43,7 @@
     self.songs = [[self.mediaCollection items] sortedArrayUsingDescriptors:@[albumSort, songSort]];
     MPMediaItem *firstSong = self.songs[0];
     self.navigationItem.title =[NSString stringWithFormat:@"%@", firstSong.artist];
+    
     //using NSSet cannot repeat album title
     //so using it to get array of album titles
     NSMutableSet *albumSet = [[NSMutableSet alloc] init];
@@ -75,7 +76,35 @@
 
 }
 
-#pragma mark - Table view data source
+#pragma mark - TableView dataSource
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 40;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+        NSRange sectionRange = [self.rangeArray[section] rangeValue];
+        NSUInteger index = sectionRange.location;
+        MPMediaItem *representativeItem = self.songs[index];
+
+        MPMediaItemArtwork *artwork = representativeItem.artwork;
+        UIImage *image = [artwork imageWithSize:CGSizeMake(40.0, 40.0)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    imageView.image = image;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
+    [view addSubview:imageView];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, self.tableView.frame.size.width - 60, 30)];
+    title.text = self.albumsArray[section];
+    [view addSubview:title];
+    view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+
+        return view;
+
+    
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
@@ -107,7 +136,6 @@
  NSInteger adjustIndex = sectionRange.location + indexPath.row;
     MPMediaItem * item = self.songs[adjustIndex];
     cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
-    cell.imageView.image = [item.artwork  imageWithSize:CGSizeMake(60.0, 60.0)];
  
     return cell;
 }

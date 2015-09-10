@@ -14,6 +14,7 @@
 #import "DRMediaTableViewController.h"
 #import "DRFirstViewController.h"
 #import "DRScrollingContainerController.h"
+#import "DRSection.h"
 
 
 
@@ -36,6 +37,7 @@
 @property (nonatomic, strong) MPMediaItemCollection *musicCollection;
 @property (nonatomic, strong) MPMediaItemCollection *dadCollection;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
+@property (nonatomic, assign) NSUInteger adjustedIndex;
 
 
 @end
@@ -67,24 +69,24 @@
     self.mediaItemsDictionary = self.songsDictionary;
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
-
     
-
+    
+    
     [self.musicPlayer prepareToPlay];
-
-[self.musicPlayer beginGeneratingPlaybackNotifications];
-
-
-
-
-
-
+    
+    [self.musicPlayer beginGeneratingPlaybackNotifications];
+    
+    
+    
+    
+    
+    
     TOCK;
-
+    
 }
 
 -(void)setDelegates{
-
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -110,7 +112,7 @@
 - (void) setUpSortedLists {
     
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-
+    
     self.songsDictionary = @{@"category": @"Songs",
                              @"array": [songsQuery items],
                              @"sections": songsQuery.collectionSections
@@ -170,7 +172,7 @@
     
 }
 - (IBAction)sortTapped:(UIBarButtonItem *)sender {
-
+    
     
     if([sender.title isEqualToString:@"Playlists"])
     {
@@ -234,6 +236,12 @@
     [self.tableView reloadData];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+
+}
+
 #pragma mark - Search Function
 - (IBAction)searchButtonTapped:(id)sender {
     
@@ -246,23 +254,49 @@
 {
     
     MPMediaPropertyPredicate *songsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
-    
-    MPMediaQuery *songsSearchQuery = [[MPMediaQuery alloc] init];
+    MPMediaQuery *songsSearchQuery = [MPMediaQuery songsQuery];
     songsSearchQuery.groupingType = MPMediaGroupingTitle;
     [songsSearchQuery addFilterPredicate:songsPredicate];
-    NSArray *searchArray = [songsSearchQuery items];
+    NSArray *songsSearchArray = [songsSearchQuery items];
+    //use custom section so can set it.
+    DRSection *songSection = [[DRSection alloc] initWithRange:NSMakeRange(0,  songsSearchArray.count) andTitle:@"Songs"];
     
-    //catch no return results
-    if (searchArray.count==0) {
-        return @{};
-    }
+    MPMediaPropertyPredicate *artistsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaQuery *artistsSearchQuery = [MPMediaQuery artistsQuery];
+    artistsSearchQuery.groupingType = MPMediaGroupingArtist;
+    [artistsSearchQuery addFilterPredicate:artistsPredicate];
+    NSArray *artistsArray = [artistsSearchQuery items];
+    //convert to set to weed out duplicates
+    NSSet *artistsSet =[NSSet setWithArray:artistsArray];
+    //convert back to array
+    NSArray *artistsSearchArray = [artistsSet allObjects];
+    //use custom section so can set it.
+    DRSection *artistsSection = [[DRSection alloc] initWithRange:NSMakeRange(songsSearchArray.count,  artistsSearchArray.count) andTitle:@"Artists"];
+    
+    MPMediaPropertyPredicate *albumsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaQuery *albumsSearchQuery = [MPMediaQuery albumsQuery];
+    albumsSearchQuery.groupingType = MPMediaGroupingAlbum;
+    [albumsSearchQuery addFilterPredicate:albumsPredicate];
+    NSArray *albumsArray = [albumsSearchQuery items];
+    //convert to set to weed out duplicates
+    NSSet *albumsSet =[NSSet setWithArray:albumsArray];
+    //convert back to array
+    NSArray *albumsSearchArray = [albumsSet allObjects];
+    DRSection *albumsSection = [[DRSection alloc] initWithRange:NSMakeRange(  (songsSearchArray.count+artistsSearchArray.count), albumsSearchArray.count) andTitle:@"Albums"];
+
+    NSArray *searchArray = [songsSearchArray arrayByAddingObjectsFromArray:artistsSearchArray];
+    searchArray =[searchArray arrayByAddingObjectsFromArray:albumsSearchArray];
+
     
     NSDictionary *searchDictionary = @{@"category":@"Search",
                                        @"array": searchArray,
-                                       @"sections": songsSearchQuery.collectionSections,
+                                       @"sections": @[songSection, artistsSection, albumsSection]
                                        };
     
     //TODO: add search results by artist, albums and playlists
+    if (searchArray.count==0) {
+        return @{};
+    }
     return searchDictionary;
 }
 
@@ -273,18 +307,28 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
+    NSUInteger number = 0;
+    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
+
+        DRSection *querySection = sectionsArray[section];
+        number = querySection.range.length;
+    } else{
     
     //get number after casting everything correctly to MPMedia -
-    NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
+
     MPMediaQuerySection *querySection = sectionsArray[section];
-    NSUInteger number = querySection.range.length;
+        number = querySection.range.length;
+    }
+
     return number;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
-    if (sectionsArray.count > 4) {
+    //want search sections to display regardless of count
+    if ((sectionsArray.count > 4) || [self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
         return sectionsArray.count;
     }
     return 1;
@@ -292,18 +336,21 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
+    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
+        return @[];
+    }
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     if (sectionsArray.count > 4) {
-
-    NSMutableArray *sectionTitles= [[NSMutableArray alloc] init];
-    for (MPMediaQuerySection *querySection in sectionsArray) {
-        [sectionTitles addObject:querySection.title];
-    }
-            return [sectionTitles copy];
+        
+        NSMutableArray *sectionTitles= [[NSMutableArray alloc] init];
+        for (MPMediaQuerySection *querySection in sectionsArray) {
+            [sectionTitles addObject:querySection.title];
+        }
+        return [sectionTitles copy];
     }
     
     return nil;
-
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString*)title atIndex:(NSInteger)index
@@ -312,11 +359,17 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *sections = self.mediaItemsDictionary[@"sections"];
+     NSArray *sections = self.mediaItemsDictionary[@"sections"];
     
+    if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
+        DRSection *querySection =self.mediaItemsDictionary[@"sections"][section];
+        return querySection.title;
+                                                           
+    }
+
     if (sections.count > 4) {
-    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][section];
-    return querySection.title;
+        MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][section];
+        return querySection.title;
     }
     
     return nil;
@@ -330,38 +383,44 @@
     
     NSString *mediaTypeString = self.mediaItemsDictionary[@"category"];
     MPMediaItem *item;
-    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
-    NSInteger adjustIndex = querySection.range.location + indexPath.row;
     
+    if ([mediaTypeString isEqualToString:@"Search"]) {
+        DRSection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
+        self.adjustedIndex = querySection.range.location + indexPath.row;
+    }
+    else{
+    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
+    self.adjustedIndex = querySection.range.location + indexPath.row;
+    }
     if (mediaTypeString) {
         
         if([mediaTypeString isEqualToString:@"Songs"] || [mediaTypeString isEqualToString:@"Search"]){
-            item = (MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
+            item = (MPMediaItem *) self.mediaItemsDictionary[@"array"][self.adjustedIndex];
             cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ -- %@", item.artist, item.albumTitle];
         }
         else if ([mediaTypeString isEqualToString:@"Albums"]){
-            MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][adjustIndex];
+            MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][self.adjustedIndex];
             item = collection.representativeItem;
             cell.textLabel.text =[NSString stringWithFormat:@"%@", item.albumTitle];
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@", item.artist];
             
         }
         else if ([mediaTypeString isEqualToString:@"Artists"]){
-            MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][adjustIndex];
+            MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][self.adjustedIndex];
             item = collection.representativeItem;
             cell.textLabel.text =[NSString stringWithFormat:@"%@", item.artist];
             cell.detailTextLabel.text = @"";
             
         }
         else if ([mediaTypeString isEqualToString:@"Genres"]){
-            MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][adjustIndex];
+            MPMediaItemCollection *collection= self.mediaItemsDictionary[@"array"][self.adjustedIndex];
             item = collection.representativeItem;
             cell.textLabel.text =item.genre;
             cell.detailTextLabel.text = @"";
         }
         else if ([mediaTypeString isEqualToString:@"Playlists"]){
-            MPMediaPlaylist *playlist= self.mediaItemsDictionary[@"array"][adjustIndex];
+            MPMediaPlaylist *playlist= self.mediaItemsDictionary[@"array"][self.adjustedIndex];
             
             cell.textLabel.text =[NSString stringWithFormat:@"%@", [playlist valueForProperty:MPMediaPlaylistPropertyName]];
             cell.detailTextLabel.text = @"";
@@ -394,15 +453,16 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     
     //figure out correct index
-    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
-    NSInteger adjustIndex = querySection.range.location + indexPath.row;
+//    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
+//    NSInteger self.adjustedIndex = querySection.range.location + indexPath.row;
+    
     //use index to find song
-    MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][adjustIndex];
+    MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][self.adjustedIndex];
     
     if (([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||[self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"] ) && (song != self.musicPlayer.nowPlayingItem)) {
         
         [self.musicPlayer stop];
-       
+        
         
         self.musicPlayer.nowPlayingItem = song;
         
@@ -429,35 +489,35 @@
 #pragma mark - Navigation
 -(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
     if (self.dadCollection != collection) {
-
-    self.dadCollection = collection;
-    [self performSegueWithIdentifier:identifier sender:self];
+        
+        self.dadCollection = collection;
+        [self performSegueWithIdentifier:identifier sender:self];
     }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([sender isKindOfClass:[UITableViewCell class]]) {
-   
-    UITableViewCell *cell = (UITableViewCell *)sender;
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
-    NSInteger adjustIndex = querySection.range.location + indexPath.row;
-    
-    if ([segue.identifier isEqualToString: @"Artists"]) {
-        DRArtistTableViewController *destinationVC = [segue destinationViewController];
-        destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
-    } else if (segue.identifier){
         
-        DRMediaTableViewController *destinationVC = [segue destinationViewController];
-        destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
-    }
+        UITableViewCell *cell = (UITableViewCell *)sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
+        NSInteger adjustIndex = querySection.range.location + indexPath.row;
+        
+        if ([segue.identifier isEqualToString: @"Artists"]) {
+            DRArtistTableViewController *destinationVC = [segue destinationViewController];
+            destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
+        } else if (segue.identifier){
+            
+            DRMediaTableViewController *destinationVC = [segue destinationViewController];
+            destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
+        }
     }
     else if([sender isKindOfClass:[self class]]&&self.dadCollection){
         
         DRMediaTableViewController *destinationVC = [segue destinationViewController];
         destinationVC.mediaCollection = self.dadCollection;
         self.dadCollection = nil;
-    
+        
     }
     
     
@@ -491,12 +551,12 @@
     TICK;
     if (!self.songToPlay) {
         self.songToPlay = self.musicPlayer.nowPlayingItem ;
-
+        
     }
     
     
     [self.musicPlayer play];
-
+    
     
     TOCK;
     
@@ -507,7 +567,7 @@
     TICK
     
     [self.musicPlayer pause];
-
+    
     
     TOCK;
     

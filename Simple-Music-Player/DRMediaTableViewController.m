@@ -12,11 +12,8 @@
 #import "DRMediaTableViewController.h"
 
 @interface DRMediaTableViewController ()
-@property (nonatomic, strong) NSArray *songs;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayerController;
-@property (nonatomic, strong) UIImageView *nowPlayingImage;
-@property (nonatomic, strong) UILabel *nowPlayingLabel;
 @end
 
 @implementation DRMediaTableViewController
@@ -158,7 +155,6 @@
     TICK;
     if (!self.songToPlay) {
         self.songToPlay = self.musicPlayerController.nowPlayingItem ;
-        //        mediaItemsDictionary[@"array"][0];
     }
     
     
@@ -176,7 +172,6 @@
     
     [self.musicPlayerController pause];
 
-    
     TOCK;
     
 }
