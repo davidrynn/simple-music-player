@@ -27,7 +27,6 @@
 		226C73A71B9B27B600851E12 /* DRPauseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A21B9B27B600851E12 /* DRPauseButton.m */; };
 		226C73A81B9B27B600851E12 /* DRPlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A41B9B27B600851E12 /* DRPlayButton.m */; };
 		22A2CB531BA053F50009D1F2 /* DRAlbumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB521BA053F50009D1F2 /* DRAlbumTableViewController.m */; };
-		22A2CB551BA121CD0009D1F2 /* Scratch.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB541BA121CD0009D1F2 /* Scratch.m */; };
 		22A2CB5C1BA1A4BA0009D1F2 /* DRSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB5B1BA1A4BA0009D1F2 /* DRSection.m */; };
 		22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF931B700AFC00B5DF13 /* Images.xcassets */; };
 		22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEA1B730EE400B5DF13 /* Icon2.png */; };
@@ -85,7 +84,6 @@
 		226C73A41B9B27B600851E12 /* DRPlayButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPlayButton.m; sourceTree = "<group>"; };
 		22A2CB511BA053F50009D1F2 /* DRAlbumTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAlbumTableViewController.h; sourceTree = "<group>"; };
 		22A2CB521BA053F50009D1F2 /* DRAlbumTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAlbumTableViewController.m; sourceTree = "<group>"; };
-		22A2CB541BA121CD0009D1F2 /* Scratch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scratch.m; sourceTree = "<group>"; };
 		22A2CB5A1BA1A4BA0009D1F2 /* DRSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRSection.h; sourceTree = "<group>"; };
 		22A2CB5B1BA1A4BA0009D1F2 /* DRSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRSection.m; sourceTree = "<group>"; };
 		22FDEF931B700AFC00B5DF13 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 				226C739B1B9B279300851E12 /* DRFirstViewController.m */,
 				224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */,
 				224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */,
-				22A2CB541BA121CD0009D1F2 /* Scratch.m */,
 				22A2CB511BA053F50009D1F2 /* DRAlbumTableViewController.h */,
 				22A2CB521BA053F50009D1F2 /* DRAlbumTableViewController.m */,
 				224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */,
@@ -358,7 +355,6 @@
 				22A2CB5C1BA1A4BA0009D1F2 /* DRSection.m in Sources */,
 				226C73A71B9B27B600851E12 /* DRPauseButton.m in Sources */,
 				2240D22E1B9F75AE00B84FD4 /* DRSlider.m in Sources */,
-				22A2CB551BA121CD0009D1F2 /* Scratch.m in Sources */,
 				224F76A41B6C289600BC7B73 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
