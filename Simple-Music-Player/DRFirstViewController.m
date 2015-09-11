@@ -21,6 +21,8 @@
 @interface DRFirstViewController () <UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *upDownLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nowPlayingArtist;
 @property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
 @property (weak, nonatomic) IBOutlet UIView *buttonContainer;
 @property (strong, nonatomic) IBOutlet UIButton *playerButton;
@@ -47,7 +49,7 @@
 -(void)viewDidLoad{
     TICK
     [super viewDidLoad];
-
+    
     //setup topcontainer border
     [self.buttonContainer.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
@@ -63,14 +65,16 @@
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
     [self.timer fire];
     
-
-    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
-
     
-
-
-
-[self registerForMediaPlayerNotifications];
+    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
+    
+    
+    [self handle_NowPlayingItemChanged:self]
+    ;
+    [self handle_PlaybackStateChanged:self];
+    
+    [self registerForMediaPlayerNotifications];
+    [self.musicPlayer beginGeneratingPlaybackNotifications];
     
     TOCK
     
@@ -92,8 +96,8 @@
         self.playerButton.hidden = NO;
         self.pauseButton.enabled = NO;
         self.pauseButton.hidden = YES;
-    
-    
+        
+        
     }
 }
 
@@ -101,9 +105,9 @@
 -(void)timedJob {
     if (!self.panningProgress){
         self.slider.value = self.musicPlayer.currentPlaybackTime;
-                self.currentTrackTime.text = [self stringFromTime:self.musicPlayer.currentPlaybackTime];
+        self.currentTrackTime.text = [self stringFromTime:self.musicPlayer.currentPlaybackTime];
     }
-
+    
 }
 #pragma mark Music notification handlers__________________
 
@@ -113,7 +117,14 @@
     MPMediaItem *currentItem = [self.musicPlayer nowPlayingItem];
     
     // Assume that there is no artwork for the media item.
-    __block UIImage *artworkImage = [UIImage imageNamed:@"noteBW"];
+    
+    CGRect cropRect = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y-400, self.scrollView.frame.size.width, self.scrollView.frame.size.height/2);
+    CGImageRef imageRef = CGImageCreateWithImageInRect([[UIImage imageNamed:@"noteBW"] CGImage], cropRect);
+
+    __block UIImage *artworkImage =[UIImage imageWithCGImage:imageRef];
+    
+
+   
     
     // Get the artwork from the current media item, if it has artwork.
     MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
@@ -121,42 +132,36 @@
     // Obtain a UIImage object from the MPMediaItemArtwork object
     NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
     NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
-
-    if (artwork) {
+    
+ 
         
         [photoQueue addOperationWithBlock:^{
-            
+            if (currentItem.artwork) {
+
             artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
-            
+            }
             [mainQueue addOperationWithBlock:^{
                 self.nowPlayingImage.image = artworkImage;
             }];
         }];
         
-    }
 
+    
     // Display the artist and song name for the now-playing media item
     [self.nowPlayingLabel setText: [
-                               NSString stringWithFormat: @"%@ %@ %@ %@",
-                               NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
-                               [currentItem valueForProperty: MPMediaItemPropertyTitle],
-                               NSLocalizedString (@"by", @"Article between song name and artist name"),
-                               [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
+                                    NSString stringWithFormat: @"%@ %@",
+                                    NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
+                                    [currentItem valueForProperty: MPMediaItemPropertyTitle]]];
+    [self.nowPlayingArtist setText:[
+                                    NSString stringWithFormat: @"%@ %@",
+                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
+                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
     
-    if (self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
-        // Provide a suitable prompt to the user now that their chosen music has
-        //		finished playing.
-        [self.nowPlayingLabel setText: [
-                                   NSString stringWithFormat: @"%@",
-                                   NSLocalizedString (@"Music-ended Instructions", @"Label for prompting user to play music again after it has stopped")]];
- 
-
-        
-    }
-    [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
+    
+     [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
     self.slider.value = 0;
     self.currentTrackLength.text = [self stringFromTime:self.musicPlayer.nowPlayingItem.playbackDuration];
- 
+    
 }
 
 // When the playback state changes, set the play/pause button in the button container
@@ -195,9 +200,9 @@
                                name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
                              object: self.musicPlayer];
     
-
     
-
+    
+    
 }
 
 
@@ -215,7 +220,7 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
-    self.scrollView.contentInset = UIEdgeInsetsMake(430,0,0,0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(440,0,0,0);
     
     
 }
@@ -228,6 +233,7 @@
                 [UIView animateWithDuration:.1 animations:^{
                     
                     [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+                    self.upDownLabel.text = @"╲╱";
                 }];
             });
             
@@ -235,7 +241,8 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
                 [UIView animateWithDuration:.1 animations:^{
                     
-                    [scrollView setContentOffset:CGPointMake(0, -430) animated:NO];
+                    [scrollView setContentOffset:CGPointMake(0, -440) animated:NO];
+                    self.upDownLabel.text = @"╱╲";
                 }];
             });
         }
@@ -243,21 +250,21 @@
 }
 //#pragma mark - Navigation
 //-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    
+//
 //
 //
 //}
 
 #pragma mark - Button Actions
 - (IBAction)artistButtonTapped:(id)sender {
-    //search library and send to controller --feels wrong from here. 
+    //search library and send to controller --feels wrong from here.
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:self.musicPlayer.nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
     artistQuery.groupingType = MPMediaGroupingAlbum;
     [artistQuery addFilterPredicate:artistPredicate];
     NSArray *mediaArray = [artistQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
-
+    
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
@@ -265,7 +272,7 @@
             [self.scrollView setContentOffset:CGPointMake(0, -430) animated:YES];
         }];
     });
-        [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
+    [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
 }
 - (IBAction)albumButtonTapped:(id)sender {
     
@@ -276,7 +283,7 @@
     [albumQuery addFilterPredicate:albumPredicate];
     NSArray *mediaArray = [albumQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
-
+    
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
@@ -284,7 +291,7 @@
             [self.scrollView setContentOffset:CGPointMake(0, -430) animated:YES];
         }];
     });
-        [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Albums"];
+    [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Albums"];
 }
 
 - (IBAction) playOrPauseMusic: (id)sender {
@@ -298,8 +305,8 @@
         [self.musicPlayer skipToPreviousItem];
     }
     else {
-    [self.musicPlayer skipToBeginning];
-    NSLog(@"to Beginning");
+        [self.musicPlayer skipToBeginning];
+        NSLog(@"to Beginning");
     }
     [self.musicPlayer play];
 }
@@ -311,7 +318,7 @@
     [self.musicPlayer play];
 }
 - (IBAction)sliderChanged:(id)sender {
-
+    
     self.panningProgress = YES;
 }
 - (IBAction)finishedSliding {
@@ -337,7 +344,7 @@
 
 - (void)dealloc {
     NSLog(@"Deallocating");
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver: self
                                                     name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
                                                   object: self.musicPlayer];
@@ -347,9 +354,9 @@
                                                   object: self.musicPlayer];
     
     [self.musicPlayer endGeneratingPlaybackNotifications];
-
     
-
+    
+    
 }
 
 -(UIImage*) drawThumbRect {

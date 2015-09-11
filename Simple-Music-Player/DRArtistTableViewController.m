@@ -33,7 +33,7 @@
     //setup song collection as initial controller
     [self.musicPlayerController setQueueWithItemCollection:self.mediaCollection];
     [self.musicPlayerController beginGeneratingPlaybackNotifications];
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -72,8 +72,8 @@
         arrayPlacement +=albumSectionSongs.count;
     }
     self.rangeArray = [rangeArray copy];
-
-
+    
+    
 }
 
 #pragma mark - TableView dataSource
@@ -84,12 +84,12 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-        NSRange sectionRange = [self.rangeArray[section] rangeValue];
-        NSUInteger index = sectionRange.location;
-        MPMediaItem *representativeItem = self.songs[index];
-
-        MPMediaItemArtwork *artwork = representativeItem.artwork;
-        UIImage *image = [artwork imageWithSize:CGSizeMake(40.0, 40.0)];
+    NSRange sectionRange = [self.rangeArray[section] rangeValue];
+    NSUInteger index = sectionRange.location;
+    MPMediaItem *representativeItem = self.songs[index];
+    
+    MPMediaItemArtwork *artwork = representativeItem.artwork;
+    UIImage *image = [artwork imageWithSize:CGSizeMake(40.0, 40.0)];
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     imageView.image = image;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
@@ -99,15 +99,15 @@
     title.text = self.albumsArray[section];
     [view addSubview:title];
     view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
-
-        return view;
-
+    
+    return view;
+    
     
 }
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
+    
     // Return the number of sections.
     return self.albumsArray.count;
 }
@@ -126,17 +126,17 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-
+    
     return self.albumsArray[section];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     NSRange sectionRange = [self.rangeArray[indexPath.section] rangeValue];
     
- NSInteger adjustIndex = sectionRange.location + indexPath.row;
+    NSInteger adjustIndex = sectionRange.location + indexPath.row;
     MPMediaItem * item = self.songs[adjustIndex];
     cell.textLabel.text =[NSString stringWithFormat:@"%@", item.title];
- 
+    
     return cell;
 }
 
@@ -144,24 +144,24 @@
 {
     TICK
     
-        [self.musicPlayerController stop];
-        
-        
-        //figure out correct index
-        NSRange sectionRange = [self.rangeArray[indexPath.section] rangeValue];
-        NSInteger adjustIndex = sectionRange.location + indexPath.row;
-        //use index to find song
-        MPMediaItem *song =(MPMediaItem *) self.songs[adjustIndex];
-        
-        [self.musicPlayerController setNowPlayingItem:song];
-        
-        NSLog(@"Mediaplayer item name: %@", song.title);
-        
-        self.songToPlay = song;
-        
-        [self playMusic];
- 
-        TOCK;
+    [self.musicPlayerController stop];
+    
+    
+    //figure out correct index
+    NSRange sectionRange = [self.rangeArray[indexPath.section] rangeValue];
+    NSInteger adjustIndex = sectionRange.location + indexPath.row;
+    //use index to find song
+    MPMediaItem *song =(MPMediaItem *) self.songs[adjustIndex];
+    
+    [self.musicPlayerController setNowPlayingItem:song];
+    
+    NSLog(@"Mediaplayer item name: %@", song.title);
+    
+    self.songToPlay = song;
+    [self.musicPlayerController prepareToPlay];
+    [self playMusic];
+    
+    TOCK;
     
 }
 
@@ -183,48 +183,48 @@
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark - Miscellaneous
 
 - (void)didReceiveMemoryWarning {
@@ -242,7 +242,7 @@
     TICK;
     if (!self.songToPlay) {
         self.songToPlay = self.musicPlayerController.nowPlayingItem ;
-
+        
     }
     
     
@@ -257,7 +257,7 @@
     TICK
     
     [self.musicPlayerController pause];
-
+    
     
     TOCK;
     

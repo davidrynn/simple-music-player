@@ -55,6 +55,14 @@
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     [self.tableView.layer setBorderColor: [transBlack CGColor]];
     
+    //sortButton border
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    [button setFrame:CGRectMake(0, 0, 30, 30)];
+    [button.layer setBorderWidth:1.0f];
+    [button.layer setBorderColor:self.tableView.tintColor.CGColor];
+    self.sortButton = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
     //starting music player
     self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
     [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
@@ -64,7 +72,7 @@
     [self setDelegates];
     
     [self setUpSortedLists];
- //TODO - EXCHANGE @"category" key for enums
+    //TODO - EXCHANGE @"category" key for enums
     //setup song collection as initial collection
     self.mediaItemsDictionary = self.songsDictionary;
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
@@ -72,7 +80,7 @@
     
     
     
-    [self.musicPlayer prepareToPlay];
+    
     
     [self.musicPlayer beginGeneratingPlaybackNotifications];
     
@@ -174,33 +182,33 @@
 - (IBAction)sortTapped:(UIBarButtonItem *)sender {
     
     
-    if([sender.title isEqualToString:@"Playlists"])
+    if([sender.title isEqualToString:@"◦Playlists"])
     {
-        sender.title = @"Songs";
+        sender.title = @"◦Songs";
         self.mediaItemsDictionary = self.songsDictionary;
         
     }
-    else if ([sender.title isEqualToString:@"Songs"])
+    else if ([sender.title isEqualToString:@"◦Songs"])
     {
-        sender.title = @"Albums";
+        sender.title = @"◦Albums";
         self.mediaItemsDictionary = self.albumsDictionary;
         
     }
-    else if ([sender.title isEqualToString:@"Albums"])
+    else if ([sender.title isEqualToString:@"◦Albums"])
     {
-        sender.title = @"Artists";
+        sender.title = @"◦Artists";
         self.mediaItemsDictionary = self.artistsArray;
         
     }
-    else if ([sender.title isEqualToString:@"Artists"])
+    else if ([sender.title isEqualToString:@"◦Artists"])
     {
-        sender.title = @"Genres";
+        sender.title = @"◦Genres";
         self.mediaItemsDictionary = self.genresArray;
         
     }
-    else if ([sender.title isEqualToString:@"Genres"])
+    else if ([sender.title isEqualToString:@"◦Genres"])
     {
-        sender.title = @"Playlists";
+        sender.title = @"◦Playlists";
         self.mediaItemsDictionary = self.playlistsArray;
         
     }
@@ -239,7 +247,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-
+    
 }
 
 #pragma mark - Search Function
@@ -276,17 +284,16 @@
     //set to collections for albums/artists
     NSArray *albumsArray = [albumsSearchQuery collections];
     DRSection *albumsSection = [[DRSection alloc] initWithRange:NSMakeRange(  (songsSearchArray.count+artistsArray.count), albumsArray.count) andTitle:@"Albums"];
-
+    
     NSArray *searchArray = [songsSearchArray arrayByAddingObjectsFromArray:artistsArray];
     searchArray =[searchArray arrayByAddingObjectsFromArray:albumsArray];
-
+    
     
     NSDictionary *searchDictionary = @{@"category":@"Search",
                                        @"array": searchArray,
                                        @"sections": @[songSection, artistsSection, albumsSection]
                                        };
-    
-    //TODO: add search results by artist, albums and playlists
+
     if (searchArray.count==0) {
         return @{};
     }
@@ -303,17 +310,17 @@
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     NSUInteger number = 0;
     if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
-
+        
         DRSection *querySection = sectionsArray[section];
         number = querySection.range.length;
     } else{
-    
-    //get number after casting everything correctly to MPMedia -
-
-    MPMediaQuerySection *querySection = sectionsArray[section];
+        
+        //get number after casting everything correctly to MPMedia -
+        
+        MPMediaQuerySection *querySection = sectionsArray[section];
         number = querySection.range.length;
     }
-
+    
     return number;
 }
 
@@ -352,17 +359,17 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-     NSArray *sections = self.mediaItemsDictionary[@"sections"];
+    NSArray *sections = self.mediaItemsDictionary[@"sections"];
     
     if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
         DRSection *querySection =self.mediaItemsDictionary[@"sections"][section];
         if (querySection.range.length >0) {
-                    return querySection.title;
+            return querySection.title;
         }
-
-                                                           
+        
+        
     }
-
+    
     if (sections.count > 4) {
         MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][section];
         return querySection.title;
@@ -385,11 +392,11 @@
         self.adjustedIndex = querySection.range.location + indexPath.row;
     }
     else{
-    MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
-    self.adjustedIndex = querySection.range.location + indexPath.row;
+        MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
+        self.adjustedIndex = querySection.range.location + indexPath.row;
     }
     if (mediaTypeString) {
-
+        
         
         //printout different for search cells depending on index 0 -> songs, 1 -> artists, etc
         
@@ -469,7 +476,7 @@
         NSLog(@"Mediaplayer item name: %@", song.title);
         
         self.songToPlay = song;
-        
+        [self.musicPlayer prepareToPlay];
         [self playMusic];
         
         
@@ -489,8 +496,8 @@
             }
         }
         else {
-        [self performSegueWithIdentifier:self.mediaItemsDictionary[@"category"] sender:cell];
-    
+            [self performSegueWithIdentifier:self.mediaItemsDictionary[@"category"] sender:cell];
+            
         }
     }
     
