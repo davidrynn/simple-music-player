@@ -433,7 +433,7 @@
         }
         if(![mediaTypeString isEqualToString:@"Playlists"] && ![mediaTypeString isEqualToString:@"Genres"]) {
             if (!item.artwork) {
-                cell.imageView.image = [UIImage imageNamed:@"noteBW"];
+                cell.imageView.image = [UIImage imageNamed:@"noteSml"];
             }
             else
             {

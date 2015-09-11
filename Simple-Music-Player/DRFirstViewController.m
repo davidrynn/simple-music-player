@@ -117,11 +117,8 @@
     MPMediaItem *currentItem = [self.musicPlayer nowPlayingItem];
     
     // Assume that there is no artwork for the media item.
-    
-    CGRect cropRect = CGRectMake(self.scrollView.frame.origin.x, self.scrollView.frame.origin.y-400, self.scrollView.frame.size.width, self.scrollView.frame.size.height/2);
-    CGImageRef imageRef = CGImageCreateWithImageInRect([[UIImage imageNamed:@"noteBW"] CGImage], cropRect);
 
-    __block UIImage *artworkImage =[UIImage imageWithCGImage:imageRef];
+    __block UIImage *artworkImage =[UIImage imageNamed:@"noteMd"];
     
 
    

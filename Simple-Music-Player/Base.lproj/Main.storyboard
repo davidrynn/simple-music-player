@@ -305,8 +305,8 @@
                                     <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
                                         <rect key="frame" x="0.0" y="50" width="600" height="290"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
-                                        <rect key="frame" x="150" y="5" width="300" height="15"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PFK-su-uR9" userLabel="NowPlayingLabel">
+                                        <rect key="frame" x="75" y="5" width="450" height="15"/>
                                         <color key="backgroundColor" white="1" alpha="0.27000000000000002" colorSpace="calibratedWhite"/>
                                         <accessibility key="accessibilityConfiguration" label="nowPlaying"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -487,7 +487,7 @@
                             <constraint firstItem="MLx-er-WWl" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" multiplier="0.9" id="QTr-zW-CGA"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" multiplier="0.94" id="T7m-Ew-GXX"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" id="XvW-8L-hah"/>
-                            <constraint firstItem="PFK-su-uR9" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" multiplier="0.5" id="ZDC-sp-D8g"/>
+                            <constraint firstItem="PFK-su-uR9" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" multiplier="0.75" id="ZDC-sp-D8g"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="top" id="jEo-yM-Yzc"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" id="kwd-bb-euM"/>
                             <constraint firstItem="vJE-Cr-Tgw" firstAttribute="top" secondItem="MN7-Tq-D8u" secondAttribute="bottom" id="l1r-9X-JQR"/>

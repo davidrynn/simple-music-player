@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		222DFD511BA2A220001E6BCE /* noteSml.png in Resources */ = {isa = PBXBuildFile; fileRef = 222DFD501BA2A220001E6BCE /* noteSml.png */; };
+		222DFD531BA2A387001E6BCE /* noteMd.png in Resources */ = {isa = PBXBuildFile; fileRef = 222DFD521BA2A387001E6BCE /* noteMd.png */; };
 		2240D21C1B9E8E9700B84FD4 /* DRPlayerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D21B1B9E8E9700B84FD4 /* DRPlayerUtility.m */; };
 		2240D22B1B9F6E1F00B84FD4 /* DRScrollingContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D22A1B9F6E1F00B84FD4 /* DRScrollingContainerController.m */; };
 		2240D22E1B9F75AE00B84FD4 /* DRSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D22D1B9F75AE00B84FD4 /* DRSlider.m */; };
@@ -45,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		222DFD501BA2A220001E6BCE /* noteSml.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteSml.png; sourceTree = "<group>"; };
+		222DFD521BA2A387001E6BCE /* noteMd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteMd.png; sourceTree = "<group>"; };
 		2240D21A1B9E8E9700B84FD4 /* DRPlayerUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRPlayerUtility.h; sourceTree = "<group>"; };
 		2240D21B1B9E8E9700B84FD4 /* DRPlayerUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRPlayerUtility.m; sourceTree = "<group>"; };
 		2240D2291B9F6E1F00B84FD4 /* DRScrollingContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRScrollingContainerController.h; sourceTree = "<group>"; };
@@ -184,8 +188,10 @@
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
+				222DFD501BA2A220001E6BCE /* noteSml.png */,
 				22FDEFEA1B730EE400B5DF13 /* Icon2.png */,
 				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
+				222DFD521BA2A387001E6BCE /* noteMd.png */,
 				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 			);
 			path = "Simple-Music-Player";
@@ -320,7 +326,9 @@
 				22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */,
 				22FDEFEF1B7371F000B5DF13 /* noteBW.png in Resources */,
 				22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */,
+				222DFD531BA2A387001E6BCE /* noteMd.png in Resources */,
 				22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */,
+				222DFD511BA2A220001E6BCE /* noteSml.png in Resources */,
 				224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
