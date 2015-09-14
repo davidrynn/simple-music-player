@@ -471,12 +471,8 @@
         
         
         self.musicPlayer.nowPlayingItem = song;
-        
-        
-        NSLog(@"Mediaplayer item name: %@", song.title);
-        
+      
         self.songToPlay = song;
-        [self.musicPlayer prepareToPlay];
         [self playMusic];
         
         
