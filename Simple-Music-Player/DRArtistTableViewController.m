@@ -144,6 +144,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TICK
+    if (self.musicPlayerController.shuffleMode==MPMusicShuffleModeSongs) {
+        
+        [self.musicPlayerController setShuffleMode: MPMusicShuffleModeOff];
+   //     self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+    }
     if (!self.mediaCollected) {
         //setup song collection as initial controller
         MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:self.songs];

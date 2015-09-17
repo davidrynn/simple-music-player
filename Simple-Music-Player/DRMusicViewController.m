@@ -473,6 +473,7 @@
     if (self.musicPlayer.shuffleMode==MPMusicShuffleModeSongs) {
 
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
+        self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
     }
 
     [self.musicPlayer setQueueWithItemCollection:self.musicCollection];

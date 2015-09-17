@@ -60,6 +60,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     TICK
     [self.musicPlayerController stop];
+    if (self.musicPlayerController.shuffleMode==MPMusicShuffleModeSongs) {
+        
+        [self.musicPlayerController setShuffleMode: MPMusicShuffleModeOff];
+    //    self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+    }
    
     [self.musicPlayerController playItemAtIndex:indexPath.row];
 
