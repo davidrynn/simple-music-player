@@ -18,7 +18,7 @@
 
 @import MediaPlayer;
 
-@interface DRFirstViewController () <UIScrollViewDelegate>
+@interface DRFirstViewController () <UIScrollViewDelegate, GVMusicPlayerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *upDownLabel;
@@ -36,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *artistButton;
 @property (weak, nonatomic) IBOutlet UIButton *albumButton;
 
-@property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) GVMusicPlayerController *musicPlayer;
 @property BOOL panningProgress;
 @property (nonatomic, strong) NSTimer *timer;
 
@@ -66,15 +66,10 @@
     [self.timer fire];
     
     
-    self.musicPlayer = [MPMusicPlayerController systemMusicPlayer];
+
     
     
-    [self handle_NowPlayingItemChanged:self]
-    ;
-    [self handle_PlaybackStateChanged:self];
-    
-    [self registerForMediaPlayerNotifications];
-    [self.musicPlayer beginGeneratingPlaybackNotifications];
+
     
     TOCK
     
@@ -85,122 +80,130 @@
     
     [self setUpScrollView];
     //if music is playing
-    if (self.musicPlayer.nowPlayingItem) {
-        self.playerButton.enabled = NO;
-        self.playerButton.hidden = YES;
-        self.pauseButton.enabled = YES;
-        self.pauseButton.hidden = NO;
-    }
-    else {
-        self.playerButton.enabled = YES;
-        self.playerButton.hidden = NO;
-        self.pauseButton.enabled = NO;
-        self.pauseButton.hidden = YES;
-        
-        
-    }
+//    if (self.musicPlayer.nowPlayingItem) {
+//        self.playerButton.enabled = NO;
+//        self.playerButton.hidden = YES;
+//        self.pauseButton.enabled = YES;
+//        self.pauseButton.hidden = NO;
+//    }
+//    else {
+//        self.playerButton.enabled = YES;
+//        self.playerButton.hidden = NO;
+//        self.pauseButton.enabled = NO;
+//        self.pauseButton.hidden = YES;
+//        
+//        
+//    }
+        [[GVMusicPlayerController sharedInstance] addDelegate:self];
 }
 
 
 -(void)timedJob {
     if (!self.panningProgress){
-        self.slider.value = self.musicPlayer.currentPlaybackTime;
-        self.currentTrackTime.text = [self stringFromTime:self.musicPlayer.currentPlaybackTime];
+        self.slider.value = [GVMusicPlayerController sharedInstance].currentPlaybackTime;
+        self.currentTrackTime.text = [self stringFromTime:[GVMusicPlayerController sharedInstance].currentPlaybackTime];
     }
     
 }
-#pragma mark Music notification handlers__________________
 
-// When the now-playing item changes, update the media item artwork and the now-playing label.
-- (void) handle_NowPlayingItemChanged: (id) notification {
-    
-    MPMediaItem *currentItem = [self.musicPlayer nowPlayingItem];
-    
-    // Assume that there is no artwork for the media item.
+#pragma mark - Catch remote control events, forward to the music player
 
-    __block UIImage *artworkImage =[UIImage imageNamed:@"noteMd"];
-    
-
-   
-    
-    // Get the artwork from the current media item, if it has artwork.
-    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
-    
-    // Obtain a UIImage object from the MPMediaItemArtwork object
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-    NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
-    
- 
-        
-        [photoQueue addOperationWithBlock:^{
-            if (currentItem.artwork) {
-
-            artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
-            }
-            [mainQueue addOperationWithBlock:^{
-                self.nowPlayingImage.image = artworkImage;
-            }];
-        }];
-        
-
-    
-    // Display the artist and song name for the now-playing media item
-    [self.nowPlayingLabel setText: [
-                                    NSString stringWithFormat: @"%@ %@",
-                                    NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyTitle]]];
-    [self.nowPlayingArtist setText:[
-                                    NSString stringWithFormat: @"%@ %@",
-                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
-                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
-    
-    
-     [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
-    self.slider.value = 0;
-    self.currentTrackLength.text = [self stringFromTime:self.musicPlayer.nowPlayingItem.playbackDuration];
-    
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
 }
 
-// When the playback state changes, set the play/pause button in the button container
-//		appropriately.
-- (void) handle_PlaybackStateChanged: (id) notification {
-    
-    MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
-    
-    if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
-        
-        self.playerButton.enabled = YES;
-        self.playerButton.hidden = NO;
-        self.pauseButton.enabled = NO;
-        self.pauseButton.hidden = YES;
-        
-    } else if (playbackState == MPMusicPlaybackStatePlaying) {
-        
-        self.playerButton.enabled = NO;
-        self.playerButton.hidden = YES;
-        self.pauseButton.enabled = YES;
-        self.pauseButton.hidden = NO;
-        
-    }
+- (void)viewWillDisappear:(BOOL)animated {
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder];
+    [super viewWillDisappear:animated];
 }
-- (void) registerForMediaPlayerNotifications {
-    
-    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
-    [notificationCenter addObserver: self
-                           selector: @selector (handle_NowPlayingItemChanged:)
-                               name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
-                             object: self.musicPlayer];
-    
-    [notificationCenter addObserver: self
-                           selector: @selector (handle_PlaybackStateChanged:)
-                               name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                             object: self.musicPlayer];
-    
-    
-    
-    
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
 }
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    [[GVMusicPlayerController sharedInstance] remoteControlReceivedWithEvent:receivedEvent];
+}
+
+
+//#pragma mark Music notification handlers__________________
+//
+//// When the now-playing item changes, update the media item artwork and the now-playing label.
+//- (void) handle_NowPlayingItemChanged: (id) notification {
+//    
+//    MPMediaItem *currentItem = [self.musicPlayer nowPlayingItem];
+//    
+//    // Assume that there is no artwork for the media item.
+//
+//    __block UIImage *artworkImage =[UIImage imageNamed:@"noteMd"];
+//    
+//
+//   
+//    
+//    // Get the artwork from the current media item, if it has artwork.
+//    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
+//    
+//    // Obtain a UIImage object from the MPMediaItemArtwork object
+//    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+//    NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
+//    
+// 
+//        
+//        [photoQueue addOperationWithBlock:^{
+//            if (currentItem.artwork) {
+//
+//            artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
+//            }
+//            [mainQueue addOperationWithBlock:^{
+//                self.nowPlayingImage.image = artworkImage;
+//            }];
+//        }];
+//        
+//
+//    
+//    // Display the artist and song name for the now-playing media item
+//    [self.nowPlayingLabel setText: [
+//                                    NSString stringWithFormat: @"%@ %@",
+//                                    NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
+//                                    [currentItem valueForProperty: MPMediaItemPropertyTitle]]];
+//    [self.nowPlayingArtist setText:[
+//                                    NSString stringWithFormat: @"%@ %@",
+//                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
+//                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
+//    
+//    
+//     [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
+//    self.slider.value = 0;
+//    self.currentTrackLength.text = [self stringFromTime:self.musicPlayer.nowPlayingItem.playbackDuration];
+//    
+//}
+//
+//// When the playback state changes, set the play/pause button in the button container
+////		appropriately.
+//- (void) handle_PlaybackStateChanged: (id) notification {
+//    
+//    MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
+//    
+//    if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
+//        
+//        self.playerButton.enabled = YES;
+//        self.playerButton.hidden = NO;
+//        self.pauseButton.enabled = NO;
+//        self.pauseButton.hidden = YES;
+//        
+//    } else if (playbackState == MPMusicPlaybackStatePlaying) {
+//        
+//        self.playerButton.enabled = NO;
+//        self.playerButton.hidden = YES;
+//        self.pauseButton.enabled = YES;
+//        self.pauseButton.hidden = NO;
+//        
+//    }
+//}
+
 
 
 #pragma mark Scroll View
@@ -255,7 +258,7 @@
 #pragma mark - Button Actions
 - (IBAction)artistButtonTapped:(id)sender {
     //search library and send to controller --feels wrong from here.
-    MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:self.musicPlayer.nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
     artistQuery.groupingType = MPMediaGroupingAlbum;
     [artistQuery addFilterPredicate:artistPredicate];
@@ -274,7 +277,7 @@
 - (IBAction)albumButtonTapped:(id)sender {
     
     //search library and send to controller --feels wrong from here.
-    MPMediaPropertyPredicate *albumPredicate = [MPMediaPropertyPredicate predicateWithValue:self.musicPlayer.nowPlayingItem.albumTitle forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaPropertyPredicate *albumPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.albumTitle forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *albumQuery = [MPMediaQuery albumsQuery];
     albumQuery.groupingType = MPMediaGroupingAlbum;
     [albumQuery addFilterPredicate:albumPredicate];
@@ -298,21 +301,21 @@
 }
 - (IBAction)backButtonTapped:(id)sender {
     //basically go to previous item if already at beginning
-    if (self.musicPlayer.currentPlaybackTime<1.0) {
-        [self.musicPlayer skipToPreviousItem];
+    if ([GVMusicPlayerController sharedInstance].currentPlaybackTime<1.0) {
+            [[GVMusicPlayerController sharedInstance] skipToPreviousItem];
     }
     else {
-        [self.musicPlayer skipToBeginning];
+        [[GVMusicPlayerController sharedInstance] skipToBeginning];
         NSLog(@"to Beginning");
     }
-    [self.musicPlayer play];
+    [[GVMusicPlayerController sharedInstance] play];
 }
 
 - (IBAction)forwardButtonTapped:(id)sender {
-    [self.musicPlayer skipToNextItem];
+    [[GVMusicPlayerController sharedInstance] skipToNextItem];
     NSLog(@"skip");
     
-    [self.musicPlayer play];
+    [[GVMusicPlayerController sharedInstance] play];
 }
 - (IBAction)sliderChanged:(id)sender {
     
@@ -320,41 +323,75 @@
 }
 - (IBAction)finishedSliding {
     
-    self.musicPlayer.currentPlaybackTime = self.slider.value;
+    [GVMusicPlayerController sharedInstance].currentPlaybackTime = self.slider.value;
     self.panningProgress = NO;
 }
 
+#pragma mark - GVMusicPlayerControllerDelegate
+
+- (void)musicPlayer:(GVMusicPlayerController *)musicPlayer playbackStateChanged:(MPMusicPlaybackState)playbackState previousPlaybackState:(MPMusicPlaybackState)previousPlaybackState {
+    
+
+        if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
+    
+            self.playerButton.enabled = YES;
+            self.playerButton.hidden = NO;
+            self.pauseButton.enabled = NO;
+            self.pauseButton.hidden = YES;
+    
+        } else if (playbackState == MPMusicPlaybackStatePlaying) {
+    
+            self.playerButton.enabled = NO;
+            self.playerButton.hidden = YES;
+            self.pauseButton.enabled = YES;
+            self.pauseButton.hidden = NO;
+            
+        }
+}
+
+- (void)musicPlayer:(GVMusicPlayerController *)musicPlayer trackDidChange:(MPMediaItem *)nowPlayingItem previousTrack:(MPMediaItem *)previousTrack {
+//    if (!nowPlayingItem) {
+//        self.chooseView.hidden = NO;
+//        return;
+//    }
+//    
+//    self.chooseView.hidden = YES;
+    
+    // Time labels
+    NSTimeInterval trackLength = [[nowPlayingItem valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue];
+    self.currentTrackLength.text = [self stringFromTime:trackLength];
+    self.slider.value = 0;
+    self.slider.maximumValue = trackLength;
+    
+    // Labels
+    self.nowPlayingLabel.text = [nowPlayingItem valueForProperty:MPMediaItemPropertyTitle];
+    self.nowPlayingArtist.text = [nowPlayingItem valueForProperty:MPMediaItemPropertyArtist];
+    
+    // Artwork
+    MPMediaItemArtwork *artwork = [nowPlayingItem valueForProperty:MPMediaItemPropertyArtwork];
+    if (artwork) {
+        self.nowPlayingImage.image = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
+    }
+    if (!artwork) {
+        self.nowPlayingImage.image = [UIImage imageNamed:@"noteMd"];
+    }
+    
+    NSLog(@"Proof that this code is being called, even in the background!");
+}
+
+- (void)musicPlayer:(GVMusicPlayerController *)musicPlayer endOfQueueReached:(MPMediaItem *)lastTrack {
+    NSLog(@"End of queue, but last track was %@", [lastTrack valueForProperty:MPMediaItemPropertyTitle]);
+}
+
+//- (void)musicPlayer:(GVMusicPlayerController *)currenlayer volumeChanged:(float)volume {
+//    if (!self.panningVolume) {
+//        self.volumeSlider.value = volume;
+//    }
+//}
 
 
 #pragma mark - Miscellaneous
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayer];
-    
-    [self.musicPlayer endGeneratingPlaybackNotifications];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc {
-    NSLog(@"Deallocating");
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
-                                                  object: self.musicPlayer];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayer];
-    
-    [self.musicPlayer endGeneratingPlaybackNotifications];
-    
-    
-    
-}
 
 -(UIImage*) drawThumbRect {
     

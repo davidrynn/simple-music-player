@@ -10,6 +10,7 @@
 #define TOCK   NSLog(@"Time for %@: %f", NSStringFromSelector(_cmd), (CACurrentMediaTime()-startTime));
 
 #import "DRArtistTableViewController.h"
+#import "GVMusicPlayerController.h"
 
 
 @interface DRArtistTableViewController ()
@@ -18,9 +19,10 @@
 @property (nonatomic, strong) NSMutableDictionary *albumsDictionary;
 @property (nonatomic, strong) NSArray *rangeArray;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
-@property (nonatomic, strong) MPMusicPlayerController *musicPlayerController;
+@property (nonatomic, strong) GVMusicPlayerController *musicPlayerController;
 @property (nonatomic, strong) UIImageView *nowPlayingImage;
 @property (nonatomic, strong) UILabel *nowPlayingLabel;
+@property   (nonatomic, assign) BOOL mediaCollected;
 @end
 
 @implementation DRArtistTableViewController
@@ -28,11 +30,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //starting music player
-    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
+    self.musicPlayerController = [GVMusicPlayerController sharedInstance];
     
-    //setup song collection as initial controller
-    [self.musicPlayerController setQueueWithItemCollection:self.mediaCollection];
-    [self.musicPlayerController beginGeneratingPlaybackNotifications];
+
+
     
 }
 
@@ -143,7 +144,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TICK
-    
+    if (!self.mediaCollected) {
+        //setup song collection as initial controller
+        MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:self.songs];
+        [self.musicPlayerController setQueueWithItemCollection:collection];
+        self.mediaCollected = YES;
+    }
     [self.musicPlayerController stop];
     
     
@@ -153,12 +159,12 @@
     //use index to find song
     MPMediaItem *song =(MPMediaItem *) self.songs[adjustIndex];
     
-    [self.musicPlayerController setNowPlayingItem:song];
+    [self.musicPlayerController playItemAtIndex:adjustIndex];
     
-    NSLog(@"Mediaplayer item name: %@", song.title);
+    NSLog(@"Mediaplayer item name: %@,%@", song.title, [self.musicPlayerController nowPlayingItem].title);
     
     self.songToPlay = song;
-    [self.musicPlayerController prepareToPlay];
+
     [self playMusic];
     
     TOCK;
@@ -227,16 +233,6 @@
  */
 #pragma mark - Miscellaneous
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayerController];
-    
-    [self.musicPlayerController endGeneratingPlaybackNotifications];
-    // Dispose of any resources that can be recreated.
-}
 
 -(void) playMusic{
     TICK;
@@ -263,16 +259,5 @@
     
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerNowPlayingItemDidChangeNotification
-                                                  object: self.musicPlayerController];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayerController];
-    
-    [self.musicPlayerController endGeneratingPlaybackNotifications];
-}
 
 @end
