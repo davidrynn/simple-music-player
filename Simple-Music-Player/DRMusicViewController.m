@@ -73,6 +73,11 @@
     self.mediaItemsDictionary = self.songsDictionary;
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
+    if (self.musicPlayer.nowPlayingItem == nil) {
+        [self.musicPlayer setQueueWithItemCollection:
+         self.musicCollection];
+        [self.musicPlayer playItemAtIndex:0];
+    }
 
     
     TOCK;
