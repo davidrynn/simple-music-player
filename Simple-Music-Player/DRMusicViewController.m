@@ -116,7 +116,7 @@
 }
 
 - (void) setUpSortedLists {
-    
+#if !(TARGET_IPHONE_SIMULATOR)
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
     
     self.songsDictionary = @{@"category": @"Songs",
@@ -159,6 +159,7 @@
     
     
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
+#endif
     
 }
 
@@ -198,7 +199,7 @@
 }
 
 - (IBAction)sortTapped:(UIBarButtonItem *)sender {
-    
+#if !(TARGET_IPHONE_SIMULATOR)
     
     if([sender.title isEqualToString:@"◦Playlists"])
     {
@@ -232,6 +233,8 @@
     }
     
     [self.tableView reloadData];
+    
+#endif
     
 }
 
@@ -325,6 +328,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
     NSUInteger number = 0;
     if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
@@ -340,6 +344,10 @@
     }
     
     return number;
+#else 
+    return 1;
+#endif
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

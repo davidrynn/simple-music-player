@@ -129,83 +129,6 @@
 }
 
 
-//#pragma mark Music notification handlers__________________
-//
-//// When the now-playing item changes, update the media item artwork and the now-playing label.
-//- (void) handle_NowPlayingItemChanged: (id) notification {
-//    
-//    MPMediaItem *currentItem = [self.musicPlayer nowPlayingItem];
-//    
-//    // Assume that there is no artwork for the media item.
-//
-//    __block UIImage *artworkImage =[UIImage imageNamed:@"noteMd"];
-//    
-//
-//   
-//    
-//    // Get the artwork from the current media item, if it has artwork.
-//    MPMediaItemArtwork *artwork = [currentItem valueForProperty: MPMediaItemPropertyArtwork];
-//    
-//    // Obtain a UIImage object from the MPMediaItemArtwork object
-//    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-//    NSOperationQueue *photoQueue = [[NSOperationQueue alloc] init];
-//    
-// 
-//        
-//        [photoQueue addOperationWithBlock:^{
-//            if (currentItem.artwork) {
-//
-//            artworkImage = [artwork imageWithSize: CGSizeMake(self.scrollView.frame.size.width/4, self.scrollView.frame.size.height/4) ];
-//            }
-//            [mainQueue addOperationWithBlock:^{
-//                self.nowPlayingImage.image = artworkImage;
-//            }];
-//        }];
-//        
-//
-//    
-//    // Display the artist and song name for the now-playing media item
-//    [self.nowPlayingLabel setText: [
-//                                    NSString stringWithFormat: @"%@ %@",
-//                                    NSLocalizedString (@"", @"Label for introducing the now-playing song title and artist"),
-//                                    [currentItem valueForProperty: MPMediaItemPropertyTitle]]];
-//    [self.nowPlayingArtist setText:[
-//                                    NSString stringWithFormat: @"%@ %@",
-//                                    NSLocalizedString (@"by", @"Article between song name and artist name"),
-//                                    [currentItem valueForProperty: MPMediaItemPropertyArtist]]];
-//    
-//    
-//     [self.slider setMaximumValue:self.musicPlayer.nowPlayingItem.playbackDuration];
-//    self.slider.value = 0;
-//    self.currentTrackLength.text = [self stringFromTime:self.musicPlayer.nowPlayingItem.playbackDuration];
-//    
-//}
-//
-//// When the playback state changes, set the play/pause button in the button container
-////		appropriately.
-//- (void) handle_PlaybackStateChanged: (id) notification {
-//    
-//    MPMusicPlaybackState playbackState = [self.musicPlayer playbackState];
-//    
-//    if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
-//        
-//        self.playerButton.enabled = YES;
-//        self.playerButton.hidden = NO;
-//        self.pauseButton.enabled = NO;
-//        self.pauseButton.hidden = YES;
-//        
-//    } else if (playbackState == MPMusicPlaybackStatePlaying) {
-//        
-//        self.playerButton.enabled = NO;
-//        self.playerButton.hidden = YES;
-//        self.pauseButton.enabled = YES;
-//        self.pauseButton.hidden = NO;
-//        
-//    }
-//}
-
-
-
 #pragma mark Scroll View
 
 -(void)setUpScrollView{
@@ -248,15 +171,10 @@
         }
     }
 }
-//#pragma mark - Navigation
-//-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//
-//
-//
-//}
 
 #pragma mark - Button Actions
 - (IBAction)artistButtonTapped:(id)sender {
+#if !(TARGET_IPHONE_SIMULATOR)
     //search library and send to controller --feels wrong from here.
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
@@ -273,9 +191,10 @@
         }];
     });
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
+#endif
 }
 - (IBAction)albumButtonTapped:(id)sender {
-    
+#if !(TARGET_IPHONE_SIMULATOR)
     //search library and send to controller --feels wrong from here.
     MPMediaPropertyPredicate *albumPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.albumTitle forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *albumQuery = [MPMediaQuery albumsQuery];
@@ -292,6 +211,7 @@
         }];
     });
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Albums"];
+#endif
 }
 
 - (IBAction) playOrPauseMusic: (id)sender {
@@ -350,12 +270,6 @@
 }
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer trackDidChange:(MPMediaItem *)nowPlayingItem previousTrack:(MPMediaItem *)previousTrack {
-//    if (!nowPlayingItem) {
-//        self.chooseView.hidden = NO;
-//        return;
-//    }
-//    
-//    self.chooseView.hidden = YES;
     
     // Time labels
     NSTimeInterval trackLength = [[nowPlayingItem valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue];
