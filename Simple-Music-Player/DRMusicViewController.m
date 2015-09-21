@@ -175,10 +175,12 @@
     self.searchController.searchBar.delegate = self;
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
-    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    UITextField *textSearchField = [self.searchController.searchBar valueForKey:@"_searchField"];
-    textSearchField.backgroundColor = [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:1.0];
-    self.searchController.searchBar.barTintColor= [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:1.0];
+    self.searchController.searchBar.searchBarStyle = UISearchBarStyleDefault;
+    self.searchController.searchBar.barTintColor= [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
+    self.searchController.searchBar.layer.borderWidth = 1;
+    self.searchController.searchBar.layer.borderColor =[UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor;
+
+
     
     self.definesPresentationContext = YES;
     
@@ -276,7 +278,9 @@
     self.previousItemsDictionary = self.mediaItemsDictionary;
     return YES;
 }
-
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+}
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     NSLog(@"textDidChange: '%@'", searchText);
@@ -524,6 +528,9 @@
         MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][self.adjustedIndex];
         
         if ( song != self.musicPlayer.nowPlayingItem) {
+            self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
+                                   self.mediaItemsDictionary[@"array"]];
+            [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
             
             [self.musicPlayer stop];
             
