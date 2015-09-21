@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@import MediaPlayer;
+#import "GVMusicPlayerController.h"
 @protocol DRPopSaysPlayMusicDelegate;//forward declaration
 
 

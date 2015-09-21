@@ -10,10 +10,11 @@
 #define TOCK   NSLog(@"Time for %@: %f", NSStringFromSelector(_cmd), (CACurrentMediaTime()-startTime));
 
 #import "DRMediaTableViewController.h"
+#import "GVMusicPlayerController.h"
 
 @interface DRMediaTableViewController ()
 @property (nonatomic, strong) MPMediaItem *songToPlay;
-@property (nonatomic, strong) MPMusicPlayerController *musicPlayerController;
+@property (nonatomic, strong) GVMusicPlayerController *musicPlayerController;
 @end
 
 @implementation DRMediaTableViewController
@@ -21,12 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //starting music player
-    self.musicPlayerController = [MPMusicPlayerController systemMusicPlayer];
+    self.musicPlayerController = [GVMusicPlayerController sharedInstance];
     
     //setup song collection as initial controller
     [self.musicPlayerController setQueueWithItemCollection:self.mediaCollection];
     self.songs = [self.mediaCollection items];
-    [self.musicPlayerController beginGeneratingPlaybackNotifications];
+
 
 }
 
@@ -59,17 +60,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     TICK
     [self.musicPlayerController stop];
-    
-    //use index to find song
-    MPMediaItem *song =(MPMediaItem *) self.songs[indexPath.row];
-    
-    [self.musicPlayerController setNowPlayingItem:song];
-    
-    
-    NSLog(@"Mediaplayer item name: %@", song.title);
-    
-    self.songToPlay = song;
-    
+    if (self.musicPlayerController.shuffleMode==MPMusicShuffleModeSongs) {
+        
+        [self.musicPlayerController setShuffleMode: MPMusicShuffleModeOff];
+    //    self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+    }
+   
+    [self.musicPlayerController playItemAtIndex:indexPath.row];
+
     [self playMusic];
     
     TOCK;
@@ -140,27 +138,10 @@
 */
 #pragma mark - Miscellaneous
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver: self
-                                                    name: MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                                                  object: self.musicPlayerController];
-    
-    [self.musicPlayerController endGeneratingPlaybackNotifications];
-    // Dispose of any resources that can be recreated.
-}
-
 -(void) playMusic{
     TICK;
-    if (!self.songToPlay) {
-        self.songToPlay = self.musicPlayerController.nowPlayingItem ;
-    }
-    
     
     [self.musicPlayerController play];
-
-
     
     TOCK;
     
