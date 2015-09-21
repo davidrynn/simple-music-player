@@ -18,16 +18,16 @@
 #import "GVMusicPlayerController.h"
 
 
-@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,  DRPopSaysPlayMusicDelegate, GVMusicPlayerControllerDelegate>
+@interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DRPopSaysPlayMusicDelegate, GVMusicPlayerControllerDelegate, UISearchResultsUpdating>
 
 
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
 @property (weak, nonatomic) IBOutlet UIView *searchBarView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shuffleButton;
-@property (weak, nonatomic) IBOutlet UISearchBar *loopButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *loopButton;
 
 @property (nonatomic, strong) NSDictionary *songsDictionary;
 @property (nonatomic, strong) NSDictionary *albumsDictionary;
@@ -35,6 +35,7 @@
 @property (nonatomic, strong) NSDictionary *genresArray;
 @property (nonatomic, strong) NSDictionary *playlistsArray;
 @property (nonatomic, strong) NSDictionary *mediaItemsDictionary;
+@property (nonatomic, strong) NSDictionary *previousItemsDictionary;
 @property (nonatomic, strong) GVMusicPlayerController *musicPlayer;
 @property (nonatomic, strong) MPMediaItemCollection *musicCollection;
 @property (nonatomic, strong) MPMediaItemCollection *dadCollection;
@@ -42,15 +43,19 @@
 @property (nonatomic, assign) NSUInteger adjustedIndex;
 @property (nonatomic, assign) BOOL shuffleWasOn;
 
+@property (strong, nonatomic) UISearchController *searchController;
+
+
 
 @end
 @implementation DRMusicViewController
 
 - (void)viewDidLoad {
-    
+
     
     TICK;
     [super viewDidLoad];
+    [self setUpSearchBar];
     [self.tableView setSectionIndexColor:[UIColor redColor]];
     
     //setup topcontainer border
@@ -92,7 +97,7 @@
     DRFirstViewController *dadController = (DRFirstViewController *)[self.navigationController parentViewController];
     dadController.delegate = self;
     
-    self.searchBar.delegate = self;
+
     
 }
 
@@ -163,7 +168,22 @@
     
 }
 
-
+-(void)setUpSearchBar{
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.searchBar.delegate = self;
+    
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.searchController.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    UITextField *textSearchField = [self.searchController.searchBar valueForKey:@"_searchField"];
+    textSearchField.backgroundColor = [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:1.0];
+    self.searchController.searchBar.barTintColor= [UIColor colorWithRed:250.0/255.0 green:250.0/255.0 blue:250.0/255.0 alpha:1.0];
+    
+    self.definesPresentationContext = YES;
+    
+    [self.searchController.searchBar sizeToFit];
+}
 #pragma mark - button actions
 - (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
 
@@ -244,10 +264,8 @@
 //Search Functionality
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    self.searchBar.hidden = YES;
-    [searchBar resignFirstResponder];
-    [searchBar setText:@""];
-    self.mediaItemsDictionary = self.songsDictionary;
+
+    self.mediaItemsDictionary = self.previousItemsDictionary;
     [self.tableView reloadData];
     
 }
@@ -255,6 +273,7 @@
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     [searchBar setShowsCancelButton:YES animated:YES];
+    self.previousItemsDictionary = self.mediaItemsDictionary;
     return YES;
 }
 
@@ -272,11 +291,12 @@
 }
 
 #pragma mark - Search Function
-- (IBAction)searchButtonTapped:(id)sender {
-    
-    self.searchBar.hidden = NO;
-    [self.searchBar becomeFirstResponder];
-    
+
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    NSString *searchString = searchController.searchBar.text;
+    [self performSearchWithString:searchString];
+    [self.tableView reloadData];
 }
 
 -(NSDictionary*) performSearchWithString: (NSString*) searchString

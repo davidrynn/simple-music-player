@@ -23,74 +23,40 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u7R-ah-6MM" userLabel="TopContainer">
                                 <rect key="frame" x="0.0" y="44" width="600" height="70"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h7R-U9-L5d" userLabel="SearchView">
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBe-3g-LRf">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
-                                        <subviews>
-                                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBe-3g-LRf">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
-                                                <items>
-                                                    <barButtonItem image="shuffle.png" style="plain" id="ibW-cj-Ffb" userLabel="Shuffle">
-                                                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-14"/>
-                                                        <connections>
-                                                            <action selector="shuffleButtonTapped:" destination="BYZ-38-t0r" id="3kN-Us-VHQ"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem image="loop.png" style="plain" id="lrd-xK-gSx" userLabel="Loop">
-                                                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-14"/>
-                                                        <connections>
-                                                            <action selector="loopButtonTapped:" destination="BYZ-38-t0r" id="5YT-lv-yua"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="GwO-4e-ytT"/>
-                                                    <barButtonItem tag="1" title="◦Songs" id="j43-Vq-QlB" userLabel="SortedBy">
-                                                        <color key="tintColor" red="0.70196078429999997" green="0.59607843140000005" blue="0.050980392159999999" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <connections>
-                                                            <action selector="sortTapped:" destination="BYZ-38-t0r" id="xL8-CV-kXR"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cTL-sA-loH"/>
-                                                    <barButtonItem tag="2" systemItem="search" id="upf-bX-277">
-                                                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-28"/>
-                                                        <connections>
-                                                            <action selector="searchButtonTapped:" destination="BYZ-38-t0r" id="ypY-8G-onP"/>
-                                                        </connections>
-                                                    </barButtonItem>
-                                                </items>
-                                            </toolbar>
-                                            <searchBar hidden="YES" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="xK2-KX-CHL">
-                                                <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </searchBar>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="xK2-KX-CHL" firstAttribute="centerY" secondItem="DBe-3g-LRf" secondAttribute="centerY" id="72X-4D-LGt"/>
-                                            <constraint firstItem="xK2-KX-CHL" firstAttribute="height" secondItem="DBe-3g-LRf" secondAttribute="height" id="7Y6-4a-Qld"/>
-                                            <constraint firstItem="xK2-KX-CHL" firstAttribute="width" secondItem="DBe-3g-LRf" secondAttribute="width" id="7x8-wG-GK7"/>
-                                            <constraint firstAttribute="centerY" secondItem="xK2-KX-CHL" secondAttribute="centerY" id="Bt0-TW-jvY"/>
-                                            <constraint firstItem="xK2-KX-CHL" firstAttribute="width" secondItem="h7R-U9-L5d" secondAttribute="width" id="GOZ-nw-9hK"/>
-                                            <constraint firstAttribute="centerX" secondItem="xK2-KX-CHL" secondAttribute="centerX" id="OBs-Bd-aYU"/>
-                                            <constraint firstItem="xK2-KX-CHL" firstAttribute="height" secondItem="h7R-U9-L5d" secondAttribute="height" id="OMj-kJ-7dM"/>
-                                            <constraint firstItem="xK2-KX-CHL" firstAttribute="centerX" secondItem="DBe-3g-LRf" secondAttribute="centerX" id="fLh-tk-9Ff"/>
-                                        </constraints>
-                                    </view>
+                                        <items>
+                                            <barButtonItem image="shuffle.png" style="plain" id="ibW-cj-Ffb" userLabel="Shuffle">
+                                                <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-14"/>
+                                                <connections>
+                                                    <action selector="shuffleButtonTapped:" destination="BYZ-38-t0r" id="3kN-Us-VHQ"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="GwO-4e-ytT"/>
+                                            <barButtonItem tag="1" title="◦Songs" id="j43-Vq-QlB" userLabel="SortedBy">
+                                                <color key="tintColor" red="0.70196078429999997" green="0.59607843140000005" blue="0.050980392159999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="sortTapped:" destination="BYZ-38-t0r" id="xL8-CV-kXR"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="cTL-sA-loH"/>
+                                            <barButtonItem image="loop.png" style="plain" id="lrd-xK-gSx" userLabel="Loop">
+                                                <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-14"/>
+                                                <connections>
+                                                    <action selector="loopButtonTapped:" destination="BYZ-38-t0r" id="5YT-lv-yua"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </items>
+                                    </toolbar>
                                 </subviews>
                                 <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                 <accessibility key="accessibilityConfiguration" label="SortButtonContainer"/>
                                 <constraints>
-                                    <constraint firstItem="h7R-U9-L5d" firstAttribute="width" secondItem="u7R-ah-6MM" secondAttribute="width" id="2pA-Eu-V4V"/>
-                                    <constraint firstAttribute="bottom" secondItem="h7R-U9-L5d" secondAttribute="bottom" id="7JC-Ta-ZyF"/>
-                                    <constraint firstAttribute="centerY" secondItem="h7R-U9-L5d" secondAttribute="centerY" id="Jg3-kw-mOm"/>
-                                    <constraint firstAttribute="height" secondItem="h7R-U9-L5d" secondAttribute="height" id="huI-w9-NJn"/>
-                                    <constraint firstAttribute="centerX" secondItem="h7R-U9-L5d" secondAttribute="centerX" id="tbu-so-HwP"/>
-                                    <constraint firstItem="h7R-U9-L5d" firstAttribute="top" secondItem="u7R-ah-6MM" secondAttribute="top" constant="9" id="wVm-Z8-WCO"/>
+                                    <constraint firstItem="DBe-3g-LRf" firstAttribute="width" secondItem="u7R-ah-6MM" secondAttribute="width" id="G5Z-GP-WWt"/>
+                                    <constraint firstItem="DBe-3g-LRf" firstAttribute="height" secondItem="u7R-ah-6MM" secondAttribute="height" id="a1y-I8-0pS"/>
+                                    <constraint firstItem="DBe-3g-LRf" firstAttribute="centerY" secondItem="u7R-ah-6MM" secondAttribute="centerY" id="de4-3n-PcS"/>
+                                    <constraint firstItem="DBe-3g-LRf" firstAttribute="centerX" secondItem="u7R-ah-6MM" secondAttribute="centerX" id="gU5-Dv-abO"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="7JC-Ta-ZyF"/>
-                                        <exclude reference="wVm-Z8-WCO"/>
-                                    </mask>
-                                </variation>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="10" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vL8-oK-V78">
                                 <rect key="frame" x="0.0" y="114" width="600" height="382"/>
@@ -142,12 +108,10 @@
                     <navigationItem key="navigationItem" id="IxA-ec-UzE"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="loopButton" destination="xK2-KX-CHL" id="sDG-8r-8za"/>
+                        <outlet property="loopButton" destination="lrd-xK-gSx" id="V3G-JF-peW"/>
                         <outlet property="nowPlayingImage" destination="ASU-mF-vUo" id="CG9-D9-CZB"/>
                         <outlet property="nowPlayingLabel" destination="PFK-su-uR9" id="B4M-Wd-9dp"/>
                         <outlet property="scrollView" destination="qjE-Sx-b3t" id="Wp1-6N-tlc"/>
-                        <outlet property="searchBar" destination="xK2-KX-CHL" id="gXh-ys-zMN"/>
-                        <outlet property="searchBarView" destination="h7R-U9-L5d" id="FgS-fB-V8h"/>
                         <outlet property="shuffleButton" destination="ibW-cj-Ffb" id="xcG-u0-0JE"/>
                         <outlet property="sortButton" destination="j43-Vq-QlB" id="pPW-PG-z1h"/>
                         <outlet property="tableView" destination="vL8-oK-V78" id="bPm-CY-DWK"/>
