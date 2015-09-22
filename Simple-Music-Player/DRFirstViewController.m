@@ -15,6 +15,7 @@
 #import "DRMusicViewController.h"
 #import "DRArtistTableViewController.h"
 #import "DRMediaTableViewController.h"
+#import "DRPlayerUtility.h"
 
 @import MediaPlayer;
 
@@ -39,17 +40,17 @@
 @property (nonatomic, strong) GVMusicPlayerController *musicPlayer;
 @property BOOL panningProgress;
 @property (nonatomic, strong) NSTimer *timer;
-
+@property (nonatomic) CGFloat proportionalHeight;
 
 @end
 
 @implementation DRFirstViewController
-
+//const int kCellTitleKey = self.view.layer.size.height*0.2;
 
 -(void)viewDidLoad{
     TICK
     [super viewDidLoad];
-    
+    self.proportionalHeight = self.view.frame.size.height*0.75;
     //setup topcontainer border
     [self.buttonContainer.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
@@ -64,11 +65,7 @@
     [self.slider setThumbImage:image forState:UIControlStateNormal];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
     [self.timer fire];
-    
-    
 
-    
-    
 
     
     TOCK
@@ -79,21 +76,7 @@
     [super viewWillAppear:animated];
     
     [self setUpScrollView];
-    //if music is playing
-//    if (self.musicPlayer.nowPlayingItem) {
-//        self.playerButton.enabled = NO;
-//        self.playerButton.hidden = YES;
-//        self.pauseButton.enabled = YES;
-//        self.pauseButton.hidden = NO;
-//    }
-//    else {
-//        self.playerButton.enabled = YES;
-//        self.playerButton.hidden = NO;
-//        self.pauseButton.enabled = NO;
-//        self.pauseButton.hidden = YES;
-//        
-//        
-//    }
+
         [[GVMusicPlayerController sharedInstance] addDelegate:self];
 }
 
@@ -143,9 +126,7 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
-    
-//TODO: Figure out correct proportions instead of number
-    self.scrollView.contentInset = UIEdgeInsetsMake(440,0,0,0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.proportionalHeight,0,0,0);
     
     
 }
@@ -165,8 +146,8 @@
         } else {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
                 [UIView animateWithDuration:.1 animations:^{
-//TODO: insert proportion instead of number
-                    [scrollView setContentOffset:CGPointMake(0, -440) animated:NO];
+                    
+                    [scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:NO];
                     self.upDownLabel.text = @"╱╲";
                 }];
             });
@@ -180,6 +161,7 @@
     //search library and send to controller --feels wrong from here.
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
     artistQuery.groupingType = MPMediaGroupingAlbum;
     [artistQuery addFilterPredicate:artistPredicate];
     NSArray *mediaArray = [artistQuery items];
@@ -189,7 +171,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
             
-            [self.scrollView setContentOffset:CGPointMake(0, -430) animated:YES];
+            [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:YES];
         }];
     });
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
@@ -209,7 +191,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
             
-            [self.scrollView setContentOffset:CGPointMake(0, -430) animated:YES];
+            [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:YES];
         }];
     });
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Albums"];

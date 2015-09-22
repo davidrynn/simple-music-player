@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+@import MediaPlayer;
 
 @interface DRPlayerUtility : NSObject
-
++(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query;
 @end

@@ -9,5 +9,8 @@
 #import "DRPlayerUtility.h"
 
 @implementation DRPlayerUtility
-
++(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query{
+    
+    [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[NSNumber numberWithBool:NO] forProperty:MPMediaItemPropertyIsCloudItem]];
+}
 @end
