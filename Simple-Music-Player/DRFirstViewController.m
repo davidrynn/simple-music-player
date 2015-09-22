@@ -143,6 +143,8 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
+    
+//TODO: Figure out correct proportions instead of number
     self.scrollView.contentInset = UIEdgeInsetsMake(440,0,0,0);
     
     
@@ -163,7 +165,7 @@
         } else {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
                 [UIView animateWithDuration:.1 animations:^{
-                    
+//TODO: insert proportion instead of number
                     [scrollView setContentOffset:CGPointMake(0, -440) animated:NO];
                     self.upDownLabel.text = @"╱╲";
                 }];
