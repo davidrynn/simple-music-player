@@ -182,6 +182,7 @@
     //search library and send to controller --feels wrong from here.
     MPMediaPropertyPredicate *albumPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.albumTitle forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *albumQuery = [MPMediaQuery albumsQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:albumQuery];
     albumQuery.groupingType = MPMediaGroupingAlbum;
     [albumQuery addFilterPredicate:albumPredicate];
     NSArray *mediaArray = [albumQuery items];
