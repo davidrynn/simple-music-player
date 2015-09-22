@@ -346,7 +346,7 @@
                                             <action selector="albumButtonTapped:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="MXz-lh-4Wk"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="╱╲" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zdc-GY-JEj">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="╱╲∷" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zdc-GY-JEj">
                                         <rect key="frame" x="10" y="10" width="18" height="11"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                         <nil key="highlightedColor"/>

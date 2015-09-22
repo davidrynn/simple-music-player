@@ -22,6 +22,7 @@
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
 		2249674A1B96B7F40080CDE4 /* DRScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */; };
+		224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */; settings = {ASSET_TAGS = (); }; };
 		224F76A41B6C289600BC7B73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A31B6C289600BC7B73 /* main.m */; };
 		224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A61B6C289600BC7B73 /* AppDelegate.m */; };
 		224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224F76AB1B6C289600BC7B73 /* Main.storyboard */; };
@@ -76,6 +77,7 @@
 		224967301B9611100080CDE4 /* DRTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTableViewCell.m; sourceTree = "<group>"; };
 		224967481B96B7F40080CDE4 /* DRScrollViewPassThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRScrollViewPassThrough.h; sourceTree = "<group>"; };
 		224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRScrollViewPassThrough.m; sourceTree = "<group>"; };
+		224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = Media.xcassets/AppIcon.appiconset; sourceTree = "<group>"; };
 		224F769E1B6C289600BC7B73 /* Simple-Music-Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple-Music-Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224F76A21B6C289600BC7B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224F76A31B6C289600BC7B73 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -203,11 +205,12 @@
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
+				224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */,
+				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 				222DFD501BA2A220001E6BCE /* noteSml.png */,
 				22FDEFEA1B730EE400B5DF13 /* Icon2.png */,
 				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
 				222DFD521BA2A387001E6BCE /* noteMd.png */,
-				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 				22450D051BA9E8DA00ECBA4E /* loop.png */,
 				22450D061BA9E8DA00ECBA4E /* loop1Selected */,
 				22450D071BA9E8DA00ECBA4E /* loopSelected.png */,
@@ -346,6 +349,7 @@
 				22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */,
 				22450D081BA9E8DA00ECBA4E /* loop.png in Resources */,
 				22450D0D1BA9E8E600ECBA4E /* shuffle.png in Resources */,
+				224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */,
 				22450D091BA9E8DA00ECBA4E /* loop1Selected in Resources */,
 				22FDEFEF1B7371F000B5DF13 /* noteBW.png in Resources */,
 				22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */,
