@@ -16,6 +16,7 @@
 #import "DRScrollingContainerController.h"
 #import "DRSection.h"
 #import "GVMusicPlayerController.h"
+#import "DRPlayerUtility.h"
 
 
 @interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DRPopSaysPlayMusicDelegate, GVMusicPlayerControllerDelegate, UISearchResultsUpdating>
@@ -123,7 +124,7 @@
 - (void) setUpSortedLists {
 #if !(TARGET_IPHONE_SIMULATOR)
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-    [self filterOutCloudItemsFromQuery:songsQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:songsQuery];
     
     self.songsDictionary = @{@"category": @"Songs",
                              @"array": [songsQuery items],
@@ -132,7 +133,7 @@
     
     
     MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
-    [self filterOutCloudItemsFromQuery:albumsQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:albumsQuery];
     albumsQuery.groupingType = MPMediaGroupingAlbum;
     self.albumsDictionary = @{@"category": @"Albums",
                               @"array":albumsQuery.collections,
@@ -141,7 +142,7 @@
     NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
     
     MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
-    [self filterOutCloudItemsFromQuery:artistsQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:artistsQuery];
     artistsQuery.groupingType = MPMediaGroupingArtist;
     self.artistsDictionary = @{@"category":@"Artists",
                           @"array":artistsQuery.collections,
@@ -150,7 +151,7 @@
     NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
     
     MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
-    [self filterOutCloudItemsFromQuery:genresQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:genresQuery];
     genresQuery.groupingType = MPMediaGroupingGenre;
     self.genresDictionary = @{@"category":@"Genres",
                          @"array":[genresQuery collections],
@@ -159,7 +160,7 @@
     NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
     
     MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
-    [self filterOutCloudItemsFromQuery:playlistsQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:playlistsQuery];
     playlistsQuery.groupingType = MPMediaGroupingPlaylist;
     self.playlistsDictionary = @{@"category":@"Playlists",
                             @"array": [playlistsQuery collections],
@@ -268,10 +269,7 @@
 //End Button actions
 
 #pragma mark - Content Filtering
--(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query{
-    
-    [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[NSNumber numberWithBool:NO] forProperty:MPMediaItemPropertyIsCloudItem]];
-}
+
 //Search Functionality
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
@@ -318,7 +316,7 @@
     
     MPMediaPropertyPredicate *songsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *songsSearchQuery = [MPMediaQuery songsQuery];
-    [self filterOutCloudItemsFromQuery:songsSearchQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:songsSearchQuery];
     songsSearchQuery.groupingType = MPMediaGroupingTitle;
     [songsSearchQuery addFilterPredicate:songsPredicate];
     NSArray *songsSearchArray = [songsSearchQuery items];
@@ -327,7 +325,7 @@
     
     MPMediaPropertyPredicate *artistsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *artistsSearchQuery = [MPMediaQuery artistsQuery];
-    [self filterOutCloudItemsFromQuery:artistsSearchQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:artistsSearchQuery];
     artistsSearchQuery.groupingType = MPMediaGroupingArtist;
     [artistsSearchQuery addFilterPredicate:artistsPredicate];
     NSArray *artistsArray = [artistsSearchQuery collections];
@@ -336,7 +334,7 @@
     
     MPMediaPropertyPredicate *albumsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *albumsSearchQuery = [MPMediaQuery albumsQuery];
-    [self filterOutCloudItemsFromQuery:albumsSearchQuery];
+    [DRPlayerUtility filterOutCloudItemsFromQuery:albumsSearchQuery];
     albumsSearchQuery.groupingType = MPMediaGroupingAlbum;
     [albumsSearchQuery addFilterPredicate:albumsPredicate];
     //set to collections for albums/artists

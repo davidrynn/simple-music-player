@@ -42,8 +42,7 @@
     NSSortDescriptor *albumSort = [[NSSortDescriptor alloc] initWithKey:MPMediaItemPropertyAlbumTitle ascending:YES];
     NSSortDescriptor *songSort = [[NSSortDescriptor alloc] initWithKey:MPMediaItemPropertyAlbumTrackNumber ascending:YES];
     self.songs = [[self.mediaCollection items] sortedArrayUsingDescriptors:@[albumSort, songSort]];
-    MPMediaItem *firstSong = self.songs[0];
-    self.navigationItem.title =[NSString stringWithFormat:@"%@", firstSong.artist];
+
     
     //using NSSet cannot repeat album title
     //so using it to get array of album titles
@@ -73,6 +72,9 @@
         arrayPlacement +=albumSectionSongs.count;
     }
     self.rangeArray = [rangeArray copy];
+    
+    MPMediaItem *firstSong = self.songs[0];
+    self.navigationItem.title =[NSString stringWithFormat:@"%@", firstSong.artist];
     
     
 }
