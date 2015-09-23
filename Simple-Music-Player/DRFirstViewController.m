@@ -166,7 +166,7 @@
     [artistQuery addFilterPredicate:artistPredicate];
     NSArray *mediaArray = [artistQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
-    
+//TODO: collection nil sometimes.  weird.
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{

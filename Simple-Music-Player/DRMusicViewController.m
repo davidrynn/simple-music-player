@@ -314,33 +314,20 @@
 -(NSDictionary*) performSearchWithString: (NSString*) searchString
 {
     
-    MPMediaPropertyPredicate *songsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
-    MPMediaQuery *songsSearchQuery = [MPMediaQuery songsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:songsSearchQuery];
-    songsSearchQuery.groupingType = MPMediaGroupingTitle;
-    [songsSearchQuery addFilterPredicate:songsPredicate];
-    NSArray *songsSearchArray = [songsSearchQuery items];
+    //create arrays and sections for media dictionary
+    
+    NSArray *songsSearchArray = [DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyTitle andQuery:[MPMediaQuery songsQuery] andGroupingType:MPMediaGroupingTitle isCollectionTypeItems:YES];
     //use custom section so can set it.
     DRSection *songSection = [[DRSection alloc] initWithRange:NSMakeRange(0,  songsSearchArray.count) andTitle:@"Songs"];
     
-    MPMediaPropertyPredicate *artistsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
-    MPMediaQuery *artistsSearchQuery = [MPMediaQuery artistsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:artistsSearchQuery];
-    artistsSearchQuery.groupingType = MPMediaGroupingArtist;
-    [artistsSearchQuery addFilterPredicate:artistsPredicate];
-    NSArray *artistsArray = [artistsSearchQuery collections];
+    NSArray *artistsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyArtist andQuery:[MPMediaQuery artistsQuery] andGroupingType:MPMediaGroupingArtist isCollectionTypeItems:NO];
     //use custom section so can set it.
     DRSection *artistsSection = [[DRSection alloc] initWithRange:NSMakeRange(songsSearchArray.count,  artistsArray.count) andTitle:@"Artists"];
-    
-    MPMediaPropertyPredicate *albumsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
-    MPMediaQuery *albumsSearchQuery = [MPMediaQuery albumsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:albumsSearchQuery];
-    albumsSearchQuery.groupingType = MPMediaGroupingAlbum;
-    [albumsSearchQuery addFilterPredicate:albumsPredicate];
-    //set to collections for albums/artists
-    NSArray *albumsArray = [albumsSearchQuery collections];
+
+    NSArray *albumsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyAlbumTitle andQuery:[MPMediaQuery albumsQuery] andGroupingType:MPMediaGroupingAlbum isCollectionTypeItems:NO];
     DRSection *albumsSection = [[DRSection alloc] initWithRange:NSMakeRange(  (songsSearchArray.count+artistsArray.count), albumsArray.count) andTitle:@"Albums"];
     
+    //make complete array from different sort types
     NSArray *searchArray = [songsSearchArray arrayByAddingObjectsFromArray:artistsArray];
     searchArray =[searchArray arrayByAddingObjectsFromArray:albumsArray];
     
