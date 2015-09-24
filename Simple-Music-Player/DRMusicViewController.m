@@ -82,16 +82,46 @@
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
     if (self.musicPlayer.nowPlayingItem == nil) {
-        [self.musicPlayer setQueueWithItemCollection:
-         self.musicCollection];
-        [self.musicPlayer playItemAtIndex:0];
+        [self loadSongFromUserDefaults];
+        
+
     }
 
     
     TOCK;
     
 }
+//know persistentId of the song then can save it in userDefaults.
+- (void)storePersistentIdSong :(MPMediaItem *) song {
+    NSNumber *songId = [song valueForProperty:MPMediaItemPropertyPersistentID];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:songId forKey:@"persistentID"];
+}
 
+//when your application will be launched next time you can get required song:
+- (void)loadSongFromUserDefaults{
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *songID = [defaults objectForKey:@"persistentID"];
+    if (songID) {
+ 
+    MPMediaQuery *query = [MPMediaQuery songsQuery];
+    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
+    [query addFilterPredicate:predicate];
+    //    NSArray *mediaItems = [query items];
+    //this array will consist of song with given persistentId. add it to collection and play it
+    [self.musicPlayer setQueueWithQuery:query];
+    //    MPMediaItemCollection *col = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
+    //    ///....
+    }
+    else{
+        [self.musicPlayer setQueueWithItemCollection:
+         self.musicCollection];
+        
+        [self.musicPlayer playItemAtIndex:0];
+    }
+    
+}
 -(void)setDelegates{
     
     self.tableView.delegate = self;
@@ -627,14 +657,9 @@
         self.songToPlay = self.musicPlayer.nowPlayingItem ;
         
     }
-    if (![self.musicPlayer.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
-        [self.mpMusicPlayer setNowPlayingItem:self.musicPlayer.nowPlayingItem];
-        [self.mpMusicPlayer play];
-        
-    }
-    else{
+
     [self.musicPlayer play];
-    }
+     
     TOCK;
     
 }

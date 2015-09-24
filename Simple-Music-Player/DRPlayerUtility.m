@@ -30,4 +30,6 @@ searchQuery.groupingType = groupingType;
     
     return [searchQuery collections];
 }
+
+
 @end

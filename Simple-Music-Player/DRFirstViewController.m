@@ -52,8 +52,7 @@
     [super viewDidLoad];
     
     //set height of scrollview
-    self.proportionalHeight = self.view.frame.size.height - self.buttonContainer.frame.size.height - 80;
-//    self.view.frame.size.height*0.75;
+    self.proportionalHeight = self.view.frame.size.height*0.75;
     //setup topcontainer border
     [self.buttonContainer.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];

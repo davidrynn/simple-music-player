@@ -39,6 +39,7 @@
 @interface GVMusicPlayerController () <AVAudioSessionDelegate>
 @property (copy, nonatomic) NSArray *delegates;
 @property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) MPMusicPlayerController *mpPlayer;
 @property (strong, nonatomic, readwrite) NSArray *originalQueue;
 @property (strong, nonatomic, readwrite) NSArray *queue;
 @property (strong, nonatomic) MPMediaItem *nowPlayingItem;
@@ -110,7 +111,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
             NSLog(@"setActive error %@", sessionError);
         }
         //  replace [audioSession setDelegate:self] with notifications;
-        
+        self.mpPlayer = [MPMusicPlayerController systemMusicPlayer];
         [self registerNotifications];
     }
 
@@ -123,6 +124,29 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
  
     // Handle unplugging of headphones
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioHardwareRouteChanged:) name:AVAudioSessionRouteChangeNotification object:nil];
+}
+
+//know persistentId of the song then can save it in userDefaults.
+- (void)storePersistentIdSong :(MPMediaItem *) song {
+    NSNumber *songId = [song valueForProperty:MPMediaItemPropertyPersistentID];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:songId forKey:@"persistentID"];
+}
+
+//when your application will be launched next time you can get required song:
+- (void)loadSongFromUserDefaults{
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *songID = [defaults objectForKey:@"persistentID"];
+    MPMediaQuery *query = [MPMediaQuery songsQuery];
+    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
+    [query addFilterPredicate:predicate];
+//    NSArray *mediaItems = [query items];
+    //this array will consist of song with given persistentId. add it to collection and play it
+    [self setQueueWithQuery:query];
+//    MPMediaItemCollection *col = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
+//    ///....
+
 }
 - (void) interruption:(NSNotification*)notification
 {
@@ -222,12 +246,34 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 #pragma mark - MPMediaPlayback
 
 - (void)play {
+    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self playDRMMusic];
+    }
+    else {
     [self.player play];
+    }
+    [self storePersistentIdSong:self.nowPlayingItem];
     self.playbackState = MPMusicPlaybackStatePlaying;
 }
-
+-(void) playDRMMusic {
+    [self stop];
+    MPMediaItem *song = self.nowPlayingItem;
+    MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:@[song]];
+    [self.mpPlayer setQueueWithItemCollection:collection];
+    [self.mpPlayer setNowPlayingItem:self.nowPlayingItem];
+    NSLog(@"DRM url:%@, DRM title, %@", [self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL], self.mpPlayer.nowPlayingItem.title);
+    [self.mpPlayer play];
+}
+-(void) pauseDRMMusic {
+    [self.mpPlayer pause];
+}
 - (void)pause {
+    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self pauseDRMMusic];
+    }
+    else {
     [self.player pause];
+    }
     self.playbackState = MPMusicPlaybackStatePaused;
 }
 
@@ -428,6 +474,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 #pragma mark - AVAudioSessionDelegate
 
 - (void)beginInterruption {
+
     if (self.playbackState == MPMusicPlaybackStatePlaying) {
         self.interrupted = YES;
     }
