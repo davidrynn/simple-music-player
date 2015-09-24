@@ -250,6 +250,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
         [self playDRMMusic];
     }
     else {
+    [self.mpPlayer stop];
     [self.player play];
     }
     [self storePersistentIdSong:self.nowPlayingItem];
@@ -304,7 +305,11 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (NSTimeInterval)currentPlaybackTime {
 #if !(TARGET_IPHONE_SIMULATOR)
+    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        return self.mpPlayer.currentPlaybackTime;
+    } else {
     return self.player.currentTime.value / self.player.currentTime.timescale;
+    }
 #else
     return 0;
 #endif
@@ -312,7 +317,11 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime {
     CMTime t = CMTimeMake(currentPlaybackTime, 1);
+    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        [self.mpPlayer setCurrentPlaybackTime:currentPlaybackTime];
+    } else {
     [self.player seekToTime:t];
+    }
 }
 
 - (float)currentPlaybackRate {

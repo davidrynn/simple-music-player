@@ -541,6 +541,7 @@
 
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
         self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+        
     }
 
     [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
@@ -603,6 +604,7 @@
     if (self.dadCollection != collection) {
         
         self.dadCollection = collection;
+//TODO: Get VC to dismiss if it's not DRMusicVC so there isn't a huge stack each time you go to Artist/Album
         [self performSegueWithIdentifier:identifier sender:self];
         
     }

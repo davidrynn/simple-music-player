@@ -161,12 +161,19 @@
 - (IBAction)artistButtonTapped:(id)sender {
 #if !(TARGET_IPHONE_SIMULATOR)
     //search library and send to controller --feels wrong from here.
+    
+ 
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
+    MPMediaPropertyPredicate *mediaTypePredicate = [MPMediaPropertyPredicate predicateWithValue:@(MPMediaTypeMusic) forProperty:MPMediaItemPropertyMediaType comparisonType:MPMediaPredicateComparisonEqualTo];
+    NSSet *predicateSet = [NSSet setWithObjects:artistPredicate, mediaTypePredicate, nil];
+    
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
-    artistQuery.groupingType = MPMediaGroupingAlbum;
+    MPMediaQuery *fullArtistQuery =[[MPMediaQuery alloc] initWithFilterPredicates:predicateSet];
+
+//    [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
+    fullArtistQuery.groupingType = MPMediaGroupingAlbum;
     [artistQuery addFilterPredicate:artistPredicate];
-    NSArray *mediaArray = [artistQuery items];
+    NSArray *mediaArray = [fullArtistQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
 //TODO: collection nil sometimes.  weird.
     

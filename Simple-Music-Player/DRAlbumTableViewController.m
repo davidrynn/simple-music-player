@@ -13,6 +13,7 @@
     [super viewDidLoad];
     MPMediaItem *representativeItem = self.mediaCollection.representativeItem;
     self.title = [NSString stringWithFormat:@"%@ - %@", representativeItem.albumTitle, representativeItem.artist];
+    
 
 }
 
@@ -21,7 +22,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     MPMediaItem *item = self.songs[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@",item.title];
-    cell.imageView.image = [item.artwork imageWithSize:CGSizeMake(60.0f, 60.0f)];
+  //  cell.imageView.image = [item.artwork imageWithSize:CGSizeMake(60.0f, 60.0f)];
     
     return cell;
 
