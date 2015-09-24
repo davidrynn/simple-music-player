@@ -43,6 +43,7 @@
 @property (nonatomic, strong) MPMediaItem *songToPlay;
 @property (nonatomic, assign) NSUInteger adjustedIndex;
 @property (nonatomic, assign) BOOL shuffleWasOn;
+@property (nonatomic, strong) MPMusicPlayerController *mpMusicPlayer;
 
 @property (strong, nonatomic) UISearchController *searchController;
 
@@ -68,7 +69,8 @@
     
     //starting music player
     self.musicPlayer =             [GVMusicPlayerController sharedInstance];
-    
+    //for DRM
+    self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
     //setting up delegates
     [self setDelegates];
@@ -625,7 +627,14 @@
         self.songToPlay = self.musicPlayer.nowPlayingItem ;
         
     }
+    if (![self.musicPlayer.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self.mpMusicPlayer setNowPlayingItem:self.musicPlayer.nowPlayingItem];
+        [self.mpMusicPlayer play];
+        
+    }
+    else{
     [self.musicPlayer play];
+    }
     TOCK;
     
 }
@@ -633,7 +642,13 @@
 -(void) pauseMusic {
     
     TICK
+    if (![self.musicPlayer.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self.mpMusicPlayer pause];
+        
+    }
+
     [self.musicPlayer pause];
+
     TOCK;
     
 }

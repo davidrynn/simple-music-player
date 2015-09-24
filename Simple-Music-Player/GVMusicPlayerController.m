@@ -18,14 +18,19 @@
 @implementation NSArray (GVShuffledArray)
 
 - (NSArray *)shuffled {
-	NSMutableArray *tmpArray = [NSMutableArray arrayWithCapacity:[self count]];
-
-	for (id anObject in self) {
-		NSUInteger randomPos = arc4random()%([tmpArray count]+1);
-		[tmpArray insertObject:anObject atIndex:randomPos];
-	}
-
-	return [NSArray arrayWithArray:tmpArray];
+//altered from original
+    NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:self];
+    NSUInteger count = [mutableArray count];
+    // See http://en.wikipedia.org/wiki/Fisher–Yates_shuffle
+    if (count > 1) {
+        for (NSUInteger i = count - 1; i > 0; --i) {
+            [mutableArray exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform((int32_t)(i + 1))];
+        }
+    }
+    
+    NSArray *randomArray = [NSArray arrayWithArray:mutableArray];
+    
+    return randomArray;
 }
 
 @end
@@ -34,7 +39,7 @@
 @interface GVMusicPlayerController () <AVAudioSessionDelegate>
 @property (copy, nonatomic) NSArray *delegates;
 @property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) NSArray *originalQueue;
+@property (strong, nonatomic, readwrite) NSArray *originalQueue;
 @property (strong, nonatomic, readwrite) NSArray *queue;
 @property (strong, nonatomic) MPMediaItem *nowPlayingItem;
 @property (nonatomic, readwrite) NSUInteger indexOfNowPlayingItem;
