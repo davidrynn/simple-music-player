@@ -30,6 +30,7 @@
 @property (nonatomic, readonly) NSUInteger indexOfNowPlayingItem; // NSNotFound if no queue
 @property (nonatomic) BOOL updateNowPlayingCenter; // default YES
 @property (nonatomic, readonly) NSArray *queue;
+@property (strong, nonatomic, readonly) NSArray *originalQueue;
 @property (nonatomic) BOOL shouldReturnToBeginningWhenSkippingToPreviousItem; // default YES
 @property (nonatomic) BOOL shuffleOn;
 

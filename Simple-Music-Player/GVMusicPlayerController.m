@@ -18,14 +18,19 @@
 @implementation NSArray (GVShuffledArray)
 
 - (NSArray *)shuffled {
-	NSMutableArray *tmpArray = [NSMutableArray arrayWithCapacity:[self count]];
-
-	for (id anObject in self) {
-		NSUInteger randomPos = arc4random()%([tmpArray count]+1);
-		[tmpArray insertObject:anObject atIndex:randomPos];
-	}
-
-	return [NSArray arrayWithArray:tmpArray];
+//altered from original
+    NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:self];
+    NSUInteger count = [mutableArray count];
+    // See http://en.wikipedia.org/wiki/Fisher–Yates_shuffle
+    if (count > 1) {
+        for (NSUInteger i = count - 1; i > 0; --i) {
+            [mutableArray exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform((int32_t)(i + 1))];
+        }
+    }
+    
+    NSArray *randomArray = [NSArray arrayWithArray:mutableArray];
+    
+    return randomArray;
 }
 
 @end
@@ -34,7 +39,8 @@
 @interface GVMusicPlayerController () <AVAudioSessionDelegate>
 @property (copy, nonatomic) NSArray *delegates;
 @property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) NSArray *originalQueue;
+@property (strong, nonatomic) MPMusicPlayerController *mpPlayer;
+@property (strong, nonatomic, readwrite) NSArray *originalQueue;
 @property (strong, nonatomic, readwrite) NSArray *queue;
 @property (strong, nonatomic) MPMediaItem *nowPlayingItem;
 @property (nonatomic, readwrite) NSUInteger indexOfNowPlayingItem;
@@ -105,7 +111,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
             NSLog(@"setActive error %@", sessionError);
         }
         //  replace [audioSession setDelegate:self] with notifications;
-        
+        self.mpPlayer = [MPMusicPlayerController systemMusicPlayer];
         [self registerNotifications];
     }
 
@@ -118,6 +124,29 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
  
     // Handle unplugging of headphones
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioHardwareRouteChanged:) name:AVAudioSessionRouteChangeNotification object:nil];
+}
+
+//know persistentId of the song then can save it in userDefaults.
+- (void)storePersistentIdSong :(MPMediaItem *) song {
+    NSNumber *songId = [song valueForProperty:MPMediaItemPropertyPersistentID];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:songId forKey:@"persistentID"];
+}
+
+//when your application will be launched next time you can get required song:
+- (void)loadSongFromUserDefaults{
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *songID = [defaults objectForKey:@"persistentID"];
+    MPMediaQuery *query = [MPMediaQuery songsQuery];
+    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
+    [query addFilterPredicate:predicate];
+//    NSArray *mediaItems = [query items];
+    //this array will consist of song with given persistentId. add it to collection and play it
+    [self setQueueWithQuery:query];
+//    MPMediaItemCollection *col = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
+//    ///....
+
 }
 - (void) interruption:(NSNotification*)notification
 {
@@ -217,12 +246,35 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 #pragma mark - MPMediaPlayback
 
 - (void)play {
+    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self playDRMMusic];
+    }
+    else {
+    [self.mpPlayer stop];
     [self.player play];
+    }
+    [self storePersistentIdSong:self.nowPlayingItem];
     self.playbackState = MPMusicPlaybackStatePlaying;
 }
-
+-(void) playDRMMusic {
+    [self stop];
+    MPMediaItem *song = self.nowPlayingItem;
+    MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:@[song]];
+    [self.mpPlayer setQueueWithItemCollection:collection];
+    [self.mpPlayer setNowPlayingItem:self.nowPlayingItem];
+    NSLog(@"DRM url:%@, DRM title, %@", [self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL], self.mpPlayer.nowPlayingItem.title);
+    [self.mpPlayer play];
+}
+-(void) pauseDRMMusic {
+    [self.mpPlayer pause];
+}
 - (void)pause {
+    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self pauseDRMMusic];
+    }
+    else {
     [self.player pause];
+    }
     self.playbackState = MPMusicPlaybackStatePaused;
 }
 
@@ -253,7 +305,11 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (NSTimeInterval)currentPlaybackTime {
 #if !(TARGET_IPHONE_SIMULATOR)
+    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        return self.mpPlayer.currentPlaybackTime;
+    } else {
     return self.player.currentTime.value / self.player.currentTime.timescale;
+    }
 #else
     return 0;
 #endif
@@ -261,7 +317,11 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime {
     CMTime t = CMTimeMake(currentPlaybackTime, 1);
+    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+        [self.mpPlayer setCurrentPlaybackTime:currentPlaybackTime];
+    } else {
     [self.player seekToTime:t];
+    }
 }
 
 - (float)currentPlaybackRate {
@@ -423,6 +483,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 #pragma mark - AVAudioSessionDelegate
 
 - (void)beginInterruption {
+
     if (self.playbackState == MPMusicPlaybackStatePlaying) {
         self.interrupted = YES;
     }

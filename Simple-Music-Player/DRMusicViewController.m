@@ -43,6 +43,7 @@
 @property (nonatomic, strong) MPMediaItem *songToPlay;
 @property (nonatomic, assign) NSUInteger adjustedIndex;
 @property (nonatomic, assign) BOOL shuffleWasOn;
+@property (nonatomic, strong) MPMusicPlayerController *mpMusicPlayer;
 
 @property (strong, nonatomic) UISearchController *searchController;
 
@@ -68,7 +69,8 @@
     
     //starting music player
     self.musicPlayer =             [GVMusicPlayerController sharedInstance];
-    
+    //for DRM
+    self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
     //setting up delegates
     [self setDelegates];
@@ -80,16 +82,46 @@
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
     if (self.musicPlayer.nowPlayingItem == nil) {
-        [self.musicPlayer setQueueWithItemCollection:
-         self.musicCollection];
-        [self.musicPlayer playItemAtIndex:0];
+        [self loadSongFromUserDefaults];
+        
+
     }
 
     
     TOCK;
     
 }
+//know persistentId of the song then can save it in userDefaults.
+- (void)storePersistentIdSong :(MPMediaItem *) song {
+    NSNumber *songId = [song valueForProperty:MPMediaItemPropertyPersistentID];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:songId forKey:@"persistentID"];
+}
 
+//when your application will be launched next time you can get required song:
+- (void)loadSongFromUserDefaults{
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *songID = [defaults objectForKey:@"persistentID"];
+    if (songID) {
+ 
+    MPMediaQuery *query = [MPMediaQuery songsQuery];
+    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
+    [query addFilterPredicate:predicate];
+    //    NSArray *mediaItems = [query items];
+    //this array will consist of song with given persistentId. add it to collection and play it
+    [self.musicPlayer setQueueWithQuery:query];
+    //    MPMediaItemCollection *col = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
+    //    ///....
+    }
+    else{
+        [self.musicPlayer setQueueWithItemCollection:
+         self.musicCollection];
+        
+        [self.musicPlayer playItemAtIndex:0];
+    }
+    
+}
 -(void)setDelegates{
     
     self.tableView.delegate = self;
@@ -314,33 +346,20 @@
 -(NSDictionary*) performSearchWithString: (NSString*) searchString
 {
     
-    MPMediaPropertyPredicate *songsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
-    MPMediaQuery *songsSearchQuery = [MPMediaQuery songsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:songsSearchQuery];
-    songsSearchQuery.groupingType = MPMediaGroupingTitle;
-    [songsSearchQuery addFilterPredicate:songsPredicate];
-    NSArray *songsSearchArray = [songsSearchQuery items];
+    //create arrays and sections for media dictionary
+    
+    NSArray *songsSearchArray = [DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyTitle andQuery:[MPMediaQuery songsQuery] andGroupingType:MPMediaGroupingTitle isCollectionTypeItems:YES];
     //use custom section so can set it.
     DRSection *songSection = [[DRSection alloc] initWithRange:NSMakeRange(0,  songsSearchArray.count) andTitle:@"Songs"];
     
-    MPMediaPropertyPredicate *artistsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
-    MPMediaQuery *artistsSearchQuery = [MPMediaQuery artistsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:artistsSearchQuery];
-    artistsSearchQuery.groupingType = MPMediaGroupingArtist;
-    [artistsSearchQuery addFilterPredicate:artistsPredicate];
-    NSArray *artistsArray = [artistsSearchQuery collections];
+    NSArray *artistsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyArtist andQuery:[MPMediaQuery artistsQuery] andGroupingType:MPMediaGroupingArtist isCollectionTypeItems:NO];
     //use custom section so can set it.
     DRSection *artistsSection = [[DRSection alloc] initWithRange:NSMakeRange(songsSearchArray.count,  artistsArray.count) andTitle:@"Artists"];
-    
-    MPMediaPropertyPredicate *albumsPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
-    MPMediaQuery *albumsSearchQuery = [MPMediaQuery albumsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:albumsSearchQuery];
-    albumsSearchQuery.groupingType = MPMediaGroupingAlbum;
-    [albumsSearchQuery addFilterPredicate:albumsPredicate];
-    //set to collections for albums/artists
-    NSArray *albumsArray = [albumsSearchQuery collections];
+
+    NSArray *albumsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyAlbumTitle andQuery:[MPMediaQuery albumsQuery] andGroupingType:MPMediaGroupingAlbum isCollectionTypeItems:NO];
     DRSection *albumsSection = [[DRSection alloc] initWithRange:NSMakeRange(  (songsSearchArray.count+artistsArray.count), albumsArray.count) andTitle:@"Albums"];
     
+    //make complete array from different sort types
     NSArray *searchArray = [songsSearchArray arrayByAddingObjectsFromArray:artistsArray];
     searchArray =[searchArray arrayByAddingObjectsFromArray:albumsArray];
     
@@ -508,7 +527,7 @@
         }
     }
     
-    
+
     return cell;
 }
 
@@ -516,12 +535,15 @@
 {
     TICK
 
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     //set bool if shuffle was on to change back after
     //otherwise shufflemode invalidates music collection and song selection doesn't work
     if (self.musicPlayer.shuffleMode==MPMusicShuffleModeSongs) {
 
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
         self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+        
     }
 
     [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
@@ -584,6 +606,7 @@
     if (self.dadCollection != collection) {
         
         self.dadCollection = collection;
+//TODO: Get VC to dismiss if it's not DRMusicVC so there isn't a huge stack each time you go to Artist/Album
         [self performSegueWithIdentifier:identifier sender:self];
         
     }
@@ -638,7 +661,9 @@
         self.songToPlay = self.musicPlayer.nowPlayingItem ;
         
     }
+
     [self.musicPlayer play];
+     
     TOCK;
     
 }
@@ -646,7 +671,13 @@
 -(void) pauseMusic {
     
     TICK
+    if (![self.musicPlayer.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+        [self.mpMusicPlayer pause];
+        
+    }
+
     [self.musicPlayer pause];
+
     TOCK;
     
 }
