@@ -19,10 +19,11 @@
 @property (nonatomic, strong) NSMutableDictionary *albumsDictionary;
 @property (nonatomic, strong) NSArray *rangeArray;
 @property (nonatomic, strong) MPMediaItem *songToPlay;
-@property (nonatomic, strong) GVMusicPlayerController *musicPlayerController;
+@property (nonatomic, strong) GVMusicPlayerController *musicPlayer;
 @property (nonatomic, strong) UIImageView *nowPlayingImage;
 @property (nonatomic, strong) UILabel *nowPlayingLabel;
 @property   (nonatomic, assign) BOOL mediaCollected;
+@property (nonatomic) BOOL shuffleWasOn;
 @end
 
 @implementation DRArtistTableViewController
@@ -30,9 +31,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //starting music player
-    self.musicPlayerController = [GVMusicPlayerController sharedInstance];
+    self.musicPlayer = [GVMusicPlayerController sharedInstance];
     
-
+    //set header to display artist's name
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50.0)];
+    UILabel *artistLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.tableView.frame.size.width, 20)];
+    artistLabel.text = self.mediaCollection.representativeItem.artist;
+    artistLabel.textColor = self.view.tintColor;
+    artistLabel.textAlignment = NSTextAlignmentCenter;
+    artistLabel.font = [UIFont boldSystemFontOfSize:21.0];
+    [headerView addSubview:artistLabel];
+    headerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableHeaderView = headerView;
+    
+    //setup loop and shuffle buttons
+    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"loop"] style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle"] style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+    self.navigationItem.rightBarButtonItems = @[shuffleButton, loopButton];
 
     
 }
@@ -72,10 +87,7 @@
         arrayPlacement +=albumSectionSongs.count;
     }
     self.rangeArray = [rangeArray copy];
-    
-    MPMediaItem *firstSong = self.songs[0];
-    self.navigationItem.title =[NSString stringWithFormat:@"%@", firstSong.artist];
-    
+
     
 }
 
@@ -147,18 +159,18 @@
 {
     TICK
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.musicPlayerController.shuffleMode==MPMusicShuffleModeSongs) {
+    if (self.musicPlayer.shuffleMode==MPMusicShuffleModeSongs) {
         
-        [self.musicPlayerController setShuffleMode: MPMusicShuffleModeOff];
+        [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
    //     self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
     }
     if (!self.mediaCollected) {
         //setup song collection as initial controller
         MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:self.songs];
-        [self.musicPlayerController setQueueWithItemCollection:collection];
+        [self.musicPlayer setQueueWithItemCollection:collection];
         self.mediaCollected = YES;
     }
-    [self.musicPlayerController stop];
+    [self.musicPlayer stop];
     
     
     //figure out correct index
@@ -167,9 +179,9 @@
     //use index to find song
     MPMediaItem *song =(MPMediaItem *) self.songs[adjustIndex];
     
-    [self.musicPlayerController playItemAtIndex:adjustIndex];
+    [self.musicPlayer playItemAtIndex:adjustIndex];
     
-    NSLog(@"Mediaplayer item name: %@,%@", song.title, [self.musicPlayerController nowPlayingItem].title);
+    NSLog(@"Mediaplayer item name: %@,%@", song.title, [self.musicPlayer nowPlayingItem].title);
     
     self.songToPlay = song;
 
@@ -180,19 +192,37 @@
 }
 
 #pragma mark - button actions
-- (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
+- (void)shuffleButtonTapped:(UIBarButtonItem *)sender {
     
-    if( self.musicPlayerController.shuffleMode == MPMusicShuffleModeSongs){
-        [self.musicPlayerController setShuffleMode:MPMusicShuffleModeOff];
-        [sender setTintColor: [UIColor redColor]];
-        sender.title = @"Shuffle";
+    if( self.musicPlayer.shuffleMode == MPMusicShuffleModeSongs){
+        [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
+        sender.image = [UIImage imageNamed:@"shuffle"];
+        self.shuffleWasOn = YES;
+        
     } else{
-        [self.musicPlayerController setShuffleMode:MPMusicShuffleModeSongs]
+        [self.musicPlayer setShuffleMode:MPMusicShuffleModeSongs]
         ;
-        sender.title = @"Shuffle On";
+        sender.image = [UIImage imageNamed:@"shuffleSelected"];
+        self.shuffleWasOn = NO;
         
     }
     
+}
+- (void)loopButtonTapped:(UIBarButtonItem *)sender {
+    
+    if( self.musicPlayer.repeatMode == MPMusicRepeatModeAll){
+        [self.musicPlayer setRepeatMode:MPMusicRepeatModeOne];
+        sender.image = [UIImage imageNamed:@"loop1Selected"];
+        
+    } else if( self.musicPlayer.repeatMode == MPMusicRepeatModeOne){
+        [self.musicPlayer setRepeatMode:MPMusicRepeatModeNone];
+        sender.image = [UIImage imageNamed:@"loop"];
+        
+    } else {
+        [self.musicPlayer setRepeatMode:MPMusicRepeatModeAll];
+        sender.image = [UIImage imageNamed:@"loopSelected"];
+        
+    }
 }
 
 
@@ -245,12 +275,12 @@
 -(void) playMusic{
     TICK;
     if (!self.songToPlay) {
-        self.songToPlay = self.musicPlayerController.nowPlayingItem ;
+        self.songToPlay = self.musicPlayer.nowPlayingItem ;
         
     }
     
     
-    [self.musicPlayerController play];
+    [self.musicPlayer play];
     
     TOCK;
     
@@ -260,7 +290,7 @@
     
     TICK
     
-    [self.musicPlayerController pause];
+    [self.musicPlayer pause];
     
     
     TOCK;
