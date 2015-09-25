@@ -527,13 +527,15 @@
         }
     }
     
-    
+
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TICK
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     //set bool if shuffle was on to change back after
     //otherwise shufflemode invalidates music collection and song selection doesn't work

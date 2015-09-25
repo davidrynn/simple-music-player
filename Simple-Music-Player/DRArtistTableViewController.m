@@ -82,7 +82,7 @@
 #pragma mark - TableView dataSource
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 40;
+    return 50;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -93,12 +93,12 @@
     
     MPMediaItemArtwork *artwork = representativeItem.artwork;
     UIImage *image = [artwork imageWithSize:CGSizeMake(40.0, 40.0)];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 40, 40)];
     imageView.image = image;
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
     [view addSubview:imageView];
     
-    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(50, 0, self.tableView.frame.size.width - 60, 30)];
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(imageView.frame.size.width + 20, 5, self.tableView.frame.size.width - 60, 30)];
     title.text = self.albumsArray[section];
     [view addSubview:title];
     view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
@@ -146,6 +146,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TICK
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.musicPlayerController.shuffleMode==MPMusicShuffleModeSongs) {
         
         [self.musicPlayerController setShuffleMode: MPMusicShuffleModeOff];
