@@ -12,4 +12,5 @@
 @interface DRPlayerUtility : NSObject
 +(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query;
 +(NSArray *)createArrayFromSearchString:(NSString *) searchString FromProperty:(NSString *) MPMediaItemProperty andQuery:(MPMediaQuery *)mediaQuery andGroupingType:(MPMediaGrouping) groupingType isCollectionTypeItems: (BOOL) isItems;
++(UIImage *)createImageBasedOnEnum: (NSInteger) enumNumber ofTypeString: (NSString *) type;
 @end

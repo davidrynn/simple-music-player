@@ -13,16 +13,16 @@
 		2240D21C1B9E8E9700B84FD4 /* DRPlayerUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D21B1B9E8E9700B84FD4 /* DRPlayerUtility.m */; };
 		2240D22B1B9F6E1F00B84FD4 /* DRScrollingContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D22A1B9F6E1F00B84FD4 /* DRScrollingContainerController.m */; };
 		2240D22E1B9F75AE00B84FD4 /* DRSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D22D1B9F75AE00B84FD4 /* DRSlider.m */; };
-		22450D081BA9E8DA00ECBA4E /* loop.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D051BA9E8DA00ECBA4E /* loop.png */; };
-		22450D091BA9E8DA00ECBA4E /* loop1Selected in Resources */ = {isa = PBXBuildFile; fileRef = 22450D061BA9E8DA00ECBA4E /* loop1Selected */; };
-		22450D0A1BA9E8DA00ECBA4E /* loopSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D071BA9E8DA00ECBA4E /* loopSelected.png */; };
-		22450D0D1BA9E8E600ECBA4E /* shuffle.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D0B1BA9E8E600ECBA4E /* shuffle.png */; };
-		22450D0E1BA9E8E600ECBA4E /* shuffleSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D0C1BA9E8E600ECBA4E /* shuffleSelected.png */; };
+		22450D081BA9E8DA00ECBA4E /* loop2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D051BA9E8DA00ECBA4E /* loop2.png */; };
+		22450D0A1BA9E8DA00ECBA4E /* loop3.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D071BA9E8DA00ECBA4E /* loop3.png */; };
+		22450D0D1BA9E8E600ECBA4E /* shuffle1.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D0B1BA9E8E600ECBA4E /* shuffle1.png */; };
+		22450D0E1BA9E8E600ECBA4E /* shuffle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D0C1BA9E8E600ECBA4E /* shuffle2.png */; };
 		224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */; };
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
 		2249674A1B96B7F40080CDE4 /* DRScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */; };
 		224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */; settings = {ASSET_TAGS = (); }; };
+		224D4D331BB57F790082CE2E /* loop1.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D321BB57F790082CE2E /* loop1.png */; settings = {ASSET_TAGS = (); }; };
 		224F76A41B6C289600BC7B73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A31B6C289600BC7B73 /* main.m */; };
 		224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A61B6C289600BC7B73 /* AppDelegate.m */; };
 		224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224F76AB1B6C289600BC7B73 /* Main.storyboard */; };
@@ -30,6 +30,7 @@
 		224F76BE1B6C289600BC7B73 /* Simple_Music_PlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76BD1B6C289600BC7B73 /* Simple_Music_PlayerTests.m */; };
 		224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */; };
 		224F76D11B6D6F1400BC7B73 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */; };
+		22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 22566E6E1BB8752A002DE410 /* musicScreenshot.png */; settings = {ASSET_TAGS = (); }; };
 		226C739C1B9B279300851E12 /* DRFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C739B1B9B279300851E12 /* DRFirstViewController.m */; };
 		226C73A51B9B27B600851E12 /* DRRewindButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C739E1B9B27B600851E12 /* DRRewindButton.m */; };
 		226C73A61B9B27B600851E12 /* DRForwardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A01B9B27B600851E12 /* DRForwardButton.m */; };
@@ -64,11 +65,10 @@
 		2240D22A1B9F6E1F00B84FD4 /* DRScrollingContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRScrollingContainerController.m; sourceTree = "<group>"; };
 		2240D22C1B9F75AE00B84FD4 /* DRSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRSlider.h; sourceTree = "<group>"; };
 		2240D22D1B9F75AE00B84FD4 /* DRSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRSlider.m; sourceTree = "<group>"; };
-		22450D051BA9E8DA00ECBA4E /* loop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loop.png; sourceTree = "<group>"; };
-		22450D061BA9E8DA00ECBA4E /* loop1Selected */ = {isa = PBXFileReference; lastKnownFileType = file; path = loop1Selected; sourceTree = "<group>"; };
-		22450D071BA9E8DA00ECBA4E /* loopSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loopSelected.png; sourceTree = "<group>"; };
-		22450D0B1BA9E8E600ECBA4E /* shuffle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle.png; sourceTree = "<group>"; };
-		22450D0C1BA9E8E600ECBA4E /* shuffleSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffleSelected.png; sourceTree = "<group>"; };
+		22450D051BA9E8DA00ECBA4E /* loop2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loop2.png; sourceTree = "<group>"; };
+		22450D071BA9E8DA00ECBA4E /* loop3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loop3.png; sourceTree = "<group>"; };
+		22450D0B1BA9E8E600ECBA4E /* shuffle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle1.png; sourceTree = "<group>"; };
+		22450D0C1BA9E8E600ECBA4E /* shuffle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle2.png; sourceTree = "<group>"; };
 		224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtistTableViewController.h; sourceTree = "<group>"; };
 		224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRArtistTableViewController.m; sourceTree = "<group>"; };
 		224967261B95FAB10080CDE4 /* DRMediaTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMediaTableViewController.h; sourceTree = "<group>"; };
@@ -78,6 +78,7 @@
 		224967481B96B7F40080CDE4 /* DRScrollViewPassThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRScrollViewPassThrough.h; sourceTree = "<group>"; };
 		224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRScrollViewPassThrough.m; sourceTree = "<group>"; };
 		224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppIcon.appiconset; path = Media.xcassets/AppIcon.appiconset; sourceTree = "<group>"; };
+		224D4D321BB57F790082CE2E /* loop1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loop1.png; sourceTree = "<group>"; };
 		224F769E1B6C289600BC7B73 /* Simple-Music-Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple-Music-Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224F76A21B6C289600BC7B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		224F76A31B6C289600BC7B73 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -91,6 +92,7 @@
 		224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMusicViewController.h; sourceTree = "<group>"; };
 		224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMusicViewController.m; sourceTree = "<group>"; };
 		224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		22566E6E1BB8752A002DE410 /* musicScreenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = musicScreenshot.png; sourceTree = "<group>"; };
 		226C739A1B9B279300851E12 /* DRFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFirstViewController.h; sourceTree = "<group>"; };
 		226C739B1B9B279300851E12 /* DRFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFirstViewController.m; sourceTree = "<group>"; };
 		226C739D1B9B27B600851E12 /* DRRewindButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRRewindButton.h; sourceTree = "<group>"; };
@@ -209,13 +211,14 @@
 				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 				222DFD501BA2A220001E6BCE /* noteSml.png */,
 				22FDEFEA1B730EE400B5DF13 /* Icon2.png */,
+				22566E6E1BB8752A002DE410 /* musicScreenshot.png */,
 				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
 				222DFD521BA2A387001E6BCE /* noteMd.png */,
-				22450D051BA9E8DA00ECBA4E /* loop.png */,
-				22450D061BA9E8DA00ECBA4E /* loop1Selected */,
-				22450D071BA9E8DA00ECBA4E /* loopSelected.png */,
-				22450D0B1BA9E8E600ECBA4E /* shuffle.png */,
-				22450D0C1BA9E8E600ECBA4E /* shuffleSelected.png */,
+				224D4D321BB57F790082CE2E /* loop1.png */,
+				22450D051BA9E8DA00ECBA4E /* loop2.png */,
+				22450D071BA9E8DA00ECBA4E /* loop3.png */,
+				22450D0B1BA9E8E600ECBA4E /* shuffle1.png */,
+				22450D0C1BA9E8E600ECBA4E /* shuffle2.png */,
 			);
 			path = "Simple-Music-Player";
 			sourceTree = "<group>";
@@ -347,16 +350,17 @@
 			files = (
 				224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */,
 				22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */,
-				22450D081BA9E8DA00ECBA4E /* loop.png in Resources */,
-				22450D0D1BA9E8E600ECBA4E /* shuffle.png in Resources */,
+				22450D081BA9E8DA00ECBA4E /* loop2.png in Resources */,
+				22450D0D1BA9E8E600ECBA4E /* shuffle1.png in Resources */,
 				224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */,
-				22450D091BA9E8DA00ECBA4E /* loop1Selected in Resources */,
 				22FDEFEF1B7371F000B5DF13 /* noteBW.png in Resources */,
 				22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */,
 				222DFD531BA2A387001E6BCE /* noteMd.png in Resources */,
-				22450D0A1BA9E8DA00ECBA4E /* loopSelected.png in Resources */,
+				22450D0A1BA9E8DA00ECBA4E /* loop3.png in Resources */,
+				224D4D331BB57F790082CE2E /* loop1.png in Resources */,
 				22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */,
-				22450D0E1BA9E8E600ECBA4E /* shuffleSelected.png in Resources */,
+				22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */,
+				22450D0E1BA9E8E600ECBA4E /* shuffle2.png in Resources */,
 				222DFD511BA2A220001E6BCE /* noteSml.png in Resources */,
 				224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */,
 			);
@@ -523,10 +527,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Simple-Music-Player/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -534,11 +542,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = "Simple-Music-Player/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

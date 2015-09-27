@@ -11,6 +11,7 @@
 
 #import "DRMediaTableViewController.h"
 #import "GVMusicPlayerController.h"
+#import "DRPlayerUtility.h"
 
 @interface DRMediaTableViewController ()
 @property (nonatomic, strong) MPMediaItem *songToPlay;
@@ -30,8 +31,13 @@
     self.songs = [self.mediaCollection items];
     
     //setup loop and shuffle buttons
-    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"loop"] style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
-    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shuffle"] style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+
+    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
+    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+    
+    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
+    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+    
     self.navigationItem.rightBarButtonItems = @[shuffleButton, loopButton];
     
     
@@ -121,33 +127,28 @@
     
     if( self.musicPlayer.shuffleMode == MPMusicShuffleModeSongs){
         [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
-        sender.image = [UIImage imageNamed:@"shuffle"];
         self.shuffleWasOn = YES;
         
     } else{
         [self.musicPlayer setShuffleMode:MPMusicShuffleModeSongs]
         ;
-        sender.image = [UIImage imageNamed:@"shuffleSelected"];
+
         self.shuffleWasOn = NO;
         
     }
+   sender.image = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
     
 }
 - (void)loopButtonTapped:(UIBarButtonItem *)sender {
     
     if( self.musicPlayer.repeatMode == MPMusicRepeatModeAll){
         [self.musicPlayer setRepeatMode:MPMusicRepeatModeOne];
-        sender.image = [UIImage imageNamed:@"loop1Selected"];
-        
     } else if( self.musicPlayer.repeatMode == MPMusicRepeatModeOne){
         [self.musicPlayer setRepeatMode:MPMusicRepeatModeNone];
-        sender.image = [UIImage imageNamed:@"loop"];
-        
     } else {
-        [self.musicPlayer setRepeatMode:MPMusicRepeatModeAll];
-        sender.image = [UIImage imageNamed:@"loopSelected"];
-        
+        [self.musicPlayer setRepeatMode:MPMusicRepeatModeAll];  
     }
+    sender.image = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString:@"loop"];
 }
 
 

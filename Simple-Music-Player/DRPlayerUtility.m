@@ -31,5 +31,11 @@ searchQuery.groupingType = groupingType;
     return [searchQuery collections];
 }
 
++(UIImage *)createImageBasedOnEnum: (NSInteger) enumNumber ofTypeString: (NSString *) type{
+    NSString *name = [NSString stringWithFormat:@"%@%ld", type, (long)enumNumber];
+    UIImage *buttonImage = [UIImage imageNamed:name];
+    NSLog(@"Button produced: %@%ld", type, (long)enumNumber);
+    return buttonImage;
+}
 
 @end

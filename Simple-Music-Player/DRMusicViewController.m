@@ -229,33 +229,33 @@
 
     if( self.musicPlayer.shuffleMode == MPMusicShuffleModeSongs){
         [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
-            sender.image = [UIImage imageNamed:@"shuffle"];
         self.shuffleWasOn = YES;
 
     } else{
         [self.musicPlayer setShuffleMode:MPMusicShuffleModeSongs]
         ;
-        sender.image = [UIImage imageNamed:@"shuffleSelected"];
+
         self.shuffleWasOn = NO;
         
     }
+       sender.image = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
     
 }
 - (IBAction)loopButtonTapped:(UIBarButtonItem *)sender {
     
-    if( self.musicPlayer.repeatMode == MPMusicRepeatModeAll){
-        [self.musicPlayer setRepeatMode:MPMusicRepeatModeOne];
-        sender.image = [UIImage imageNamed:@"loop1Selected"];
+
         
-    } else if( self.musicPlayer.repeatMode == MPMusicRepeatModeOne){
-        [self.musicPlayer setRepeatMode:MPMusicRepeatModeNone];
-        sender.image = [UIImage imageNamed:@"loop"];
-        
-    } else {
-        [self.musicPlayer setRepeatMode:MPMusicRepeatModeAll];
-        sender.image = [UIImage imageNamed:@"loopSelected"];
-        
-    }
+        if( self.musicPlayer.repeatMode == MPMusicRepeatModeAll){
+            [self.musicPlayer setRepeatMode:MPMusicRepeatModeOne];
+        } else if( self.musicPlayer.repeatMode == MPMusicRepeatModeOne){
+            [self.musicPlayer setRepeatMode:MPMusicRepeatModeNone];
+        } else {
+            [self.musicPlayer setRepeatMode:MPMusicRepeatModeAll];
+        }
+        sender.image = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString:@"loop"];
+
+    
+
 }
 
 - (IBAction)sortTapped:(UIBarButtonItem *)sender {
