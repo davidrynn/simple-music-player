@@ -39,7 +39,7 @@
 @interface GVMusicPlayerController () <AVAudioSessionDelegate>
 @property (copy, nonatomic) NSArray *delegates;
 @property (strong, nonatomic) AVPlayer *player;
-@property (strong, nonatomic) MPMusicPlayerController *mpPlayer;
+//@property (strong, nonatomic) MPMusicPlayerController *mpPlayer;
 @property (strong, nonatomic, readwrite) NSArray *originalQueue;
 @property (strong, nonatomic, readwrite) NSArray *queue;
 @property (strong, nonatomic) MPMediaItem *nowPlayingItem;
@@ -111,7 +111,8 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
             NSLog(@"setActive error %@", sessionError);
         }
         //  replace [audioSession setDelegate:self] with notifications;
-        self.mpPlayer = [MPMusicPlayerController systemMusicPlayer];
+        
+//        self.mpPlayer = [MPMusicPlayerController systemMusicPlayer];
         [self registerNotifications];
     }
 
@@ -133,7 +134,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
     [defaults setObject:songId forKey:@"persistentID"];
 }
 
-//when your application will be launched next time you can get required song:
+//when your application will be launched next time get required song:
 - (void)loadSongFromUserDefaults{
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -246,35 +247,37 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 #pragma mark - MPMediaPlayback
 
 - (void)play {
-    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
-        [self playDRMMusic];
-    }
-    else {
-    [self.mpPlayer stop];
+//    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+//        [self playDRMMusic];
+//    }
+//    else {
+//    [self.mpPlayer stop];
     [self.player play];
-    }
+//    }
     [self storePersistentIdSong:self.nowPlayingItem];
     self.playbackState = MPMusicPlaybackStatePlaying;
 }
--(void) playDRMMusic {
-    [self stop];
-    MPMediaItem *song = self.nowPlayingItem;
-    MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:@[song]];
-    [self.mpPlayer setQueueWithItemCollection:collection];
-    [self.mpPlayer setNowPlayingItem:self.nowPlayingItem];
-    NSLog(@"DRM url:%@, DRM title, %@", [self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL], self.mpPlayer.nowPlayingItem.title);
-    [self.mpPlayer play];
-}
--(void) pauseDRMMusic {
-    [self.mpPlayer pause];
-}
+//-(void) playDRMMusic {
+//    [self stop];
+//    MPMediaItem *song = self.nowPlayingItem;
+//    MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:@[song]];
+//    [self.mpPlayer setQueueWithItemCollection:collection];
+//    [self.mpPlayer setNowPlayingItem:self.nowPlayingItem];
+//    NSLog(@"DRM url:%@, DRM title, %@", [self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL], self.mpPlayer.nowPlayingItem.title);
+//    
+//    //set completion block that resets index to next song after nowplaying item in AVplayer.
+//    [self.mpPlayer play];
+//}
+//-(void) pauseDRMMusic {
+//    [self.mpPlayer pause];
+//}
 - (void)pause {
-    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
-        [self pauseDRMMusic];
-    }
-    else {
+//    if (![self.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
+//        [self pauseDRMMusic];
+//    }
+//    else {
     [self.player pause];
-    }
+//    }
     self.playbackState = MPMusicPlaybackStatePaused;
 }
 
@@ -305,11 +308,11 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (NSTimeInterval)currentPlaybackTime {
 #if !(TARGET_IPHONE_SIMULATOR)
-    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-        return self.mpPlayer.currentPlaybackTime;
-    } else {
+//    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+//        return self.mpPlayer.currentPlaybackTime;
+//    } else {
     return self.player.currentTime.value / self.player.currentTime.timescale;
-    }
+//    }
 #else
     return 0;
 #endif
@@ -317,11 +320,11 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (void)setCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime {
     CMTime t = CMTimeMake(currentPlaybackTime, 1);
-    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
-        [self.mpPlayer setCurrentPlaybackTime:currentPlaybackTime];
-    } else {
+//    if (self.mpPlayer.playbackState == MPMusicPlaybackStatePlaying) {
+//        [self.mpPlayer setCurrentPlaybackTime:currentPlaybackTime];
+//    } else {
     [self.player seekToTime:t];
-    }
+//     }
 }
 
 - (float)currentPlaybackRate {
@@ -379,6 +382,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
 - (void)setNowPlayingItem:(MPMediaItem *)nowPlayingItem {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
 
     MPMediaItem *previousTrack = _nowPlayingItem;
     _nowPlayingItem = nowPlayingItem;
@@ -399,6 +403,9 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 
     // Subscribe to the AVPlayerItem's DidPlayToEndTime notification.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAVPlayerItemDidPlayToEndTimeNotification) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    
+////TODO: add MPMedia equivalent to player did play to end notification.
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(handleAVPlayerItemDidPlayToEndTimeNotification) name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:nil];
 
     // Inform delegates
     for (id <GVMusicPlayerControllerDelegate> delegate in self.delegates) {
