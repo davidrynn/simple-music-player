@@ -65,7 +65,7 @@
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     [self.tableView.layer setBorderColor: [transBlack CGColor]];
     
-    
+ 
     
     //starting music player
     self.musicPlayer =             [GVMusicPlayerController sharedInstance];
@@ -131,6 +131,17 @@
     //hide navbar
     self.navigationController.navigationBarHidden = YES;
     [[GVMusicPlayerController sharedInstance] addDelegate:self];
+    
+    //setup shuffle and loop buttons
+    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
+    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+    
+    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
+    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"◦Songs" style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
+    
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    self.navigationItem.rightBarButtonItems = @[shuffleButton, flexibleSpace, sortButton, flexibleSpace, loopButton];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -147,63 +158,26 @@
 - (void) setUpSortedLists {
 #if !(TARGET_IPHONE_SIMULATOR)
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:songsQuery];
-    NSArray *songArray = [songsQuery items];
-    NSArray *sectionArray = songsQuery.collectionSections;
-    if (!sectionArray) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"No songs in library" message:@"There are no songs in your library.  The music player will not work without songs." preferredStyle:UIAlertControllerStyleAlert];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-
-//    if (songArray == nil) {
-//        songArray = @[];
-//    }
-//    if (sectionArray==nil) {
-//        sectionArray = @[];
-//    }
-    
-    self.songsDictionary = @{@"category": @"Songs",
-                             @"array": songArray,
-                             @"sections": sectionArray
-                             };
+    NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle isCollectionTypeItems:YES];
+    self.songsDictionary = songDictionary;
     
     
     MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:albumsQuery];
-    albumsQuery.groupingType = MPMediaGroupingAlbum;
-    self.albumsDictionary = @{@"category": @"Albums",
-                              @"array":albumsQuery.collections,
-                              @"sections": albumsQuery.collectionSections
-                              };
+    self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum isCollectionTypeItems:NO];
     NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
     
     MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:artistsQuery];
     artistsQuery.groupingType = MPMediaGroupingArtist;
-    self.artistsDictionary = @{@"category":@"Artists",
-                          @"array":artistsQuery.collections,
-                          @"sections": artistsQuery.collectionSections
-                          };
+    self.artistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: artistsQuery withCategory:@"Artists" withGroupingType: MPMediaGroupingArtist isCollectionTypeItems:NO];
     NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
     
     MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:genresQuery];
-    genresQuery.groupingType = MPMediaGroupingGenre;
-    self.genresDictionary = @{@"category":@"Genres",
-                         @"array":[genresQuery collections],
-                         @"sections": genresQuery.collectionSections
-                         };
+    self.genresDictionary = [DRPlayerUtility returnDictionaryFromQuery: genresQuery withCategory:@"Genres" withGroupingType: MPMediaGroupingGenre isCollectionTypeItems:NO];
     NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
     
     MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:playlistsQuery];
-    playlistsQuery.groupingType = MPMediaGroupingPlaylist;
-    self.playlistsDictionary = @{@"category":@"Playlists",
-                            @"array": [playlistsQuery collections],
-                            @"sections": playlistsQuery.collectionSections
-                            };
+    self.playlistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: playlistsQuery withCategory:@"Playlists" withGroupingType: MPMediaGroupingPlaylist isCollectionTypeItems:NO];
     NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
-    
     
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
 #endif
@@ -608,8 +582,11 @@
 
 #pragma mark - Navigation
 -(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
-    if (self.dadCollection != collection) {
-        
+    //does nothing if segue would just put same stack on itself
+    NSSet *set1 = [NSSet setWithArray: self.musicPlayer.queue];
+    NSSet *set2 = [NSSet setWithArray:[collection items]];
+    if (![set1 isEqualToSet:set2]) {
+
         self.dadCollection = collection;
 //TODO: Get VC to dismiss if it's not DRMusicVC so there isn't a huge stack each time you go to Artist/Album
         [self performSegueWithIdentifier:identifier sender:self];

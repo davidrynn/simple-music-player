@@ -40,4 +40,33 @@ searchQuery.groupingType = groupingType;
     return buttonImage;
 }
 
++(NSDictionary *)returnDictionaryFromQuery: (MPMediaQuery *)query withCategory: (NSString *)category withGroupingType: (MPMediaGrouping) type isCollectionTypeItems:(BOOL) isItems{
+    NSDictionary *mediaItemDictionary;
+    
+    //If there are songs:
+    if (query.collections.count>0 || query.items.count > 0){
+    [self filterOutCloudItemsFromQuery:query];
+    query.groupingType = type;
+        NSArray *mediaArray;
+        if (isItems) {
+            mediaArray = query.items;
+        }
+        else {
+            mediaArray = query.collections;
+        }
+    mediaItemDictionary = @{@"category":category,
+                               @"array":mediaArray,
+                               @"sections": query.collectionSections
+                               };
+    }
+    else {
+    
+        mediaItemDictionary = @{@"category":category,
+                                @"array":@[],
+                                @"sections":@[],
+                                };
+    }
+    
+    return mediaItemDictionary;
+}
 @end

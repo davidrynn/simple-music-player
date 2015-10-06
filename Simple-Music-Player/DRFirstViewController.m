@@ -20,6 +20,12 @@
 @import MediaPlayer;
 
 @interface DRFirstViewController () <UIScrollViewDelegate, GVMusicPlayerControllerDelegate>
+
+
+@property (weak, nonatomic) IBOutlet UIView *viewContainer;
+
+
+
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *upDownLabel;
@@ -33,11 +39,13 @@
 
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 @property (weak, nonatomic) IBOutlet UILabel *currentTrackTime;
-@property (weak, nonatomic) IBOutlet UILabel *currentTrackLength;
+@property (weak, nonatomic) IBOutlet UILabel *currentTrackLengthLabel;
+@property (nonatomic) NSTimeInterval currentTrackLength;
 @property (weak, nonatomic) IBOutlet UIButton *artistButton;
 @property (weak, nonatomic) IBOutlet UIButton *albumButton;
 
 @property (nonatomic, strong) GVMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) MPMusicPlayerController *mpMusicPlayer;
 @property BOOL panningProgress;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic) CGFloat proportionalHeight;
@@ -51,6 +59,8 @@
     TICK
     [super viewDidLoad];
     
+    self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
+    
     //set height of scrollview
     self.proportionalHeight = self.view.frame.size.height*0.75;
     //setup topcontainer border
@@ -62,7 +72,7 @@
     [self.scrollView.layer setBorderColor: [transBlack CGColor]];
     
     
-    
+    //set slider button to square
     UIImage *image = [self drawThumbRect];
     [self.slider setThumbImage:image forState:UIControlStateNormal];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
@@ -79,7 +89,7 @@
     
     [self setUpScrollView];
 
-        [[GVMusicPlayerController sharedInstance] addDelegate:self];
+    [[GVMusicPlayerController sharedInstance] addDelegate:self];
 }
 
 
@@ -87,6 +97,11 @@
     if (!self.panningProgress){
         self.slider.value = [GVMusicPlayerController sharedInstance].currentPlaybackTime;
         self.currentTrackTime.text = [self stringFromTime:[GVMusicPlayerController sharedInstance].currentPlaybackTime];
+    }
+    //trying to deal with DRM here
+    if (self.mpMusicPlayer.playbackState == MPMusicPlaybackStatePlaying &&  [GVMusicPlayerController sharedInstance].currentPlaybackTime > self.currentTrackLength -10) {
+        [self.mpMusicPlayer stop];
+        [self.musicPlayer skipToNextItem];
     }
     
 }
@@ -183,6 +198,7 @@
             [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:YES];
         }];
     });
+
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
 #endif
 }
@@ -267,7 +283,8 @@
     
     // Time labels
     NSTimeInterval trackLength = [[nowPlayingItem valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue];
-    self.currentTrackLength.text = [self stringFromTime:trackLength];
+    self.currentTrackLength = trackLength;
+    self.currentTrackLengthLabel.text = [self stringFromTime:trackLength];
     self.slider.value = 0;
     self.slider.maximumValue = trackLength;
     
