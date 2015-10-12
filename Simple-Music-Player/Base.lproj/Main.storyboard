@@ -27,7 +27,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="67"/>
                                         <animations/>
                                         <items>
-                                            <barButtonItem image="shuffle1.png" style="plain" id="ibW-cj-Ffb" userLabel="Shuffle">
+                                            <barButtonItem image="shuffle1" style="plain" id="ibW-cj-Ffb" userLabel="Shuffle">
                                                 <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-14"/>
                                                 <connections>
                                                     <action selector="shuffleButtonTapped:" destination="BYZ-38-t0r" id="3kN-Us-VHQ"/>
@@ -41,7 +41,7 @@
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="cTL-sA-loH"/>
-                                            <barButtonItem image="loop1.png" style="plain" id="lrd-xK-gSx" userLabel="Loop">
+                                            <barButtonItem tag="2" image="loop1.png" style="plain" id="lrd-xK-gSx" userLabel="Loop">
                                                 <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-14"/>
                                                 <connections>
                                                     <action selector="loopButtonTapped:" destination="BYZ-38-t0r" id="5YT-lv-yua"/>
@@ -633,7 +633,7 @@
     </scenes>
     <resources>
         <image name="loop1.png" width="40" height="40"/>
-        <image name="shuffle1.png" width="40" height="40"/>
+        <image name="shuffle1" width="40" height="40"/>
     </resources>
     <color key="tintColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
 </document>

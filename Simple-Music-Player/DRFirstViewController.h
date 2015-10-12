@@ -13,6 +13,7 @@
 
 @interface DRFirstViewController : UIViewController
 @property (nonatomic, weak) id<DRPopSaysPlayMusicDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UIView *viewContainer;
 
 @end
 @protocol DRPopSaysPlayMusicDelegate <NSObject>

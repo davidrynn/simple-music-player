@@ -34,6 +34,7 @@ searchQuery.groupingType = groupingType;
 }
 
 +(UIImage *)createImageBasedOnEnum: (NSInteger) enumNumber ofTypeString: (NSString *) type{
+    //test for no image in shuffle
     NSString *name = [NSString stringWithFormat:@"%@%ld", type, (long)enumNumber];
     UIImage *buttonImage = [UIImage imageNamed:name];
     NSLog(@"Button produced: %@%ld", type, (long)enumNumber);

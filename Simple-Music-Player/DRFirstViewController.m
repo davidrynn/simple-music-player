@@ -22,10 +22,6 @@
 @interface DRFirstViewController () <UIScrollViewDelegate, GVMusicPlayerControllerDelegate>
 
 
-@property (weak, nonatomic) IBOutlet UIView *viewContainer;
-
-
-
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *upDownLabel;
@@ -62,7 +58,11 @@
     self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
     //set height of scrollview
+    if (self.view.frame.size.width == 414) {
+        self.proportionalHeight = self.view.frame.size.height*0.77;
+    } else {
     self.proportionalHeight = self.view.frame.size.height*0.75;
+    }
     //setup topcontainer border
     [self.buttonContainer.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
@@ -73,8 +73,12 @@
     
     
     //set slider button to square
+    self.slider.continuous = YES;
     UIImage *image = [self drawThumbRect];
     [self.slider setThumbImage:image forState:UIControlStateNormal];
+    [self.slider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
+
+    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
     [self.timer fire];
 
@@ -99,9 +103,9 @@
         self.currentTrackTime.text = [self stringFromTime:[GVMusicPlayerController sharedInstance].currentPlaybackTime];
     }
     //trying to deal with DRM here
-    if (self.mpMusicPlayer.playbackState == MPMusicPlaybackStatePlaying &&  [GVMusicPlayerController sharedInstance].currentPlaybackTime > self.currentTrackLength -10) {
+    if (self.mpMusicPlayer.playbackState == MPMusicPlaybackStatePlaying &&  [GVMusicPlayerController sharedInstance].currentPlaybackTime > self.currentTrackLength -1) {
         [self.mpMusicPlayer stop];
-        [self.musicPlayer skipToNextItem];
+        [self forwardButtonTapped:self];
     }
     
 }
@@ -132,6 +136,9 @@
 #pragma mark Scroll View
 
 -(void)setUpScrollView{
+    //if self.view.frame.size.width = 320 etc as in if it is a 
+    
+    
     // In the next section we will implement a delegate method to show and hide the contained view controller in the scrollview.
     self.scrollView.delegate = self;
     // We disable paging to allow the scrollview to move freely and not "stick" to the next page.
@@ -248,7 +255,9 @@
     [[GVMusicPlayerController sharedInstance] play];
 }
 - (IBAction)sliderChanged:(id)sender {
+    //logic to update track time
     
+    self.currentTrackTime.text = [self stringFromTime:self.slider.value];
     self.panningProgress = YES;
 }
 - (IBAction)finishedSliding {

@@ -33,6 +33,8 @@
     [super viewDidLoad];
     //starting music player
     self.musicPlayer = [GVMusicPlayerController sharedInstance];
+    self.musicPlayer.shuffleMode = MPMusicShuffleModeOff;
+
     
     //set header to display artist's name
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50.0)];

@@ -65,10 +65,9 @@
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     [self.tableView.layer setBorderColor: [transBlack CGColor]];
     
- 
-    
     //starting music player
     self.musicPlayer =             [GVMusicPlayerController sharedInstance];
+//    self.musicPlayer.shuffleMode = MPMusicShuffleModeOff;
     //for DRM
     self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
@@ -130,6 +129,7 @@
     
     //hide navbar
     self.navigationController.navigationBarHidden = YES;
+    
     [[GVMusicPlayerController sharedInstance] addDelegate:self];
     
     //setup shuffle and loop buttons
@@ -160,7 +160,6 @@
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
     NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle isCollectionTypeItems:YES];
     self.songsDictionary = songDictionary;
-    
     
     MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
     self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum isCollectionTypeItems:NO];
@@ -195,8 +194,6 @@
     self.searchController.searchBar.barTintColor= [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
     self.searchController.searchBar.layer.borderWidth = 1;
     self.searchController.searchBar.layer.borderColor =[UIColor colorWithRed:230.0/255.0 green:230.0/255.0 blue:230.0/255.0 alpha:1.0].CGColor;
-
-
     
     self.definesPresentationContext = YES;
     
@@ -205,7 +202,7 @@
 #pragma mark - button actions
 - (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
 
-    if( self.musicPlayer.shuffleMode == MPMusicShuffleModeSongs){
+    if( self.musicPlayer.shuffleMode == MPMusicShuffleModeSongs || self.musicPlayer.shuffleMode == MPMusicShuffleModeDefault){
         [self.musicPlayer setShuffleMode:MPMusicShuffleModeOff];
         self.shuffleWasOn = YES;
 
@@ -521,7 +518,8 @@
     if (self.musicPlayer.shuffleMode==MPMusicShuffleModeSongs) {
 
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
-        self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+        
+        self.shuffleButton.image = [UIImage imageNamed:@"shuffle0  "];
         
     }
 
@@ -583,18 +581,24 @@
 #pragma mark - Navigation
 -(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
     //does nothing if segue would just put same stack on itself
-    NSSet *set1 = [NSSet setWithArray: self.musicPlayer.queue];
-    NSSet *set2 = [NSSet setWithArray:[collection items]];
-    if (![set1 isEqualToSet:set2]) {
+//    UIWindow *topWindow = [UIApplication sharedApplication].keyWindow;
+//    DRFirstViewController *firstVC = topWindow.rootViewController;
+//    UIView *firstViewContainer = firstVC.viewContainer;
+//    NSLog(@"root view = %@, rootview container = %@", topWindow.rootViewController, firstVC.viewContainer);
+//    
+//    NSSet *set1 = [NSSet setWithArray: self.musicPlayer.queue];
+//    NSSet *set2 = [NSSet setWithArray:[collection items]];
+//    if (![set1 isEqualToSet:set2]) {
 
         self.dadCollection = collection;
 //TODO: Get VC to dismiss if it's not DRMusicVC so there isn't a huge stack each time you go to Artist/Album
         [self performSegueWithIdentifier:identifier sender:self];
         
-    }
+ //   }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    self.musicPlayer.shuffleMode = MPMusicShuffleModeDefault;
     if ([sender isKindOfClass:[UITableViewCell class]]) {
         
         UITableViewCell *cell = (UITableViewCell *)sender;
@@ -611,6 +615,7 @@
             destinationVC.mediaCollection = self.mediaItemsDictionary[@"array"][adjustIndex];
         }
     }
+    //Distinguish between coming from cell or from other view
     else if([sender isKindOfClass:[self class]]&&self.dadCollection){
         
         DRMediaTableViewController *destinationVC = [segue destinationViewController];
@@ -641,13 +646,11 @@
     TICK;
     if (!self.songToPlay) {
         self.songToPlay = self.musicPlayer.nowPlayingItem ;
-        
     }
 
     [self.musicPlayer play];
      
     TOCK;
-    
 }
 
 -(void) pauseMusic {
@@ -655,7 +658,6 @@
     TICK
     if (![self.musicPlayer.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
         [self.mpMusicPlayer pause];
-        
     }
 
     [self.musicPlayer pause];
@@ -663,7 +665,5 @@
     TOCK;
     
 }
-
-
 
 @end

@@ -15,8 +15,6 @@
 		2240D22E1B9F75AE00B84FD4 /* DRSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 2240D22D1B9F75AE00B84FD4 /* DRSlider.m */; };
 		22450D081BA9E8DA00ECBA4E /* loop2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D051BA9E8DA00ECBA4E /* loop2.png */; };
 		22450D0A1BA9E8DA00ECBA4E /* loop3.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D071BA9E8DA00ECBA4E /* loop3.png */; };
-		22450D0D1BA9E8E600ECBA4E /* shuffle1.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D0B1BA9E8E600ECBA4E /* shuffle1.png */; };
-		22450D0E1BA9E8E600ECBA4E /* shuffle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22450D0C1BA9E8E600ECBA4E /* shuffle2.png */; };
 		224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */; };
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
@@ -38,6 +36,7 @@
 		226C73A81B9B27B600851E12 /* DRPlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A41B9B27B600851E12 /* DRPlayButton.m */; };
 		22A2CB531BA053F50009D1F2 /* DRAlbumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB521BA053F50009D1F2 /* DRAlbumTableViewController.m */; };
 		22A2CB5C1BA1A4BA0009D1F2 /* DRSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB5B1BA1A4BA0009D1F2 /* DRSection.m */; };
+		22E6DC1B1BC98A3000DBBCB8 /* shuffle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E6DC1A1BC98A3000DBBCB8 /* shuffle2.png */; settings = {ASSET_TAGS = (); }; };
 		22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF931B700AFC00B5DF13 /* Images.xcassets */; };
 		22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEA1B730EE400B5DF13 /* Icon2.png */; };
 		22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEC1B730F5D00B5DF13 /* Note.png */; };
@@ -67,8 +66,6 @@
 		2240D22D1B9F75AE00B84FD4 /* DRSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRSlider.m; sourceTree = "<group>"; };
 		22450D051BA9E8DA00ECBA4E /* loop2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loop2.png; sourceTree = "<group>"; };
 		22450D071BA9E8DA00ECBA4E /* loop3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loop3.png; sourceTree = "<group>"; };
-		22450D0B1BA9E8E600ECBA4E /* shuffle1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle1.png; sourceTree = "<group>"; };
-		22450D0C1BA9E8E600ECBA4E /* shuffle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle2.png; sourceTree = "<group>"; };
 		224967141B94E6AE0080CDE4 /* DRArtistTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtistTableViewController.h; sourceTree = "<group>"; };
 		224967151B94E6AE0080CDE4 /* DRArtistTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRArtistTableViewController.m; sourceTree = "<group>"; };
 		224967261B95FAB10080CDE4 /* DRMediaTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMediaTableViewController.h; sourceTree = "<group>"; };
@@ -107,6 +104,7 @@
 		22A2CB521BA053F50009D1F2 /* DRAlbumTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAlbumTableViewController.m; sourceTree = "<group>"; };
 		22A2CB5A1BA1A4BA0009D1F2 /* DRSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRSection.h; sourceTree = "<group>"; };
 		22A2CB5B1BA1A4BA0009D1F2 /* DRSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRSection.m; sourceTree = "<group>"; };
+		22E6DC1A1BC98A3000DBBCB8 /* shuffle2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shuffle2.png; sourceTree = "<group>"; };
 		22FDEF931B700AFC00B5DF13 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		22FDEFEA1B730EE400B5DF13 /* Icon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon2.png; sourceTree = "<group>"; };
 		22FDEFEC1B730F5D00B5DF13 /* Note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Note.png; sourceTree = "<group>"; };
@@ -207,6 +205,10 @@
 				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
+				224D4D321BB57F790082CE2E /* loop1.png */,
+				22450D051BA9E8DA00ECBA4E /* loop2.png */,
+				22450D071BA9E8DA00ECBA4E /* loop3.png */,
+				22E6DC1A1BC98A3000DBBCB8 /* shuffle2.png */,
 				224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */,
 				22FDEFEC1B730F5D00B5DF13 /* Note.png */,
 				222DFD501BA2A220001E6BCE /* noteSml.png */,
@@ -214,11 +216,6 @@
 				22566E6E1BB8752A002DE410 /* musicScreenshot.png */,
 				22FDEFEE1B7371F000B5DF13 /* noteBW.png */,
 				222DFD521BA2A387001E6BCE /* noteMd.png */,
-				224D4D321BB57F790082CE2E /* loop1.png */,
-				22450D051BA9E8DA00ECBA4E /* loop2.png */,
-				22450D071BA9E8DA00ECBA4E /* loop3.png */,
-				22450D0B1BA9E8E600ECBA4E /* shuffle1.png */,
-				22450D0C1BA9E8E600ECBA4E /* shuffle2.png */,
 			);
 			path = "Simple-Music-Player";
 			sourceTree = "<group>";
@@ -351,16 +348,15 @@
 				224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */,
 				22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */,
 				22450D081BA9E8DA00ECBA4E /* loop2.png in Resources */,
-				22450D0D1BA9E8E600ECBA4E /* shuffle1.png in Resources */,
 				224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */,
 				22FDEFEF1B7371F000B5DF13 /* noteBW.png in Resources */,
+				22E6DC1B1BC98A3000DBBCB8 /* shuffle2.png in Resources */,
 				22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */,
 				222DFD531BA2A387001E6BCE /* noteMd.png in Resources */,
 				22450D0A1BA9E8DA00ECBA4E /* loop3.png in Resources */,
 				224D4D331BB57F790082CE2E /* loop1.png in Resources */,
 				22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */,
 				22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */,
-				22450D0E1BA9E8E600ECBA4E /* shuffle2.png in Resources */,
 				222DFD511BA2A220001E6BCE /* noteSml.png in Resources */,
 				224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */,
 			);
@@ -456,6 +452,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -501,6 +498,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -533,7 +531,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b339776a-4c47-45ad-b517-f24b9ea25403";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -549,7 +547,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "edu.self.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b339776a-4c47-45ad-b517-f24b9ea25403";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
