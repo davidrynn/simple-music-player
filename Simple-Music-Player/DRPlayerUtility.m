@@ -10,9 +10,7 @@
 
 @implementation DRPlayerUtility
 +(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query{
-    
-//
-//    [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:NULL forProperty: MPMediaItemPropertyAssetURL]];
+//is this necessary?
     [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[NSNumber numberWithBool:NO] forProperty:MPMediaItemPropertyIsCloudItem]];
 }
 
@@ -34,18 +32,30 @@ searchQuery.groupingType = groupingType;
 }
 
 +(UIImage *)createImageBasedOnEnum: (NSInteger) enumNumber ofTypeString: (NSString *) type{
-    //test for no image in shuffle
+
     NSString *name = [NSString stringWithFormat:@"%@%ld", type, (long)enumNumber];
     UIImage *buttonImage = [UIImage imageNamed:name];
     NSLog(@"Button produced: %@%ld", type, (long)enumNumber);
     return buttonImage;
 }
 
+
+//+(NSDictionary *)returnDictionaryFromCategory: (NSString *) category{
+//        NSDictionary *mediaItemDictionary;
+//    NSString *categoryLwrCase = [category lowercaseString];
+//    NSString *queryString = [NSString stringWithFormat:@"%@query", categoryLwrCase];
+//    MPMediaQuery *query = [MPMediaQuery queryString];
+//
+//    return mediaItemDictionary;
+//}
+
+
 +(NSDictionary *)returnDictionaryFromQuery: (MPMediaQuery *)query withCategory: (NSString *)category withGroupingType: (MPMediaGrouping) type isCollectionTypeItems:(BOOL) isItems{
     NSDictionary *mediaItemDictionary;
     
     //If there are songs:
     if (query.collections.count>0 || query.items.count > 0){
+        
     [self filterOutCloudItemsFromQuery:query];
     query.groupingType = type;
         NSArray *mediaArray;
@@ -60,6 +70,7 @@ searchQuery.groupingType = groupingType;
                                @"sections": query.collectionSections
                                };
     }
+    //if no songs
     else {
     
         mediaItemDictionary = @{@"category":category,

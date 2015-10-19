@@ -67,14 +67,14 @@
     
     //starting music player
     self.musicPlayer =             [GVMusicPlayerController sharedInstance];
-//    self.musicPlayer.shuffleMode = MPMusicShuffleModeOff;
+
     //for DRM
     self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
     //setting up delegates
     [self setDelegates];
     
-    [self setUpSortedLists];
+    [self setupSortedLists];
     //TODO - EXCHANGE @"category" key for enums
     //setup song collection as initial collection
     self.mediaItemsDictionary = self.songsDictionary;
@@ -132,16 +132,8 @@
     
     [[GVMusicPlayerController sharedInstance] addDelegate:self];
     
-    //setup shuffle and loop buttons
-    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
-    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
-    
-    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
-    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
-    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"◦Songs" style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
-    
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    self.navigationItem.rightBarButtonItems = @[shuffleButton, flexibleSpace, sortButton, flexibleSpace, loopButton];
+    [self setupBarButtonImages];
+
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -155,7 +147,21 @@
     
 }
 
-- (void) setUpSortedLists {
+-(void) setupBarButtonImages{
+
+    //setup shuffle and loop buttons
+    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
+    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+    
+    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
+    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"◦Songs" style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
+    
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    self.navigationItem.rightBarButtonItems = @[shuffleButton, flexibleSpace, sortButton, flexibleSpace, loopButton];
+}
+
+- (void) setupSortedLists {
 #if !(TARGET_IPHONE_SIMULATOR)
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
     NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle isCollectionTypeItems:YES];
@@ -519,7 +525,7 @@
 
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
         
-        self.shuffleButton.image = [UIImage imageNamed:@"shuffle0  "];
+        self.shuffleButton.image = [UIImage imageNamed:@"shuffle0"];
         
     }
 

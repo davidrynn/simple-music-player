@@ -33,7 +33,10 @@
     [super viewDidLoad];
     //starting music player
     self.musicPlayer = [GVMusicPlayerController sharedInstance];
-    self.musicPlayer.shuffleMode = MPMusicShuffleModeOff;
+    self.musicPlayer.shuffleMode = MPMusicShuffleModeDefault;
+    //setup song collection as initial controller
+    [self.musicPlayer setQueueWithItemCollection:self.mediaCollection];
+    self.songs = [self.mediaCollection items];
 
     
     //set header to display artist's name
@@ -48,13 +51,7 @@
     self.tableView.tableHeaderView = headerView;
     
     //setup loop and shuffle buttons    
-    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
-    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
-    
-    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
-    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
-    
-    self.navigationItem.rightBarButtonItems = @[shuffleButton, loopButton];
+    [self setupNavButtons];
 
     
 }
@@ -98,6 +95,16 @@
     
 }
 
+-(void)setupNavButtons{
+    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
+    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+    
+    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
+    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+    
+    self.navigationItem.rightBarButtonItems = @[shuffleButton, loopButton];
+
+}
 #pragma mark - TableView dataSource
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -169,7 +176,8 @@
     if (self.musicPlayer.shuffleMode==MPMusicShuffleModeSongs) {
         
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
-   //     self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+        [self setupNavButtons];
+
     }
     if (!self.mediaCollected) {
         //setup song collection as initial controller

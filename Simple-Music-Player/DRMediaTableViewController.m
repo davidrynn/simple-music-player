@@ -25,14 +25,20 @@
     [super viewDidLoad];
     //starting music player
     self.musicPlayer = [GVMusicPlayerController sharedInstance];
-    self.musicPlayer.shuffleMode = MPMusicShuffleModeOff;
+    self.musicPlayer.shuffleMode = MPMusicShuffleModeDefault;
     
     //setup song collection as initial controller
     [self.musicPlayer setQueueWithItemCollection:self.mediaCollection];
     self.songs = [self.mediaCollection items];
     
     //setup loop and shuffle buttons
+    [self setupNavButtons];
 
+
+    
+    
+}
+-(void)setupNavButtons{
     UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
     UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
     
@@ -40,8 +46,7 @@
     UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
     
     self.navigationItem.rightBarButtonItems = @[shuffleButton, loopButton];
-    
-    
+
 }
 
 #pragma mark - Table view data source
@@ -77,7 +82,8 @@
     if (self.musicPlayer.shuffleMode==MPMusicShuffleModeSongs) {
         
         [self.musicPlayer setShuffleMode: MPMusicShuffleModeOff];
-        //    self.shuffleButton.image = [UIImage imageNamed:@"shuffle"];
+        [self setupNavButtons];
+  
     }
     
     [self.musicPlayer playItemAtIndex:indexPath.row];

@@ -8,9 +8,10 @@
 
 #import "GVMusicPlayerController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "DRFirstViewController.h"
 
 
-@interface NSArray (GVShuffledArray)
+@interface NSArray (GVShuffledArray) 
 @property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray *shuffled;
 @end
 
@@ -36,7 +37,7 @@
 @end
 
 
-@interface GVMusicPlayerController () <AVAudioSessionDelegate>
+@interface GVMusicPlayerController () <AVAudioSessionDelegate, DRPushUpScrollViewDelegate>
 @property (copy, nonatomic) NSArray *delegates;
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) MPMusicPlayerController *mpPlayer;

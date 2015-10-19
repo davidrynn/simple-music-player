@@ -24,10 +24,13 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
-@property (weak, nonatomic) IBOutlet UILabel *upDownLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingArtist;
 @property (weak, nonatomic) IBOutlet UIImageView *nowPlayingImage;
 @property (weak, nonatomic) IBOutlet UIView *buttonContainer;
+
+@property (weak, nonatomic) IBOutlet UIButton *scrollUpButton;
+
 @property (strong, nonatomic) IBOutlet UIButton *playerButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousButton;
 @property (weak, nonatomic) IBOutlet UIButton *forwardButton;
@@ -61,7 +64,7 @@
     if (self.view.frame.size.width == 414) {
         self.proportionalHeight = self.view.frame.size.height*0.77;
     } else {
-    self.proportionalHeight = self.view.frame.size.height*0.75;
+        self.proportionalHeight = self.view.frame.size.height*0.75;
     }
     //setup topcontainer border
     [self.buttonContainer.layer setBorderWidth:1.0f];
@@ -77,12 +80,12 @@
     UIImage *image = [self drawThumbRect];
     [self.slider setThumbImage:image forState:UIControlStateNormal];
     [self.slider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
-
+    
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
     [self.timer fire];
-
-
+    
+    
     
     TOCK
     
@@ -92,7 +95,7 @@
     [super viewWillAppear:animated];
     
     [self setUpScrollView];
-
+    
     [[GVMusicPlayerController sharedInstance] addDelegate:self];
 }
 
@@ -136,7 +139,7 @@
 #pragma mark Scroll View
 
 -(void)setUpScrollView{
-    //if self.view.frame.size.width = 320 etc as in if it is a 
+    //if self.view.frame.size.width = 320 etc as in if it is a
     
     
     // In the next section we will implement a delegate method to show and hide the contained view controller in the scrollview.
@@ -163,7 +166,8 @@
                 [UIView animateWithDuration:.1 animations:^{
                     
                     [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-                    self.upDownLabel.text = @"╲╱";
+                    [self.scrollUpButton setImage: [UIImage imageNamed:@"scrollDown"]forState:UIControlStateNormal];
+                    
                 }];
             });
             
@@ -172,7 +176,8 @@
                 [UIView animateWithDuration:.1 animations:^{
                     
                     [scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:NO];
-                    self.upDownLabel.text = @"╱╲";
+                    [self.scrollUpButton setImage:[UIImage imageNamed:@"scrollUp"] forState:UIControlStateNormal];
+                    
                 }];
             });
         }
@@ -180,24 +185,56 @@
 }
 
 #pragma mark - Button Actions
+//TODO: Add ratings for paid version for sorting and editing
+/*
+ -(void)editRating{
+ 
+ [mediaItem setValue:[NSNumber numberWithInteger:rating] forKey:@"rating"];
+ }
+ */
+- (IBAction)scrollUpButtonTapped:(id)sender {
+    
+    
+    if (self.scrollView.contentOffset.y == 0) {
+        
+        [UIView animateWithDuration:.1 animations:^{
+            
+            [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:NO];
+            [self.scrollUpButton setImage:[UIImage imageNamed:@"scrollUp"] forState:UIControlStateNormal];
+            
+        }];
+        
+    }
+    else {
+        
+        [UIView animateWithDuration:.1 animations:^{
+            
+            [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+            [self.scrollUpButton setImage: [UIImage imageNamed:@"scrollDown"]forState:UIControlStateNormal];
+            
+        }];
+        
+    }
+}
+
 - (IBAction)artistButtonTapped:(id)sender {
 #if !(TARGET_IPHONE_SIMULATOR)
     //search library and send to controller --feels wrong from here.
     
- 
+    
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaPropertyPredicate *mediaTypePredicate = [MPMediaPropertyPredicate predicateWithValue:@(MPMediaTypeMusic) forProperty:MPMediaItemPropertyMediaType comparisonType:MPMediaPredicateComparisonEqualTo];
     NSSet *predicateSet = [NSSet setWithObjects:artistPredicate, mediaTypePredicate, nil];
     
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
     MPMediaQuery *fullArtistQuery =[[MPMediaQuery alloc] initWithFilterPredicates:predicateSet];
-
-//    [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
+    
+    //    [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
     fullArtistQuery.groupingType = MPMediaGroupingAlbum;
     [artistQuery addFilterPredicate:artistPredicate];
     NSArray *mediaArray = [fullArtistQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
-
+    
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
@@ -205,7 +242,7 @@
             [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:YES];
         }];
     });
-
+    
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Artists"];
 #endif
 }
@@ -239,7 +276,7 @@
 - (IBAction)backButtonTapped:(id)sender {
     //basically go to previous item if already at beginning
     if ([GVMusicPlayerController sharedInstance].currentPlaybackTime<1.0) {
-            [[GVMusicPlayerController sharedInstance] skipToPreviousItem];
+        [[GVMusicPlayerController sharedInstance] skipToPreviousItem];
     }
     else {
         [[GVMusicPlayerController sharedInstance] skipToBeginning];
@@ -270,22 +307,22 @@
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer playbackStateChanged:(MPMusicPlaybackState)playbackState previousPlaybackState:(MPMusicPlaybackState)previousPlaybackState {
     
-
-        if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
     
-            self.playerButton.enabled = YES;
-            self.playerButton.hidden = NO;
-            self.pauseButton.enabled = NO;
-            self.pauseButton.hidden = YES;
-    
-        } else if (playbackState == MPMusicPlaybackStatePlaying) {
-    
-            self.playerButton.enabled = NO;
-            self.playerButton.hidden = YES;
-            self.pauseButton.enabled = YES;
-            self.pauseButton.hidden = NO;
-            
-        }
+    if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
+        
+        self.playerButton.enabled = YES;
+        self.playerButton.hidden = NO;
+        self.pauseButton.enabled = NO;
+        self.pauseButton.hidden = YES;
+        
+    } else if (playbackState == MPMusicPlaybackStatePlaying) {
+        
+        self.playerButton.enabled = NO;
+        self.playerButton.hidden = YES;
+        self.pauseButton.enabled = YES;
+        self.pauseButton.hidden = NO;
+        
+    }
 }
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer trackDidChange:(MPMediaItem *)nowPlayingItem previousTrack:(MPMediaItem *)previousTrack {
@@ -309,8 +346,7 @@
     if (!artwork) {
         self.nowPlayingImage.image = [UIImage imageNamed:@"noteMd"];
     }
-    
-    NSLog(@"Proof that this code is being called, even in the background!");
+
 }
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer endOfQueueReached:(MPMediaItem *)lastTrack {
@@ -349,6 +385,25 @@
     UIGraphicsEndImageContext();
     
     return image;
+}
+
+
+-(void)drawUpArrowForScrollUpView{
+    
+    CGFloat width = self.scrollUpButton.bounds.size.width/2;
+    CGFloat height = self.scrollUpButton.bounds.size.height/2;
+    CGFloat x = self.scrollUpButton.bounds.size.width/4;
+    CGFloat y = self.scrollUpButton.bounds.size.height/4;
+    CGRect small = CGRectMake(x, y, width, height);
+    //// Bezier Drawing
+    UIBezierPath* bezierPath = [UIBezierPath bezierPath];
+    [bezierPath moveToPoint: CGPointMake(CGRectGetMinX(small), CGRectGetMaxY(small)-height/4)];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMidX(small), CGRectGetMinY(small) +height/4)];
+    [bezierPath addLineToPoint: CGPointMake(CGRectGetMaxX(small), CGRectGetMaxY(small)-height/4)];
+    [self.view.tintColor setStroke];
+    bezierPath.lineWidth = 2;
+    [bezierPath stroke];
+    
 }
 
 -(NSString *)stringFromTime:(NSTimeInterval)seconds {

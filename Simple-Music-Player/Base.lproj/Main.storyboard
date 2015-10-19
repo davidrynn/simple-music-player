@@ -376,12 +376,6 @@
                                             <action selector="albumButtonTapped:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="MXz-lh-4Wk"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="╱╲" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zdc-GY-JEj">
-                                        <rect key="frame" x="566" y="10" width="24" height="15"/>
-                                        <animations/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="∷" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OfZ-Es-Fot">
                                         <rect key="frame" x="10" y="10" width="15" height="22"/>
                                         <animations/>
@@ -389,10 +383,25 @@
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pzL-zB-bag">
+                                        <rect key="frame" x="567" y="8" width="25" height="25"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="aSI-1N-yOk"/>
+                                        </constraints>
+                                        <state key="normal" image="scrollUp"/>
+                                        <connections>
+                                            <action selector="scrollUpButtonTapped:" destination="i8A-pQ-cBC" eventType="touchUpInside" id="BBf-qX-SCX"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <animations/>
                                 <constraints>
                                     <constraint firstItem="r9F-V5-WBs" firstAttribute="leading" secondItem="7TW-QS-bws" secondAttribute="trailing" id="4Ls-XA-xgM"/>
+                                    <constraint firstItem="ASU-mF-vUo" firstAttribute="top" secondItem="pzL-zB-bag" secondAttribute="bottom" constant="17" id="6Cl-OA-kzs"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailingMargin" id="8u9-nR-Ruv"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="5" id="AtT-N8-bSN"/>
+                                    <constraint firstItem="ASU-mF-vUo" firstAttribute="top" secondItem="pzL-zB-bag" secondAttribute="bottom" constant="16" id="BCn-lf-kSn"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" id="DcK-eR-8ov"/>
                                     <constraint firstItem="3JP-eX-3gC" firstAttribute="top" secondItem="PFK-su-uR9" secondAttribute="bottom" constant="3" id="GBr-xS-Efs"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="H4m-QK-7vm"/>
@@ -402,31 +411,45 @@
                                     <constraint firstItem="ASU-mF-vUo" firstAttribute="width" secondItem="Fhm-62-fQ7" secondAttribute="width" id="Kez-BW-hcQ"/>
                                     <constraint firstItem="sea-SV-bAZ" firstAttribute="top" secondItem="7TW-QS-bws" secondAttribute="bottom" constant="33" id="Lxl-W8-k5J"/>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="5" id="N83-o9-0eT"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailing" constant="-10" id="OmL-tD-MmD"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="PF1-ic-OSL"/>
-                                    <constraint firstItem="Zdc-GY-JEj" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailing" constant="-10" id="RCE-eT-WbL"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="height" secondItem="qjE-Sx-b3t" secondAttribute="height" id="Rtb-VJ-QgI"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="top" secondItem="PFK-su-uR9" secondAttribute="top" id="UPV-hm-Akh"/>
                                     <constraint firstItem="ASU-mF-vUo" firstAttribute="centerX" secondItem="Fhm-62-fQ7" secondAttribute="centerX" id="Ufk-zK-pQ7"/>
                                     <constraint firstItem="3JP-eX-3gC" firstAttribute="centerX" secondItem="PFK-su-uR9" secondAttribute="centerX" id="XVp-Xe-OYV"/>
                                     <constraint firstAttribute="centerX" secondItem="7TW-QS-bws" secondAttribute="centerX" id="YPo-T1-cH3"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="width" secondItem="qjE-Sx-b3t" secondAttribute="width" id="Yw7-Hg-Uhn"/>
                                     <constraint firstItem="7TW-QS-bws" firstAttribute="leading" secondItem="sea-SV-bAZ" secondAttribute="leading" id="ZfB-Ue-DDQ"/>
                                     <constraint firstItem="7TW-QS-bws" firstAttribute="width" secondItem="qjE-Sx-b3t" secondAttribute="width" multiplier="0.65" id="ZjS-hN-Jh2"/>
-                                    <constraint firstItem="Zdc-GY-JEj" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="10" id="Zkn-X1-kum"/>
                                     <constraint firstItem="OfZ-Es-Fot" firstAttribute="top" secondItem="Fhm-62-fQ7" secondAttribute="top" constant="10" id="auE-As-Eho"/>
                                     <constraint firstItem="r9F-V5-WBs" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailing" id="bdJ-hf-zzI"/>
                                     <constraint firstItem="r87-64-hNn" firstAttribute="top" secondItem="7TW-QS-bws" secondAttribute="bottom" constant="33" id="bqG-fe-eYs"/>
+                                    <constraint firstAttribute="bottom" secondItem="pzL-zB-bag" secondAttribute="bottom" constant="457" id="chT-Ec-DXZ"/>
                                     <constraint firstItem="r87-64-hNn" firstAttribute="trailing" secondItem="7TW-QS-bws" secondAttribute="trailing" id="fQf-Gl-vIZ"/>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="centerX" secondItem="qjE-Sx-b3t" secondAttribute="centerX" id="fam-mL-cJe"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailing" constant="-10" id="fc8-io-eIU"/>
                                     <constraint firstItem="3vX-HL-tPC" firstAttribute="trailing" secondItem="7TW-QS-bws" secondAttribute="leading" id="gvX-4J-5mJ"/>
                                     <constraint firstAttribute="trailing" secondItem="Fhm-62-fQ7" secondAttribute="trailing" id="h7Y-OW-u8I"/>
                                     <constraint firstItem="r9F-V5-WBs" firstAttribute="bottom" secondItem="7TW-QS-bws" secondAttribute="centerY" id="hMn-xI-d5x"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" id="hVl-ZE-HS3"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailing" id="ls4-X1-D1x"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="topMargin" id="oWF-kf-24B"/>
+                                    <constraint firstItem="pzL-zB-bag" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="5" id="ouw-zM-Nm5"/>
                                     <constraint firstItem="ASU-mF-vUo" firstAttribute="height" secondItem="Fhm-62-fQ7" secondAttribute="height" multiplier="0.5" id="pVI-DM-c22"/>
                                     <constraint firstItem="ASU-mF-vUo" firstAttribute="top" secondItem="Fhm-62-fQ7" secondAttribute="top" constant="50" id="phy-JE-FsC"/>
                                     <constraint firstItem="Fhm-62-fQ7" firstAttribute="bottom" secondItem="qjE-Sx-b3t" secondAttribute="bottom" id="wUl-OH-WPD"/>
                                     <constraint firstAttribute="centerY" secondItem="7TW-QS-bws" secondAttribute="centerY" constant="-100" id="zcL-Dj-8kK"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="BCn-lf-kSn"/>
+                                        <exclude reference="AtT-N8-bSN"/>
+                                        <exclude reference="OmL-tD-MmD"/>
+                                        <exclude reference="UPV-hm-Akh"/>
+                                        <exclude reference="fc8-io-eIU"/>
+                                        <exclude reference="ouw-zM-Nm5"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MN7-Tq-D8u" userLabel="PlayerButton View">
                                 <rect key="frame" x="0.0" y="510" width="600" height="90"/>
@@ -500,6 +523,7 @@
                             <constraint firstItem="MLx-er-WWl" firstAttribute="bottom" secondItem="qjE-Sx-b3t" secondAttribute="top" id="7FD-EW-wZj"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="leading" secondItem="uiZ-Fj-gN7" secondAttribute="leading" id="8tl-F9-mRF"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="bottom" secondItem="vJE-Cr-Tgw" secondAttribute="top" id="8z1-0z-mX4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="pzL-zB-bag" secondAttribute="trailing" constant="-10" id="A5C-kd-h4K"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="bottom" secondItem="MN7-Tq-D8u" secondAttribute="top" id="AUm-qY-lKg"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="bottom" secondItem="MN7-Tq-D8u" secondAttribute="bottom" constant="-20" id="GA0-U1-UbL"/>
                             <constraint firstAttribute="centerX" secondItem="MLx-er-WWl" secondAttribute="centerX" id="LHQ-lY-GAL"/>
@@ -508,6 +532,7 @@
                             <constraint firstItem="MLx-er-WWl" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" multiplier="0.9" constant="-20" id="QTr-zW-CGA"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" multiplier="0.94" id="T7m-Ew-GXX"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" id="XvW-8L-hah"/>
+                            <constraint firstItem="pzL-zB-bag" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" constant="10" id="aQc-fn-Ahk"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="top" id="jEo-yM-Yzc"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" id="kwd-bb-euM"/>
                             <constraint firstItem="vJE-Cr-Tgw" firstAttribute="top" secondItem="MN7-Tq-D8u" secondAttribute="bottom" id="l1r-9X-JQR"/>
@@ -523,6 +548,8 @@
                                 <exclude reference="T7m-Ew-GXX"/>
                                 <exclude reference="8z1-0z-mX4"/>
                                 <exclude reference="QGy-qi-yVu"/>
+                                <exclude reference="A5C-kd-h4K"/>
+                                <exclude reference="aQc-fn-Ahk"/>
                             </mask>
                         </variation>
                     </view>
@@ -539,9 +566,9 @@
                         <outlet property="pauseButton" destination="P1I-iG-z5K" id="IyD-O9-32A"/>
                         <outlet property="playerButton" destination="wCb-Ic-dQN" id="cZf-Ef-NWV"/>
                         <outlet property="previousButton" destination="brY-c8-0DX" id="eao-C2-hi8"/>
+                        <outlet property="scrollUpButton" destination="pzL-zB-bag" id="doP-LR-US5"/>
                         <outlet property="scrollView" destination="qjE-Sx-b3t" id="cLi-SJ-I8f"/>
                         <outlet property="slider" destination="7TW-QS-bws" id="lju-Kk-QFk"/>
-                        <outlet property="upDownLabel" destination="Zdc-GY-JEj" id="6kd-8a-lht"/>
                         <outlet property="viewContainer" destination="MLx-er-WWl" id="BUn-W2-KIr"/>
                     </connections>
                 </viewController>
@@ -633,6 +660,7 @@
     </scenes>
     <resources>
         <image name="loop1.png" width="40" height="40"/>
+        <image name="scrollUp" width="40" height="40"/>
         <image name="shuffle1" width="40" height="40"/>
     </resources>
     <color key="tintColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>

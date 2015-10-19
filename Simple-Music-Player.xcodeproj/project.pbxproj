@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		222259C61BCEE20F003D0857 /* DRscrollUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 222259C51BCEE20F003D0857 /* DRscrollUpButton.m */; settings = {ASSET_TAGS = (); }; };
+		222259C91BCF486D003D0857 /* DRScrollDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 222259C81BCF486D003D0857 /* DRScrollDownButton.m */; settings = {ASSET_TAGS = (); }; };
 		222DFD511BA2A220001E6BCE /* noteSml.png in Resources */ = {isa = PBXBuildFile; fileRef = 222DFD501BA2A220001E6BCE /* noteSml.png */; };
 		222DFD531BA2A387001E6BCE /* noteMd.png in Resources */ = {isa = PBXBuildFile; fileRef = 222DFD521BA2A387001E6BCE /* noteMd.png */; };
 		222DFD5C1BA64C4F001E6BCE /* GVMusicPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 222DFD5B1BA64C4F001E6BCE /* GVMusicPlayerController.m */; };
@@ -54,6 +56,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		222259C41BCEE20F003D0857 /* DRscrollUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRscrollUpButton.h; sourceTree = "<group>"; };
+		222259C51BCEE20F003D0857 /* DRscrollUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRscrollUpButton.m; sourceTree = "<group>"; };
+		222259C71BCF486D003D0857 /* DRScrollDownButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRScrollDownButton.h; sourceTree = "<group>"; };
+		222259C81BCF486D003D0857 /* DRScrollDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRScrollDownButton.m; sourceTree = "<group>"; };
 		222DFD501BA2A220001E6BCE /* noteSml.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteSml.png; sourceTree = "<group>"; };
 		222DFD521BA2A387001E6BCE /* noteMd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteMd.png; sourceTree = "<group>"; };
 		222DFD5A1BA64C4F001E6BCE /* GVMusicPlayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GVMusicPlayerController.h; sourceTree = "<group>"; };
@@ -168,6 +174,10 @@
 				226C73A21B9B27B600851E12 /* DRPauseButton.m */,
 				226C73A31B9B27B600851E12 /* DRPlayButton.h */,
 				226C73A41B9B27B600851E12 /* DRPlayButton.m */,
+				222259C41BCEE20F003D0857 /* DRscrollUpButton.h */,
+				222259C51BCEE20F003D0857 /* DRscrollUpButton.m */,
+				222259C71BCF486D003D0857 /* DRScrollDownButton.h */,
+				222259C81BCF486D003D0857 /* DRScrollDownButton.m */,
 			);
 			name = "Categories and Overrides";
 			sourceTree = "<group>";
@@ -376,11 +386,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				222259C91BCF486D003D0857 /* DRScrollDownButton.m in Sources */,
 				226C73A51B9B27B600851E12 /* DRRewindButton.m in Sources */,
 				224967161B94E6AE0080CDE4 /* DRArtistTableViewController.m in Sources */,
 				224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */,
 				226C73A61B9B27B600851E12 /* DRForwardButton.m in Sources */,
 				224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */,
+				222259C61BCEE20F003D0857 /* DRscrollUpButton.m in Sources */,
 				22A2CB531BA053F50009D1F2 /* DRAlbumTableViewController.m in Sources */,
 				2240D21C1B9E8E9700B84FD4 /* DRPlayerUtility.m in Sources */,
 				224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */,
