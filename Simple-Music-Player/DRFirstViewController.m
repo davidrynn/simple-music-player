@@ -21,7 +21,6 @@
 
 @interface DRFirstViewController () <UIScrollViewDelegate, GVMusicPlayerControllerDelegate>
 
-
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UILabel *nowPlayingLabel;
 
@@ -74,18 +73,14 @@
     [self.scrollView.layer setBorderWidth:1.0f];
     [self.scrollView.layer setBorderColor: [transBlack CGColor]];
     
-    
     //set slider button to square
     self.slider.continuous = YES;
     UIImage *image = [self drawThumbRect];
     [self.slider setThumbImage:image forState:UIControlStateNormal];
     [self.slider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
     
-    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
     [self.timer fire];
-    
-    
     
     TOCK
     
@@ -141,7 +136,6 @@
 -(void)setUpScrollView{
     //if self.view.frame.size.width = 320 etc as in if it is a
     
-    
     // In the next section we will implement a delegate method to show and hide the contained view controller in the scrollview.
     self.scrollView.delegate = self;
     // We disable paging to allow the scrollview to move freely and not "stick" to the next page.
@@ -154,7 +148,6 @@
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
     self.scrollView.contentInset = UIEdgeInsetsMake(self.proportionalHeight,0,0,0);
-    
     
 }
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
@@ -194,7 +187,6 @@
  */
 - (IBAction)scrollUpButtonTapped:(id)sender {
     
-    
     if (self.scrollView.contentOffset.y == 0) {
         
         [UIView animateWithDuration:.1 animations:^{
@@ -220,8 +212,7 @@
 - (IBAction)artistButtonTapped:(id)sender {
 #if !(TARGET_IPHONE_SIMULATOR)
     //search library and send to controller --feels wrong from here.
-    
-    
+
     MPMediaPropertyPredicate *artistPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.artist forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
     MPMediaPropertyPredicate *mediaTypePredicate = [MPMediaPropertyPredicate predicateWithValue:@(MPMediaTypeMusic) forProperty:MPMediaItemPropertyMediaType comparisonType:MPMediaPredicateComparisonEqualTo];
     NSSet *predicateSet = [NSSet setWithObjects:artistPredicate, mediaTypePredicate, nil];
@@ -234,7 +225,6 @@
     [artistQuery addFilterPredicate:artistPredicate];
     NSArray *mediaArray = [fullArtistQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
-    
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
@@ -256,7 +246,6 @@
     [albumQuery addFilterPredicate:albumPredicate];
     NSArray *mediaArray = [albumQuery items];
     MPMediaItemCollection *collection = [[MPMediaItemCollection alloc] initWithItems:mediaArray];
-    
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.1 animations:^{
@@ -307,7 +296,6 @@
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer playbackStateChanged:(MPMusicPlaybackState)playbackState previousPlaybackState:(MPMusicPlaybackState)previousPlaybackState {
     
-    
     if (playbackState == MPMusicPlaybackStatePaused|| playbackState == MPMusicPlaybackStateStopped) {
         
         self.playerButton.enabled = YES;
@@ -346,7 +334,6 @@
     if (!artwork) {
         self.nowPlayingImage.image = [UIImage imageNamed:@"noteMd"];
     }
-
 }
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer endOfQueueReached:(MPMediaItem *)lastTrack {
@@ -368,7 +355,6 @@
     CGRect sliderRect = self.slider.bounds;
     CGRect rect = CGRectMake(sliderRect.origin.x, sliderRect.origin.y, sliderRect.size.height/2, sliderRect.size.height);
     
-    
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -377,8 +363,7 @@
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
     [path fill];
     [path stroke];
-    
-    
+        
     CGContextAddPath(context, path.CGPath);
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();

@@ -13,7 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UISlider *slider;
 
-
 @end
 
 @implementation DRScrollingContainerController
@@ -24,13 +23,11 @@
     [self.slider setThumbImage:image forState:UIControlStateNormal];
 }
 
-
 -(UIImage*) drawThumbRect {
     
     CGRect sliderRect = self.slider.bounds;
     CGRect rect = CGRectMake(sliderRect.origin.x, sliderRect.origin.y, sliderRect.size.height/2, sliderRect.size.height);
 
-    
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -39,8 +36,7 @@
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:rect];
     [path fill];
     [path stroke];
-    
-    
+        
     CGContextAddPath(context, path.CGPath);
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();

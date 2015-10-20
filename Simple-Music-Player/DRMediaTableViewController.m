@@ -25,7 +25,7 @@
     [super viewDidLoad];
     //starting music player
     self.musicPlayer = [GVMusicPlayerController sharedInstance];
-    self.musicPlayer.shuffleMode = MPMusicShuffleModeDefault;
+    self.musicPlayer.shuffleMode = MPMusicShuffleModeOff;
     
     //setup song collection as initial controller
     [self.musicPlayer setQueueWithItemCollection:self.mediaCollection];
@@ -33,9 +33,6 @@
     
     //setup loop and shuffle buttons
     [self setupNavButtons];
-
-
-    
     
 }
 -(void)setupNavButtons{

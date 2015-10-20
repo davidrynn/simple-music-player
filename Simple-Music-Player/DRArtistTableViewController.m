@@ -33,11 +33,10 @@
     [super viewDidLoad];
     //starting music player
     self.musicPlayer = [GVMusicPlayerController sharedInstance];
-    self.musicPlayer.shuffleMode = MPMusicShuffleModeDefault;
+    self.musicPlayer.shuffleMode = MPMusicShuffleModeSongs;
     //setup song collection as initial controller
     [self.musicPlayer setQueueWithItemCollection:self.mediaCollection];
     self.songs = [self.mediaCollection items];
-
     
     //set header to display artist's name
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 50.0)];
@@ -62,7 +61,6 @@
     NSSortDescriptor *songSort = [[NSSortDescriptor alloc] initWithKey:MPMediaItemPropertyAlbumTrackNumber ascending:YES];
     self.songs = [[self.mediaCollection items] sortedArrayUsingDescriptors:@[albumSort, songSort]];
 
-    
     //using NSSet cannot repeat album title
     //so using it to get array of album titles
     NSMutableSet *albumSet = [[NSMutableSet alloc] init];
@@ -75,7 +73,6 @@
     NSMutableArray *rangeArray = [NSMutableArray arrayWithCapacity:self.albumsArray.count];
     //for creating range
     NSUInteger arrayPlacement=0;
-    
     
     for (NSUInteger i=0; i<self.albumsArray.count; i++) {
         //sets up the songs in each section
@@ -92,7 +89,6 @@
     }
     self.rangeArray = [rangeArray copy];
 
-    
 }
 
 -(void)setupNavButtons{
@@ -130,7 +126,6 @@
     view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     
     return view;
-    
     
 }
 
@@ -187,11 +182,13 @@
     }
     [self.musicPlayer stop];
     
-    
     //figure out correct index
     NSRange sectionRange = [self.rangeArray[indexPath.section] rangeValue];
     NSInteger adjustIndex = sectionRange.location + indexPath.row;
     //use index to find song
+    
+    //error check
+    if (self.songs[adjustIndex]){
     MPMediaItem *song =(MPMediaItem *) self.songs[adjustIndex];
     
     [self.musicPlayer playItemAtIndex:adjustIndex];
@@ -201,6 +198,7 @@
     self.songToPlay = song;
 
     [self playMusic];
+    }
     
     TOCK;
     
@@ -288,7 +286,6 @@
         
     }
     
-    
     [self.musicPlayer play];
     
     TOCK;
@@ -300,7 +297,6 @@
     TICK
     
     [self.musicPlayer pause];
-    
     
     TOCK;
     

@@ -27,7 +27,6 @@
     
     return cell;
 
-
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

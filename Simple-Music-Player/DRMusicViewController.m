@@ -47,13 +47,10 @@
 
 @property (strong, nonatomic) UISearchController *searchController;
 
-
-
 @end
 @implementation DRMusicViewController
 
 - (void)viewDidLoad {
-
     
     TICK;
     [super viewDidLoad];
@@ -164,24 +161,24 @@
 - (void) setupSortedLists {
 #if !(TARGET_IPHONE_SIMULATOR)
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-    NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle isCollectionTypeItems:YES];
+    NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle];
     self.songsDictionary = songDictionary;
     
     MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
-    self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum isCollectionTypeItems:NO];
+    self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum];
     NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
     
     MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
     artistsQuery.groupingType = MPMediaGroupingArtist;
-    self.artistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: artistsQuery withCategory:@"Artists" withGroupingType: MPMediaGroupingArtist isCollectionTypeItems:NO];
+    self.artistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: artistsQuery withCategory:@"Artists" withGroupingType: MPMediaGroupingArtist];
     NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
     
     MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
-    self.genresDictionary = [DRPlayerUtility returnDictionaryFromQuery: genresQuery withCategory:@"Genres" withGroupingType: MPMediaGroupingGenre isCollectionTypeItems:NO];
+    self.genresDictionary = [DRPlayerUtility returnDictionaryFromQuery: genresQuery withCategory:@"Genres" withGroupingType: MPMediaGroupingGenre];
     NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
     
     MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
-    self.playlistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: playlistsQuery withCategory:@"Playlists" withGroupingType: MPMediaGroupingPlaylist isCollectionTypeItems:NO];
+    self.playlistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: playlistsQuery withCategory:@"Playlists" withGroupingType: MPMediaGroupingPlaylist];
     NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
     
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
@@ -205,6 +202,7 @@
     
     [self.searchController.searchBar sizeToFit];
 }
+
 #pragma mark - button actions
 - (IBAction)shuffleButtonTapped:(UIBarButtonItem *)sender {
 
@@ -224,8 +222,6 @@
 }
 - (IBAction)loopButtonTapped:(UIBarButtonItem *)sender {
     
-
-        
         if( self.musicPlayer.repeatMode == MPMusicRepeatModeAll){
             [self.musicPlayer setRepeatMode:MPMusicRepeatModeOne];
         } else if( self.musicPlayer.repeatMode == MPMusicRepeatModeOne){
@@ -234,8 +230,6 @@
             [self.musicPlayer setRepeatMode:MPMusicRepeatModeAll];
         }
         sender.image = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString:@"loop"];
-
-    
 
 }
 
@@ -309,11 +303,6 @@
     [self.tableView reloadData];
 }
 
-//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-//{
-//    [searchBar resignFirstResponder];
-//    
-//}
 
 #pragma mark - Search Function
 
@@ -329,21 +318,20 @@
     
     //create arrays and sections for media dictionary
     
-    NSArray *songsSearchArray = [DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyTitle andQuery:[MPMediaQuery songsQuery] andGroupingType:MPMediaGroupingTitle isCollectionTypeItems:YES];
+    NSArray *songsSearchArray = [DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyTitle andQuery:[MPMediaQuery songsQuery] andGroupingType:MPMediaGroupingTitle];
     //use custom section so can set it.
     DRSection *songSection = [[DRSection alloc] initWithRange:NSMakeRange(0,  songsSearchArray.count) andTitle:@"Songs"];
     
-    NSArray *artistsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyArtist andQuery:[MPMediaQuery artistsQuery] andGroupingType:MPMediaGroupingArtist isCollectionTypeItems:NO];
+    NSArray *artistsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyArtist andQuery:[MPMediaQuery artistsQuery] andGroupingType:MPMediaGroupingArtist];
     //use custom section so can set it.
     DRSection *artistsSection = [[DRSection alloc] initWithRange:NSMakeRange(songsSearchArray.count,  artistsArray.count) andTitle:@"Artists"];
 
-    NSArray *albumsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyAlbumTitle andQuery:[MPMediaQuery albumsQuery] andGroupingType:MPMediaGroupingAlbum isCollectionTypeItems:NO];
+    NSArray *albumsArray =[DRPlayerUtility createArrayFromSearchString:searchString FromProperty:MPMediaItemPropertyAlbumTitle andQuery:[MPMediaQuery albumsQuery] andGroupingType:MPMediaGroupingAlbum];
     DRSection *albumsSection = [[DRSection alloc] initWithRange:NSMakeRange(  (songsSearchArray.count+artistsArray.count), albumsArray.count) andTitle:@"Albums"];
     
     //make complete array from different sort types
     NSArray *searchArray = [songsSearchArray arrayByAddingObjectsFromArray:artistsArray];
     searchArray =[searchArray arrayByAddingObjectsFromArray:albumsArray];
-    
     
     NSDictionary *searchDictionary = @{@"category":@"Search",
                                        @"array": searchArray,
@@ -428,8 +416,6 @@
         if (querySection.range.length >0) {
             return querySection.title;
         }
-        
-        
     }
     
     if (sections.count > 4) {
@@ -458,7 +444,6 @@
         self.adjustedIndex = querySection.range.location + indexPath.row;
     }
     if (mediaTypeString) {
-        
         
         //printout different for search cells depending on index 0 -> songs, 1 -> artists, etc
         
@@ -536,9 +521,7 @@
     //figure out correct index
     MPMediaQuerySection *querySection = self.mediaItemsDictionary[@"sections"][indexPath.section];
     self.adjustedIndex = querySection.range.location + indexPath.row;
-    
-    
-    
+  
     if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Songs"]||([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]&&indexPath.section == 0)){
         //use index to find song
         MPMediaItem *song =(MPMediaItem *) self.mediaItemsDictionary[@"array"][self.adjustedIndex];
@@ -550,7 +533,6 @@
             
             [self.musicPlayer stop];
             
-            
             NSLog(@"Mediaplayer item name: %@", song.title);
             
             self.songToPlay = song;
@@ -558,7 +540,6 @@
             
             [self playMusic];
         }
-
         TOCK;
     }
     
@@ -576,11 +557,8 @@
         }
         else {
             [self performSegueWithIdentifier:self.mediaItemsDictionary[@"category"] sender:cell];
-            
         }
     }
-    
-    
 }
 
 
@@ -629,14 +607,9 @@
         self.dadCollection = nil;
         
     }
-    
-    
 }
 
-
 #pragma mark - Miscellaneous
-
-
 
 -(void) playOrPauseMusic{
     if ((self.musicPlayer.playbackState == MPMusicPlaybackStatePaused)||self.musicPlayer.playbackState == MPMusicPlaybackStateStopped) {
@@ -644,7 +617,6 @@
     }
     else if(self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying){
         [self pauseMusic];
-        
     }
 }
 
@@ -653,23 +625,17 @@
     if (!self.songToPlay) {
         self.songToPlay = self.musicPlayer.nowPlayingItem ;
     }
-
     [self.musicPlayer play];
-     
     TOCK;
 }
 
 -(void) pauseMusic {
-    
     TICK
     if (![self.musicPlayer.nowPlayingItem valueForProperty:MPMediaItemPropertyAssetURL]) {
         [self.mpMusicPlayer pause];
     }
-
     [self.musicPlayer pause];
-
     TOCK;
-    
 }
 
 @end

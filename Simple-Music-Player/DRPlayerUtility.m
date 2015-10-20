@@ -10,21 +10,21 @@
 
 @implementation DRPlayerUtility
 +(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query{
-//is this necessary?
+    //is this necessary?
     [query addFilterPredicate:[MPMediaPropertyPredicate predicateWithValue:[NSNumber numberWithBool:NO] forProperty:MPMediaItemPropertyIsCloudItem]];
 }
 
 //for creating search results in sections
-+(NSArray *)createArrayFromSearchString:(NSString *) searchString FromProperty:(NSString *) MPMediaItemProperty andQuery:(MPMediaQuery *)mediaQuery andGroupingType:(MPMediaGrouping) groupingType isCollectionTypeItems: (BOOL) isItems {
-
-MPMediaPropertyPredicate *itemPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemProperty comparisonType:MPMediaPredicateComparisonContains];
++(NSArray *)createArrayFromSearchString:(NSString *) searchString FromProperty:(NSString *) MPMediaItemProperty andQuery:(MPMediaQuery *)mediaQuery andGroupingType:(MPMediaGrouping) groupingType {
     
-MPMediaQuery *searchQuery = mediaQuery;
-[self filterOutCloudItemsFromQuery:searchQuery];
-searchQuery.groupingType = groupingType;
-[searchQuery addFilterPredicate:itemPredicate];
-
-    if (isItems) {
+    MPMediaPropertyPredicate *itemPredicate = [MPMediaPropertyPredicate predicateWithValue:searchString forProperty:MPMediaItemProperty comparisonType:MPMediaPredicateComparisonContains];
+    
+    MPMediaQuery *searchQuery = mediaQuery;
+    [self filterOutCloudItemsFromQuery:searchQuery];
+    searchQuery.groupingType = groupingType;
+    [searchQuery addFilterPredicate:itemPredicate];
+    
+    if (groupingType == MPMediaGroupingTitle) {
         return [searchQuery items];
     }
     
@@ -32,7 +32,9 @@ searchQuery.groupingType = groupingType;
 }
 
 +(UIImage *)createImageBasedOnEnum: (NSInteger) enumNumber ofTypeString: (NSString *) type{
-
+//    if (enumNumber || type == nil) {
+//        return [UIImage imageNamed:@"shuffle0"];
+//    }
     NSString *name = [NSString stringWithFormat:@"%@%ld", type, (long)enumNumber];
     UIImage *buttonImage = [UIImage imageNamed:name];
     NSLog(@"Button produced: %@%ld", type, (long)enumNumber);
@@ -40,39 +42,29 @@ searchQuery.groupingType = groupingType;
 }
 
 
-//+(NSDictionary *)returnDictionaryFromCategory: (NSString *) category{
-//        NSDictionary *mediaItemDictionary;
-//    NSString *categoryLwrCase = [category lowercaseString];
-//    NSString *queryString = [NSString stringWithFormat:@"%@query", categoryLwrCase];
-//    MPMediaQuery *query = [MPMediaQuery queryString];
-//
-//    return mediaItemDictionary;
-//}
-
-
-+(NSDictionary *)returnDictionaryFromQuery: (MPMediaQuery *)query withCategory: (NSString *)category withGroupingType: (MPMediaGrouping) type isCollectionTypeItems:(BOOL) isItems{
++(NSDictionary *)returnDictionaryFromQuery: (MPMediaQuery *)query withCategory: (NSString *)category withGroupingType: (MPMediaGrouping) type {
     NSDictionary *mediaItemDictionary;
     
     //If there are songs:
     if (query.collections.count>0 || query.items.count > 0){
         
-    [self filterOutCloudItemsFromQuery:query];
-    query.groupingType = type;
+        [self filterOutCloudItemsFromQuery:query];
+        query.groupingType = type;
         NSArray *mediaArray;
-        if (isItems) {
+        if (query.groupingType == MPMediaGroupingTitle) {
             mediaArray = query.items;
         }
         else {
             mediaArray = query.collections;
         }
-    mediaItemDictionary = @{@"category":category,
-                               @"array":mediaArray,
-                               @"sections": query.collectionSections
-                               };
+        mediaItemDictionary = @{@"category":category,
+                                @"array":mediaArray,
+                                @"sections": query.collectionSections
+                                };
     }
     //if no songs
     else {
-    
+        
         mediaItemDictionary = @{@"category":category,
                                 @"array":@[],
                                 @"sections":@[],
