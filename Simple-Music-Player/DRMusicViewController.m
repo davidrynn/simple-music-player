@@ -303,6 +303,11 @@
     [self.tableView reloadData];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.searchController.searchBar resignFirstResponder];
+}
+
 
 #pragma mark - Search Function
 
@@ -345,6 +350,8 @@
 }
 
 //End Search Function
+
+
 
 
 #pragma mark - Tableview Setup
