@@ -62,7 +62,11 @@
     //set height of scrollview
     if (self.view.frame.size.width == 414) {
         self.proportionalHeight = self.view.frame.size.height*0.77;
-    } else {
+    } else if (self.view.frame.size.width > 414){
+        self.proportionalHeight = self.view.frame.size.height*0.79;
+    }
+    
+    else {
         self.proportionalHeight = self.view.frame.size.height*0.75;
     }
     //setup topcontainer border
