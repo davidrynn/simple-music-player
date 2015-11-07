@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="i8A-pQ-cBC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="i8A-pQ-cBC">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -438,6 +438,7 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
+                                        <exclude reference="wUl-OH-WPD"/>
                                         <exclude reference="BCn-lf-kSn"/>
                                         <exclude reference="AtT-N8-bSN"/>
                                         <exclude reference="OmL-tD-MmD"/>
@@ -530,8 +531,10 @@
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" id="XvW-8L-hah"/>
                             <constraint firstItem="pzL-zB-bag" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="bottom" constant="10" id="aQc-fn-Ahk"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="top" secondItem="5jg-pG-1dm" secondAttribute="top" id="jEo-yM-Yzc"/>
+                            <constraint firstItem="MN7-Tq-D8u" firstAttribute="top" secondItem="Fhm-62-fQ7" secondAttribute="bottom" id="jgY-Pj-8Mm"/>
                             <constraint firstItem="MLx-er-WWl" firstAttribute="width" secondItem="uiZ-Fj-gN7" secondAttribute="width" id="kwd-bb-euM"/>
                             <constraint firstItem="vJE-Cr-Tgw" firstAttribute="top" secondItem="MN7-Tq-D8u" secondAttribute="bottom" id="l1r-9X-JQR"/>
+                            <constraint firstItem="vJE-Cr-Tgw" firstAttribute="top" secondItem="Fhm-62-fQ7" secondAttribute="bottom" id="mXY-gE-2WK"/>
                             <constraint firstItem="MN7-Tq-D8u" firstAttribute="height" secondItem="uiZ-Fj-gN7" secondAttribute="height" multiplier="0.15" id="s8z-hF-vBx"/>
                             <constraint firstItem="qjE-Sx-b3t" firstAttribute="trailing" secondItem="uiZ-Fj-gN7" secondAttribute="trailing" id="sma-NR-Ptr"/>
                             <constraint firstAttribute="centerX" secondItem="MN7-Tq-D8u" secondAttribute="centerX" id="zgj-QG-f0c"/>
@@ -546,6 +549,7 @@
                                 <exclude reference="QGy-qi-yVu"/>
                                 <exclude reference="A5C-kd-h4K"/>
                                 <exclude reference="aQc-fn-Ahk"/>
+                                <exclude reference="mXY-gE-2WK"/>
                             </mask>
                         </variation>
                     </view>

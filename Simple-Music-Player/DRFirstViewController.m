@@ -62,8 +62,13 @@
     //set height of scrollview
     if (self.view.frame.size.width == 414) {
         self.proportionalHeight = self.view.frame.size.height*0.77;
-    } else if (self.view.frame.size.width > 414){
-        self.proportionalHeight = self.view.frame.size.height*0.79;
+    }
+    else if (self.view.frame.size.width == 375) {
+            self.proportionalHeight = self.view.frame.size.height*0.76;
+    
+    }
+    else if (self.view.frame.size.width > 414){
+        self.proportionalHeight = self.view.frame.size.height*1.5;
     }
     
     else {
@@ -224,7 +229,7 @@
     MPMediaQuery *artistQuery = [MPMediaQuery artistsQuery];
     MPMediaQuery *fullArtistQuery =[[MPMediaQuery alloc] initWithFilterPredicates:predicateSet];
     
-    //    [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
+        [DRPlayerUtility filterOutCloudItemsFromQuery:artistQuery];
     fullArtistQuery.groupingType = MPMediaGroupingAlbum;
     [artistQuery addFilterPredicate:artistPredicate];
     NSArray *mediaArray = [fullArtistQuery items];
