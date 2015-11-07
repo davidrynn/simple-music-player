@@ -323,7 +323,7 @@
 }
 
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer trackDidChange:(MPMediaItem *)nowPlayingItem previousTrack:(MPMediaItem *)previousTrack {
-    
+    //disable force touch
     // Time labels
     NSTimeInterval trackLength = [[nowPlayingItem valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue];
     self.currentTrackLength = trackLength;

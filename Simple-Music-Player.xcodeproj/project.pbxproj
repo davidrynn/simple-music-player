@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		222259C61BCEE20F003D0857 /* DRscrollUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 222259C51BCEE20F003D0857 /* DRscrollUpButton.m */; settings = {ASSET_TAGS = (); }; };
-		222259C91BCF486D003D0857 /* DRScrollDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 222259C81BCF486D003D0857 /* DRScrollDownButton.m */; settings = {ASSET_TAGS = (); }; };
+		222259C61BCEE20F003D0857 /* DRscrollUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 222259C51BCEE20F003D0857 /* DRscrollUpButton.m */; };
+		222259C91BCF486D003D0857 /* DRScrollDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 222259C81BCF486D003D0857 /* DRScrollDownButton.m */; };
 		222DFD511BA2A220001E6BCE /* noteSml.png in Resources */ = {isa = PBXBuildFile; fileRef = 222DFD501BA2A220001E6BCE /* noteSml.png */; };
 		222DFD531BA2A387001E6BCE /* noteMd.png in Resources */ = {isa = PBXBuildFile; fileRef = 222DFD521BA2A387001E6BCE /* noteMd.png */; };
 		222DFD5C1BA64C4F001E6BCE /* GVMusicPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 222DFD5B1BA64C4F001E6BCE /* GVMusicPlayerController.m */; };
@@ -21,16 +21,15 @@
 		224967281B95FAB10080CDE4 /* DRMediaTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967271B95FAB10080CDE4 /* DRMediaTableViewController.m */; };
 		224967311B9611100080CDE4 /* DRTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967301B9611100080CDE4 /* DRTableViewCell.m */; };
 		2249674A1B96B7F40080CDE4 /* DRScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 224967491B96B7F40080CDE4 /* DRScrollViewPassThrough.m */; };
-		224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */; settings = {ASSET_TAGS = (); }; };
-		224D4D331BB57F790082CE2E /* loop1.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D321BB57F790082CE2E /* loop1.png */; settings = {ASSET_TAGS = (); }; };
+		224D4D311BB0A1DD0082CE2E /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D301BB0A1DD0082CE2E /* AppIcon.appiconset */; };
+		224D4D331BB57F790082CE2E /* loop1.png in Resources */ = {isa = PBXBuildFile; fileRef = 224D4D321BB57F790082CE2E /* loop1.png */; };
 		224F76A41B6C289600BC7B73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A31B6C289600BC7B73 /* main.m */; };
 		224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A61B6C289600BC7B73 /* AppDelegate.m */; };
 		224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224F76AB1B6C289600BC7B73 /* Main.storyboard */; };
 		224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 224F76B01B6C289600BC7B73 /* LaunchScreen.xib */; };
-		224F76BE1B6C289600BC7B73 /* Simple_Music_PlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76BD1B6C289600BC7B73 /* Simple_Music_PlayerTests.m */; };
 		224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */; };
 		224F76D11B6D6F1400BC7B73 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */; };
-		22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 22566E6E1BB8752A002DE410 /* musicScreenshot.png */; settings = {ASSET_TAGS = (); }; };
+		22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 22566E6E1BB8752A002DE410 /* musicScreenshot.png */; };
 		226C739C1B9B279300851E12 /* DRFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C739B1B9B279300851E12 /* DRFirstViewController.m */; };
 		226C73A51B9B27B600851E12 /* DRRewindButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C739E1B9B27B600851E12 /* DRRewindButton.m */; };
 		226C73A61B9B27B600851E12 /* DRForwardButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A01B9B27B600851E12 /* DRForwardButton.m */; };
@@ -38,7 +37,7 @@
 		226C73A81B9B27B600851E12 /* DRPlayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 226C73A41B9B27B600851E12 /* DRPlayButton.m */; };
 		22A2CB531BA053F50009D1F2 /* DRAlbumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB521BA053F50009D1F2 /* DRAlbumTableViewController.m */; };
 		22A2CB5C1BA1A4BA0009D1F2 /* DRSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A2CB5B1BA1A4BA0009D1F2 /* DRSection.m */; };
-		22E6DC1B1BC98A3000DBBCB8 /* shuffle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E6DC1A1BC98A3000DBBCB8 /* shuffle2.png */; settings = {ASSET_TAGS = (); }; };
+		22E6DC1B1BC98A3000DBBCB8 /* shuffle2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22E6DC1A1BC98A3000DBBCB8 /* shuffle2.png */; };
 		22FDEF941B700AFC00B5DF13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEF931B700AFC00B5DF13 /* Images.xcassets */; };
 		22FDEFEB1B730EE400B5DF13 /* Icon2.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEA1B730EE400B5DF13 /* Icon2.png */; };
 		22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */ = {isa = PBXBuildFile; fileRef = 22FDEFEC1B730F5D00B5DF13 /* Note.png */; };
@@ -90,8 +89,6 @@
 		224F76AC1B6C289600BC7B73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		224F76B11B6C289600BC7B73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		224F76B71B6C289600BC7B73 /* Simple-Music-PlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple-Music-PlayerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		224F76BC1B6C289600BC7B73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		224F76BD1B6C289600BC7B73 /* Simple_Music_PlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Simple_Music_PlayerTests.m; sourceTree = "<group>"; };
 		224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMusicViewController.h; sourceTree = "<group>"; };
 		224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMusicViewController.m; sourceTree = "<group>"; };
 		224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -187,7 +184,6 @@
 			children = (
 				224F76A01B6C289600BC7B73 /* Simple-Music-Player */,
 				224F76CF1B6D6EE800BC7B73 /* Frameworks */,
-				224F76BA1B6C289600BC7B73 /* Simple-Music-PlayerTests */,
 				224F769F1B6C289600BC7B73 /* Products */,
 				FF1A18DFB36DB9EBCEF95722 /* Pods */,
 			);
@@ -237,23 +233,6 @@
 				224F76A61B6C289600BC7B73 /* AppDelegate.m */,
 				224F76A21B6C289600BC7B73 /* Info.plist */,
 				224F76A31B6C289600BC7B73 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		224F76BA1B6C289600BC7B73 /* Simple-Music-PlayerTests */ = {
-			isa = PBXGroup;
-			children = (
-				224F76BD1B6C289600BC7B73 /* Simple_Music_PlayerTests.m */,
-				224F76BB1B6C289600BC7B73 /* Supporting Files */,
-			);
-			path = "Simple-Music-PlayerTests";
-			sourceTree = "<group>";
-		};
-		224F76BB1B6C289600BC7B73 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				224F76BC1B6C289600BC7B73 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -413,7 +392,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				224F76BE1B6C289600BC7B73 /* Simple_Music_PlayerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

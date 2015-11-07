@@ -310,7 +310,7 @@
                                         </connections>
                                     </containerView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ASU-mF-vUo">
-                                        <rect key="frame" x="0.0" y="50" width="600" height="245"/>
+                                        <rect key="frame" x="55" y="50" width="490" height="245"/>
                                         <animations/>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8DQ-hy-G9V">
@@ -419,7 +419,7 @@
                                     <constraint firstItem="3vX-HL-tPC" firstAttribute="bottom" secondItem="7TW-QS-bws" secondAttribute="centerY" id="Iy6-Pr-i3L"/>
                                     <constraint firstItem="3vX-HL-tPC" firstAttribute="leading" secondItem="qjE-Sx-b3t" secondAttribute="leading" id="Jn6-Z1-bWM"/>
                                     <constraint firstItem="OfZ-Es-Fot" firstAttribute="leading" secondItem="Fhm-62-fQ7" secondAttribute="leading" constant="10" id="KRC-FM-RpF"/>
-                                    <constraint firstItem="ASU-mF-vUo" firstAttribute="width" secondItem="Fhm-62-fQ7" secondAttribute="width" id="Kez-BW-hcQ"/>
+                                    <constraint firstItem="ASU-mF-vUo" firstAttribute="width" secondItem="Fhm-62-fQ7" secondAttribute="height" id="Kez-BW-hcQ"/>
                                     <constraint firstItem="sea-SV-bAZ" firstAttribute="top" secondItem="7TW-QS-bws" secondAttribute="bottom" constant="33" id="Lxl-W8-k5J"/>
                                     <constraint firstItem="PFK-su-uR9" firstAttribute="top" secondItem="qjE-Sx-b3t" secondAttribute="top" constant="5" id="N83-o9-0eT"/>
                                     <constraint firstItem="pzL-zB-bag" firstAttribute="trailing" secondItem="qjE-Sx-b3t" secondAttribute="trailing" constant="-10" id="OmL-tD-MmD"/>
