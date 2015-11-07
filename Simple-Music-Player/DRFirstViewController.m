@@ -269,7 +269,7 @@
 - (IBAction) playOrPauseMusic: (id)sender {
     
     [self.delegate playOrPauseMusic];
-    NSLog(@"Tapping button in RVC");
+
 }
 - (IBAction)backButtonTapped:(id)sender {
     //basically go to previous item if already at beginning

@@ -37,7 +37,7 @@
 @end
 
 
-@interface GVMusicPlayerController () <AVAudioSessionDelegate, DRPushUpScrollViewDelegate>
+@interface GVMusicPlayerController () <AVAudioSessionDelegate>
 @property (copy, nonatomic) NSArray *delegates;
 @property (strong, nonatomic) AVPlayer *player;
 @property (strong, nonatomic) MPMusicPlayerController *mpPlayer;

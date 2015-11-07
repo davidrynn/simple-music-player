@@ -37,7 +37,6 @@
 //    }
     NSString *name = [NSString stringWithFormat:@"%@%ld", type, (long)enumNumber];
     UIImage *buttonImage = [UIImage imageNamed:name];
-    NSLog(@"Button produced: %@%ld", type, (long)enumNumber);
     return buttonImage;
 }
 
