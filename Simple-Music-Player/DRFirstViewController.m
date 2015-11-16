@@ -59,22 +59,7 @@
     
     self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
     
-    //set height of scrollview
-    if (self.view.frame.size.width == 414) {
-        self.proportionalHeight = self.view.frame.size.height*0.77;
-    }
-    else if (self.view.frame.size.width == 375) {
-            self.proportionalHeight = self.view.frame.size.height*0.76;
-    
-    }
-    else if (self.view.frame.size.width > 414){
-        self.proportionalHeight = self.view.frame.size.height*1.5;
-    }
-    
-    else {
-        self.proportionalHeight = self.view.frame.size.height*0.75;
-    }
-    //setup topcontainer border
+        //setup topcontainer border
     [self.buttonContainer.layer setBorderWidth:1.0f];
     UIColor *transBlack = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.1];
     [self.buttonContainer.layer setBorderColor: [transBlack CGColor]];
@@ -90,15 +75,14 @@
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timedJob) userInfo:nil repeats:YES];
     [self.timer fire];
-    
+    [self setUpScrollView];
+
     TOCK
     
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    [self setUpScrollView];
     
     [[GVMusicPlayerController sharedInstance] addDelegate:self];
 }
@@ -143,7 +127,22 @@
 #pragma mark Scroll View
 
 -(void)setUpScrollView{
-    //if self.view.frame.size.width = 320 etc as in if it is a
+    //set height of scrollview
+    if (self.view.bounds.size.width == 414) {
+        self.proportionalHeight = self.view.bounds.size.height*0.77;
+    }
+    else if (self.view.bounds.size.width == 375) {
+        self.proportionalHeight = self.view.bounds.size.height*0.76;
+        
+    }
+    else if (self.view.frame.size.width > 414){
+        self.proportionalHeight = self.view.frame.size.height*1.5;
+    }
+    
+    else {
+        self.proportionalHeight = self.view.frame.size.height*0.75;
+    }
+
     
     // In the next section we will implement a delegate method to show and hide the contained view controller in the scrollview.
     self.scrollView.delegate = self;
@@ -156,7 +155,20 @@
     // This prevents the scroll view from moving horizontally
     self.scrollView.alwaysBounceHorizontal = NO;
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
-    self.scrollView.contentInset = UIEdgeInsetsMake(self.proportionalHeight,0,0,0);
+//    DOESN'T Like code below
+//    screws up all buttons on scrollview
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.proportionalHeight, 0, 0, 0); 
+    
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+//        [UIView animateWithDuration:.1 animations:^{
+//            
+//            [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:NO];
+//            [self.scrollUpButton setImage:[UIImage imageNamed:@"scrollUp"] forState:UIControlStateNormal];
+//            
+//        }];
+//    });
+//
     
 }
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
@@ -325,6 +337,17 @@
 - (void)musicPlayer:(GVMusicPlayerController *)musicPlayer trackDidChange:(MPMediaItem *)nowPlayingItem previousTrack:(MPMediaItem *)previousTrack {
     //disable force touch
     // Time labels
+#if (TARGET_IPHONE_SIMULATOR)
+    NSTimeInterval trackLength = 500.00;
+    self.currentTrackLength = trackLength;
+    self.currentTrackLengthLabel.text = [self stringFromTime:trackLength];
+    self.slider.value = 0;
+    self.slider.maximumValue = trackLength;
+    
+    // Labels
+    self.nowPlayingLabel.text = @"TestNowPlaying";
+    self.nowPlayingArtist.text = @"TestArtist";
+#else
     NSTimeInterval trackLength = [[nowPlayingItem valueForProperty:MPMediaItemPropertyPlaybackDuration] doubleValue];
     self.currentTrackLength = trackLength;
     self.currentTrackLengthLabel.text = [self stringFromTime:trackLength];
@@ -334,7 +357,7 @@
     // Labels
     self.nowPlayingLabel.text = [nowPlayingItem valueForProperty:MPMediaItemPropertyTitle];
     self.nowPlayingArtist.text = [nowPlayingItem valueForProperty:MPMediaItemPropertyArtist];
-    
+#endif
     // Artwork
     MPMediaItemArtwork *artwork = [nowPlayingItem valueForProperty:MPMediaItemPropertyArtwork];
     if (artwork) {
