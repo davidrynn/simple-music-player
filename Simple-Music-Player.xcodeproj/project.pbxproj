@@ -26,7 +26,6 @@
 		224F76A41B6C289600BC7B73 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A31B6C289600BC7B73 /* main.m */; };
 		224F76A71B6C289600BC7B73 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76A61B6C289600BC7B73 /* AppDelegate.m */; };
 		224F76AD1B6C289600BC7B73 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 224F76AB1B6C289600BC7B73 /* Main.storyboard */; };
-		224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 224F76B01B6C289600BC7B73 /* LaunchScreen.xib */; };
 		224F76CC1B6D63B900BC7B73 /* DRMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */; };
 		224F76D11B6D6F1400BC7B73 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 224F76D01B6D6F1400BC7B73 /* MediaPlayer.framework */; };
 		22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 22566E6E1BB8752A002DE410 /* musicScreenshot.png */; };
@@ -87,7 +86,6 @@
 		224F76A51B6C289600BC7B73 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		224F76A61B6C289600BC7B73 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		224F76AC1B6C289600BC7B73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		224F76B11B6C289600BC7B73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		224F76B71B6C289600BC7B73 /* Simple-Music-PlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Simple-Music-PlayerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		224F76CA1B6D63B900BC7B73 /* DRMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMusicViewController.h; sourceTree = "<group>"; };
 		224F76CB1B6D63B900BC7B73 /* DRMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMusicViewController.m; sourceTree = "<group>"; };
@@ -208,7 +206,6 @@
 				222DFD5B1BA64C4F001E6BCE /* GVMusicPlayerController.m */,
 				2249674B1B96B8080080CDE4 /* Vew Controllers */,
 				2249674C1B96B81A0080CDE4 /* Categories and Overrides */,
-				224F76B01B6C289600BC7B73 /* LaunchScreen.xib */,
 				224F76A11B6C289600BC7B73 /* Supporting Files */,
 				22FDEF931B700AFC00B5DF13 /* Images.xcassets */,
 				224D4D321BB57F790082CE2E /* loop1.png */,
@@ -347,7 +344,6 @@
 				22FDEFED1B730F5D00B5DF13 /* Note.png in Resources */,
 				22566E6F1BB8752A002DE410 /* musicScreenshot.png in Resources */,
 				222DFD511BA2A220001E6BCE /* noteSml.png in Resources */,
-				224F76B21B6C289600BC7B73 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,14 +408,6 @@
 				224F76AC1B6C289600BC7B73 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		224F76B01B6C289600BC7B73 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				224F76B11B6C289600BC7B73 /* Base */,
-			);
-			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

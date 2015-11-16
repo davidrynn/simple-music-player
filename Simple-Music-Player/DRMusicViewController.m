@@ -17,6 +17,7 @@
 #import "DRSection.h"
 #import "GVMusicPlayerController.h"
 #import "DRPlayerUtility.h"
+#import "DRAlbumTableViewController.h"
 
 
 @interface DRMusicViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, DRPopSaysPlayMusicDelegate, GVMusicPlayerControllerDelegate, UISearchResultsUpdating>
@@ -25,7 +26,6 @@
 @property (strong, nonatomic) IBOutlet UIView *topContainer;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (weak, nonatomic) IBOutlet UIView *searchBarView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sortButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shuffleButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *loopButton;
@@ -101,8 +101,11 @@
     MPMediaQuery *query = [MPMediaQuery songsQuery];
     MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
     [query addFilterPredicate:predicate];
+        
+        MPMediaItem *item = [query items][0];
 
-    [self.musicPlayer setQueueWithQuery:query];
+    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
+    [self.musicPlayer playItem:item];
 
     }
     else{
@@ -161,6 +164,8 @@
 - (void) setupSortedLists {
 #if !(TARGET_IPHONE_SIMULATOR)
     MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
+    if (songsQuery.items.count>0) {
+
     NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle];
     self.songsDictionary = songDictionary;
     
@@ -182,6 +187,7 @@
     NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
     
     NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
+    }
 #endif
     
 }
@@ -360,6 +366,7 @@
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     NSArray *sectionsArray= self.mediaItemsDictionary[@"sections"];
+    if (sectionsArray.count > 0){
     NSUInteger number = 0;
     if ([self.mediaItemsDictionary[@"category"] isEqualToString:@"Search"]) {
         
@@ -375,9 +382,10 @@
     }
     
     return number;
-#else 
-    return 1;
+    }
+
 #endif
+    return 1;
 
 }
 
@@ -571,21 +579,19 @@
 
 #pragma mark - Navigation
 -(void)performSegueForDadWithCollection:(MPMediaItemCollection *)collection andIdentifier:(NSString *)identifier{
-    //does nothing if segue would just put same stack on itself
-//    UIWindow *topWindow = [UIApplication sharedApplication].keyWindow;
-//    DRFirstViewController *firstVC = topWindow.rootViewController;
-//    UIView *firstViewContainer = firstVC.viewContainer;
-//    NSLog(@"root view = %@, rootview container = %@", topWindow.rootViewController, firstVC.viewContainer);
-//    
-//    NSSet *set1 = [NSSet setWithArray: self.musicPlayer.queue];
-//    NSSet *set2 = [NSSet setWithArray:[collection items]];
-//    if (![set1 isEqualToSet:set2]) {
+    BOOL isTappedFromArtistVC = [self.navigationController.viewControllers.lastObject isKindOfClass:[DRArtistTableViewController class]] && ([identifier  isEqualToString: @"Artists"]);
+    BOOL isTappedFromAlbumVC = [self.navigationController.viewControllers.lastObject isKindOfClass:[DRAlbumTableViewController class]]  && [identifier isEqualToString:@"Albums"];
+    
+    
+    if (!(isTappedFromArtistVC || isTappedFromAlbumVC)) {
+
 
         self.dadCollection = collection;
 //TODO: Get VC to dismiss if it's not DRMusicVC so there isn't a huge stack each time you go to Artist/Album
         [self performSegueWithIdentifier:identifier sender:self];
         
  //   }
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

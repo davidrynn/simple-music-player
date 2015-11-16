@@ -251,6 +251,7 @@
         [UIView animateWithDuration:.1 animations:^{
             
             [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:YES];
+            [self.scrollUpButton setImage:[UIImage imageNamed:@"scrollUp"] forState:UIControlStateNormal];
         }];
     });
     
@@ -262,7 +263,7 @@
     //search library and send to controller --feels wrong from here.
     MPMediaPropertyPredicate *albumPredicate = [MPMediaPropertyPredicate predicateWithValue:[GVMusicPlayerController sharedInstance].nowPlayingItem.albumTitle forProperty:MPMediaItemPropertyAlbumTitle comparisonType:MPMediaPredicateComparisonContains];
     MPMediaQuery *albumQuery = [MPMediaQuery albumsQuery];
-    [DRPlayerUtility filterOutCloudItemsFromQuery:albumQuery];
+
     albumQuery.groupingType = MPMediaGroupingAlbum;
     [albumQuery addFilterPredicate:albumPredicate];
     NSArray *mediaArray = [albumQuery items];
@@ -272,6 +273,7 @@
         [UIView animateWithDuration:.1 animations:^{
             
             [self.scrollView setContentOffset:CGPointMake(0, -self.proportionalHeight) animated:YES];
+            [self.scrollUpButton setImage:[UIImage imageNamed:@"scrollUp"] forState:UIControlStateNormal];
         }];
     });
     [self.delegate performSegueForDadWithCollection:collection andIdentifier:@"Albums"];
