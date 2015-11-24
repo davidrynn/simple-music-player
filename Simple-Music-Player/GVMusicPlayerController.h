@@ -32,7 +32,19 @@
 @property (nonatomic, readonly) NSArray *queue;
 @property (strong, nonatomic, readonly) NSArray *originalQueue;
 @property (nonatomic) BOOL shouldReturnToBeginningWhenSkippingToPreviousItem; // default YES
+
 @property (nonatomic) BOOL shuffleOn;
+@property (nonatomic, strong) NSDictionary *songsDictionary;
+@property (nonatomic, strong) NSDictionary *albumsDictionary;
+@property (nonatomic, strong) NSDictionary *artistsDictionary;
+@property (nonatomic, strong) NSDictionary *genresDictionary;
+@property (nonatomic, strong) NSDictionary *playlistsDictionary;
+@property (nonatomic, strong) NSDictionary *mediaItemsDictionary;
+@property (nonatomic, strong) NSDictionary *previousItemsDictionary;
+@property (nonatomic, strong) GVMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) MPMediaItemCollection *musicCollection;
+@property (nonatomic, strong) MPMediaItemCollection *dadCollection;
+@property (nonatomic, strong) MPMediaItem *songToPlay;
 
 + (GVMusicPlayerController *)sharedInstance;
 
@@ -42,9 +54,13 @@
 - (void)setQueueWithItemCollection:(MPMediaItemCollection *)itemCollection;
 - (void)setQueueWithQuery:(MPMediaQuery *)query;
 
+//DR stuff added
+- (void) setupSortedLists;
 - (void)skipToNextItem;
 - (void)skipToBeginning;
 - (void)skipToPreviousItem;
+- (void)storePersistentIdSong :(MPMediaItem *) song;
+- (void)loadSongFromUserDefaults;
 
 - (void)playItemAtIndex:(NSUInteger)index;
 - (void)playItem:(MPMediaItem *)item;

@@ -7,6 +7,7 @@
 //
 
 #import "DRPlayerUtility.h"
+#import "GVMusicPlayerController.h"
 
 @implementation DRPlayerUtility
 +(void)filterOutCloudItemsFromQuery: (MPMediaQuery *) query{
@@ -39,6 +40,29 @@
     UIImage *buttonImage = [UIImage imageNamed:name];
     return buttonImage;
 }
+
++(NSArray *) setupBarButtonImages{
+    GVMusicPlayerController *musicPlayer = [GVMusicPlayerController sharedInstance];
+    //setup shuffle and loop buttons
+    UIImage *loopImage = [self createImageBasedOnEnum: musicPlayer.repeatMode ofTypeString: @"loop"];
+    
+    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+    
+    UIImage *shuffleImage = [self createImageBasedOnEnum: musicPlayer.shuffleMode ofTypeString:@"shuffle"];
+
+    UIBarButtonItem *shuffleButton = nil;
+//    if ([self respondsToSelector:@selector(shuffleButtonTapped:)]) {
+        shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+//    }
+
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"◦Songs" style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
+    
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    NSArray *buttonArray = @[shuffleButton, flexibleSpace, sortButton, flexibleSpace, loopButton];
+    
+    return buttonArray;
+}
+
 
 
 +(NSDictionary *)returnDictionaryFromQuery: (MPMediaQuery *)query withCategory: (NSString *)category withGroupingType: (MPMediaGrouping) type {

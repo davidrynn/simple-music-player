@@ -63,7 +63,7 @@
     [self.tableView.layer setBorderColor: [transBlack CGColor]];
     
     //starting music player
-    self.musicPlayer =             [GVMusicPlayerController sharedInstance];
+    self.musicPlayer = [GVMusicPlayerController sharedInstance];
 
     //for DRM
     self.mpMusicPlayer = [MPMusicPlayerController systemMusicPlayer];
@@ -71,14 +71,15 @@
     //setting up delegates
     [self setDelegates];
     
-    [self setupSortedLists];
+    [self.musicPlayer setupSortedLists];
+  //  [self setupSortedLists];
     //TODO - EXCHANGE @"category" key for enums
     //setup song collection as initial collection
-    self.mediaItemsDictionary = self.songsDictionary;
+    self.mediaItemsDictionary = self.musicPlayer.songsDictionary;
     self.musicCollection =[[MPMediaItemCollection alloc] initWithItems:
                            self.mediaItemsDictionary[@"array"]];
     if (self.musicPlayer.nowPlayingItem == nil) {
-        [self loadSongFromUserDefaults];
+        [self.musicPlayer loadSongFromUserDefaults];
         
     }
  
@@ -86,35 +87,7 @@
     
 }
 
-- (void)storePersistentIdSong :(MPMediaItem *) song {
-    NSNumber *songId = [song valueForProperty:MPMediaItemPropertyPersistentID];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:songId forKey:@"persistentID"];
-}
 
-- (void)loadSongFromUserDefaults{
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *songID = [defaults objectForKey:@"persistentID"];
-    if (songID) {
- 
-    MPMediaQuery *query = [MPMediaQuery songsQuery];
-    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
-    [query addFilterPredicate:predicate];
-        
-        MPMediaItem *item = [query items][0];
-
-    [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
-    [self.musicPlayer playItem:item];
-
-    }
-    else{
-        [self.musicPlayer setQueueWithItemCollection:
-         self.musicCollection];
-        [self.musicPlayer playItemAtIndex:0];
-    }
-    
-}
 -(void)setDelegates{
     
     self.tableView.delegate = self;
@@ -132,7 +105,8 @@
     
     [[GVMusicPlayerController sharedInstance] addDelegate:self];
     
-    [self setupBarButtonImages];
+    NSArray *buttonArray = [DRPlayerUtility setupBarButtonImages];
+    self.navigationItem.rightBarButtonItems = buttonArray;
 
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -147,50 +121,50 @@
     
 }
 
--(void) setupBarButtonImages{
+//-(void) setupBarButtonImages{
+//
+//    //setup shuffle and loop buttons
+//    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
+//    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
+//    
+//    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
+//    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
+//    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"◦Songs" style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
+//    
+//    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+//    self.navigationItem.rightBarButtonItems = @[shuffleButton, flexibleSpace, sortButton, flexibleSpace, loopButton];
+//}
 
-    //setup shuffle and loop buttons
-    UIImage *loopImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.repeatMode ofTypeString: @"loop"];
-    UIBarButtonItem *loopButton = [[UIBarButtonItem alloc] initWithImage:loopImage style:UIBarButtonItemStylePlain target:self action:@selector(loopButtonTapped:)];
-    
-    UIImage *shuffleImage = [DRPlayerUtility createImageBasedOnEnum:self.musicPlayer.shuffleMode ofTypeString:@"shuffle"];
-    UIBarButtonItem *shuffleButton = [[UIBarButtonItem alloc] initWithImage:shuffleImage style:UIBarButtonItemStylePlain target:self action:@selector(shuffleButtonTapped:)];
-    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"◦Songs" style:UIBarButtonItemStylePlain target:self action:@selector(sortTapped:)];
-    
-    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    self.navigationItem.rightBarButtonItems = @[shuffleButton, flexibleSpace, sortButton, flexibleSpace, loopButton];
-}
-
-- (void) setupSortedLists {
-#if !(TARGET_IPHONE_SIMULATOR)
-    MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
-    if (songsQuery.items.count>0) {
-
-    NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle];
-    self.songsDictionary = songDictionary;
-    
-    MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
-    self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum];
-    NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
-    
-    MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
-    artistsQuery.groupingType = MPMediaGroupingArtist;
-    self.artistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: artistsQuery withCategory:@"Artists" withGroupingType: MPMediaGroupingArtist];
-    NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
-    
-    MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
-    self.genresDictionary = [DRPlayerUtility returnDictionaryFromQuery: genresQuery withCategory:@"Genres" withGroupingType: MPMediaGroupingGenre];
-    NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
-    
-    MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
-    self.playlistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: playlistsQuery withCategory:@"Playlists" withGroupingType: MPMediaGroupingPlaylist];
-    NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
-    
-    NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
-    }
-#endif
-    
-}
+//- (void) setupSortedLists {
+//#if !(TARGET_IPHONE_SIMULATOR)
+//    MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
+//    if (songsQuery.items.count>0) {
+//
+//    NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle];
+//    self.songsDictionary = songDictionary;
+//    
+//    MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
+//    self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum];
+//    NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
+//    
+//    MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
+//    artistsQuery.groupingType = MPMediaGroupingArtist;
+//    self.artistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: artistsQuery withCategory:@"Artists" withGroupingType: MPMediaGroupingArtist];
+//    NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
+//    
+//    MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
+//    self.genresDictionary = [DRPlayerUtility returnDictionaryFromQuery: genresQuery withCategory:@"Genres" withGroupingType: MPMediaGroupingGenre];
+//    NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
+//    
+//    MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
+//    self.playlistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: playlistsQuery withCategory:@"Playlists" withGroupingType: MPMediaGroupingPlaylist];
+//    NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
+//    
+//    NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
+//    }
+//#endif
+//    
+//}
 
 -(void)setUpSearchBar{
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
@@ -245,31 +219,31 @@
     if([sender.title isEqualToString:@"◦Playlists"])
     {
         sender.title = @"◦Songs";
-        self.mediaItemsDictionary = self.songsDictionary;
+        self.mediaItemsDictionary = self.musicPlayer.songsDictionary;
         
     }
     else if ([sender.title isEqualToString:@"◦Songs"])
     {
         sender.title = @"◦Albums";
-        self.mediaItemsDictionary = self.albumsDictionary;
+        self.mediaItemsDictionary = self.musicPlayer.albumsDictionary;
         
     }
     else if ([sender.title isEqualToString:@"◦Albums"])
     {
         sender.title = @"◦Artists";
-        self.mediaItemsDictionary = self.artistsDictionary;
+        self.mediaItemsDictionary = self.musicPlayer.artistsDictionary;
         
     }
     else if ([sender.title isEqualToString:@"◦Artists"])
     {
         sender.title = @"◦Genres";
-        self.mediaItemsDictionary = self.genresDictionary;
+        self.mediaItemsDictionary = self.musicPlayer.genresDictionary;
         
     }
     else if ([sender.title isEqualToString:@"◦Genres"])
     {
         sender.title = @"◦Playlists";
-        self.mediaItemsDictionary = self.playlistsDictionary;
+        self.mediaItemsDictionary = self.musicPlayer.playlistsDictionary;
         
     }
     
@@ -295,7 +269,9 @@
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     [searchBar setShowsCancelButton:YES animated:YES];
+    if  (![self.previousItemsDictionary[@"category"]  isEqual: @"Search"]){
     self.previousItemsDictionary = self.mediaItemsDictionary;
+    }
     return YES;
 }
 -(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{

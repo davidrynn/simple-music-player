@@ -9,6 +9,7 @@
 #import "GVMusicPlayerController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "DRFirstViewController.h"
+#import "DRPlayerUtility.h"
 
 
 @interface NSArray (GVShuffledArray) 
@@ -128,7 +129,40 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioHardwareRouteChanged:) name:AVAudioSessionRouteChangeNotification object:nil];
 }
 
+//TODO: put in init
+- (void) setupSortedLists {
+#if !(TARGET_IPHONE_SIMULATOR)
+    MPMediaQuery *songsQuery = [MPMediaQuery songsQuery];
+    if (songsQuery.items.count>0) {
+        
+        NSDictionary *songDictionary = [DRPlayerUtility returnDictionaryFromQuery: songsQuery withCategory:@"Songs" withGroupingType: MPMediaGroupingTitle];
+        self.songsDictionary = songDictionary;
+        
+        MPMediaQuery *albumsQuery=[MPMediaQuery albumsQuery];
+        self.albumsDictionary = [DRPlayerUtility returnDictionaryFromQuery: albumsQuery withCategory:@"Albums" withGroupingType: MPMediaGroupingAlbum];
+        NSLog(@"number of albums: %ld", (unsigned long)albumsQuery.collections.count);
+        
+        MPMediaQuery *artistsQuery =[MPMediaQuery artistsQuery];
+        artistsQuery.groupingType = MPMediaGroupingArtist;
+        self.artistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: artistsQuery withCategory:@"Artists" withGroupingType: MPMediaGroupingArtist];
+        NSLog(@"number of artists: %ld", (unsigned long)artistsQuery.collections.count);
+        
+        MPMediaQuery *genresQuery = [MPMediaQuery genresQuery];
+        self.genresDictionary = [DRPlayerUtility returnDictionaryFromQuery: genresQuery withCategory:@"Genres" withGroupingType: MPMediaGroupingGenre];
+        NSLog(@"number of genres: %ld", (unsigned long)genresQuery.collections.count);
+        
+        MPMediaQuery *playlistsQuery = [MPMediaQuery playlistsQuery];
+        self.playlistsDictionary = [DRPlayerUtility returnDictionaryFromQuery: playlistsQuery withCategory:@"Playlists" withGroupingType: MPMediaGroupingPlaylist];
+        NSLog(@"number of playlists: %ld", (unsigned long)playlistsQuery.collections.count);
+        
+        NSLog(@"number of songs: %ld", (unsigned long)songsQuery.collections.count);
+    }
+#endif
+    
+}
+
 //know persistentId of the song then can save it in userDefaults.
+//TODO: put in init
 - (void)storePersistentIdSong :(MPMediaItem *) song {
     NSNumber *songId = [song valueForProperty:MPMediaItemPropertyPersistentID];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -136,20 +170,31 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 }
 
 //when your application will be launched next time get required song:
+//TODO: put in init
 - (void)loadSongFromUserDefaults{
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *songID = [defaults objectForKey:@"persistentID"];
-    MPMediaQuery *query = [MPMediaQuery songsQuery];
-    MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
-    [query addFilterPredicate:predicate];
-//    NSArray *mediaItems = [query items];
-    //this array will consist of song with given persistentId. add it to collection and play it
-    [self setQueueWithQuery:query];
-//    MPMediaItemCollection *col = [[MPMediaItemCollection alloc] initWithItems:mediaItems];
-//    ///....
-
+    if (songID) {
+        
+        MPMediaQuery *query = [MPMediaQuery songsQuery];
+        MPMediaPropertyPredicate *predicate = [MPMediaPropertyPredicate predicateWithValue:songID forProperty:MPMediaItemPropertyPersistentID];
+        [query addFilterPredicate:predicate];
+        
+        MPMediaItem *item = [query items][0];
+        
+        [self.musicPlayer setQueueWithItemCollection:self.musicCollection];
+        [self.musicPlayer playItem:item];
+        
+    }
+    else{
+        [self.musicPlayer setQueueWithItemCollection:
+         self.musicCollection];
+        [self.musicPlayer playItemAtIndex:0];
+    }
+    
 }
+
 - (void) interruption:(NSNotification*)notification
 {
     NSDictionary *interuptionDict = notification.userInfo;
