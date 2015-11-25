@@ -157,7 +157,7 @@
     // This creates a buffer area on top of the scroll view's contents (our contained view controller) and expands the content area without changing the size of the subview
 //    DOESN'T Like code below
 //    screws up all buttons on scrollview
-    self.scrollView.contentInset = UIEdgeInsetsMake(self.proportionalHeight, 0, 0, 0); 
+ //   self.scrollView.contentInset = UIEdgeInsetsMake(self.proportionalHeight, 0, 0, 0);
     
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
