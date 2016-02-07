@@ -245,9 +245,10 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
 }
 
 #pragma mark - Emulate MPMusicPlayerController
-
+//TODO: maybe add conditional for mpmusicplayer here
 - (void)setQueueWithItemCollection:(MPMediaItemCollection *)itemCollection {
     self.originalQueue = [itemCollection items];
+
 }
 
 - (void)setQueueWithQuery:(MPMediaQuery *)query {
@@ -304,7 +305,7 @@ void audioRouteChangeListenerCallback (void *inUserData, AudioSessionPropertyID 
     self.playbackState = MPMusicPlaybackStatePlaying;
 }
 -(void) playDRMMusic {
-    [self stop];
+  //  [self stop];
     MPMediaItem *song = self.nowPlayingItem;
     MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:@[song]];
     [self.mpPlayer setQueueWithItemCollection:collection];

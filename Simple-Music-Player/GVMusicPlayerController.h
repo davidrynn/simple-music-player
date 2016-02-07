@@ -32,6 +32,7 @@
 @property (nonatomic, readonly) NSArray *queue;
 @property (strong, nonatomic, readonly) NSArray *originalQueue;
 @property (nonatomic) BOOL shouldReturnToBeginningWhenSkippingToPreviousItem; // default YES
+@property (nonatomic) BOOL isDRM;
 
 @property (nonatomic) BOOL shuffleOn;
 @property (nonatomic, strong) NSDictionary *songsDictionary;
